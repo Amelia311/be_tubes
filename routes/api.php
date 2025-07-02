@@ -4,6 +4,9 @@ use App\Http\Controllers\Api\PencairanApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\PencairanController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +33,11 @@ Route::delete('/siswa/{id}', [SiswaController::class, 'destroy']);
 //Input pencairan
 Route::post('/pencairan', [PencairanApiController::class, 'store']);
 Route::get('/pencairan', [PencairanApiController::class, 'index']);
+
+//konfirmasi pencairan
+Route::post('/simpan-pencairan', [PencairanController::class, 'simpan']);
+Route::get('/riwayat/{nisn}', [PencairanController::class, 'riwayat']);
+Route::get('/semua-riwayat', [PencairanController::class, 'semua']);
+
+//riwayat pencairan
+Route::get('/admin/riwayat-pencairan', [PencairanController::class, 'riwayatSekolah'])->name('admin.riwayat');

@@ -86,17 +86,35 @@
   </table>
 </section>
 
- <section id="laporan-ketidaksesuaian" class="content-section">
-  <h2>Laporkan Ketidaksesuaian Dana</h2>
-  
-  <textarea id="laporan-text" placeholder="Tuliskan perbedaan dana yang Anda terima..."></textarea>
-  
-  <label for="bukti-upload" style="display:block; margin-top: 1rem; margin-bottom: 0.25rem; font-weight: 600;">Upload Bukti</label>
-  <input type="file" id="bukti-upload" accept="image/*,application/pdf" />
-  
-  <button id="lapor-btn" style="margin-top: 1rem; display: block;">Kirim Laporan</button>
-  <p id="lapor-msg" class="msg hidden"></p>
+<!-- form laporkan -->
+<section id="laporan-ketidaksesuaian" class="content-section">
+    <h2>Laporkan Ketidaksesuaian Dana</h2>
+
+    @if(session('success'))
+        <p style="color: green;">{{ session('success') }}</p>
+    @endif
+
+    <form action="{{ route('siswa.laporStore') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <label for="pencairan_id">Pilih Pencairan</label>
+        <select name="pencairan_id" required>
+            @foreach($pencairan_riwayat as $pencairan)
+                <option value="{{ $pencairan->id }}">
+                    {{ $pencairan->tanggal_cair }} - Rp{{ number_format($pencairan->jumlah) }}
+                </option>
+            @endforeach
+        </select>
+
+        <textarea name="pesan" placeholder="Tuliskan perbedaan dana yang Anda terima..." required></textarea>
+
+        <label for="bukti" style="display:block; margin-top: 1rem;">Upload Bukti</label>
+        <input type="file" name="bukti" accept="image/*,application/pdf" required>
+
+        <button type="submit" style="margin-top: 1rem;">Kirim Laporan</button>
+    </form>
 </section>
+
 
 <!-- bagian akhir main container di dashboard/siswa.html -->
 <section id="transparansi" class="content-section">

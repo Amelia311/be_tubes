@@ -1,6 +1,6 @@
 <?php
 
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PencairanController;
 use Illuminate\Support\Facades\Route;
@@ -39,7 +39,6 @@ Route::get('/dashboard/sekolah/riwayat', function () {
 
 
 
-
 Route::get('/dashboard/siswa', function () {
     return view('Siswa.dashboardsiswa');
 });
@@ -49,9 +48,10 @@ Route::get('/dashboard/pemerintah', function () {
 });
 
 
-
-
-
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login'); // arahkan ke login setelah logout
+})->name('logout');
 
 
 
@@ -72,6 +72,10 @@ Route::post('/pencairan', [PencairanController::class, 'store'])->name('pencaira
 Route::get('/konfirmasi', [PencairanController::class, 'konfirmasiView'])->name('konfirmasi.index');
 Route::post('/konfirmasi/{id}', [PencairanController::class, 'konfirmasi'])->name('konfirmasi.update');
 
+//riwayatpencairansiswa
+Route::get('/siswa/riwayat', [SiswaController::class, 'riwayatSaya'])->middleware('auth')->name('siswa.riwayat');
+Route::post('/siswa/lapor/{id}', [SiswaController::class, 'lapor'])->middleware('auth')->name('siswa.lapor');
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+//Laporan
+Route::post('/siswa/lapor/{id}', [SiswaController::class, 'lapor'])->name('siswa.lapor');
+Route::post('/siswa/lapor-store', [\App\Http\Controllers\SiswaController::class, 'laporStore'])->name('siswa.laporStore');
