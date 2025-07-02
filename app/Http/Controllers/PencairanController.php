@@ -36,12 +36,30 @@ class PencairanController extends Controller
         return redirect()->back()->with('success', 'Data pencairan berhasil disimpan!');
     }
 
+    public function dashboard()
+{
+    $user = auth()->user();
+
+    // Ambil riwayat pencairan berdasarkan siswa_id
+    $pencairan_riwayat = \App\Models\Pencairan::where('siswa_id', $user->id)->get();
+
+    return view('Siswa.dashboardSiswa', compact('pencairan_riwayat'));
+}
+
     // Menampilkan daftar data untuk dikonfirmasi admin
     public function konfirmasiView()
     {
         $data = Pencairan::with('siswa')->orderBy('created_at', 'desc')->get();
         return view('pencairan.konfirmasi', compact('data'));
     }
+    public function riwayat()
+    {
+        $pencairan_riwayat = Pencairan::with('siswa')->orderBy('created_at', 'desc')->get();
+        return view('riwayatPencairanSiswa', compact('pencairan_riwayat'));
+        return view('Siswa.dashboardSiswa', compact('pencairan_riwayat'));
+
+    }
+
 
     public function riwayatSekolah()
 {

@@ -75,7 +75,10 @@ Route::post('/konfirmasi/{id}', [PencairanController::class, 'konfirmasi'])->nam
 //riwayatpencairansiswa
 Route::get('/siswa/riwayat', [SiswaController::class, 'riwayatSaya'])->middleware('auth')->name('siswa.riwayat');
 Route::post('/siswa/lapor/{id}', [SiswaController::class, 'lapor'])->middleware('auth')->name('siswa.lapor');
+Route::get('/dashboard', [SiswaController::class, 'dashboard'])->name('siswa.dashboard');
 
 //Laporan
 Route::post('/siswa/lapor/{id}', [SiswaController::class, 'lapor'])->name('siswa.lapor');
 Route::post('/siswa/lapor-store', [\App\Http\Controllers\SiswaController::class, 'laporStore'])->name('siswa.laporStore');
+Route::get('/dashboard-siswa', [SiswaController::class, 'dashboard'])->name('siswa.dashboard');
+Route::get('/dashboard-siswa', [SiswaController::class, 'dashboard'])->name('siswa.dashboard')->middleware('auth');

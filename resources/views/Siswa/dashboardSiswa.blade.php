@@ -87,6 +87,7 @@
 </section>
 
 <!-- form laporkan -->
+
 <section id="laporan-ketidaksesuaian" class="content-section">
     <h2>Laporkan Ketidaksesuaian Dana</h2>
 
@@ -96,15 +97,17 @@
 
     <form action="{{ route('siswa.laporStore') }}" method="POST" enctype="multipart/form-data">
         @csrf
-
-        <label for="pencairan_id">Pilih Pencairan</label>
-        <select name="pencairan_id" required>
-            @foreach($pencairan_riwayat as $pencairan)
-                <option value="{{ $pencairan->id }}">
-                    {{ $pencairan->tanggal_cair }} - Rp{{ number_format($pencairan->jumlah) }}
-                </option>
-            @endforeach
-        </select>
+@if(isset($pencairan_riwayat) && count($pencairan_riwayat) > 0)
+    <select name="pencairan_id" required>
+        @foreach($pencairan_riwayat as $pencairan)
+            <option value="{{ $pencairan->id }}">
+                {{ $pencairan->tanggal_cair }} - Rp{{ number_format($pencairan->jumlah) }}
+            </option>
+        @endforeach
+    </select>
+@else
+    <p>Tidak ada riwayat pencairan tersedia untuk dilaporkan.</p>
+@endif
 
         <textarea name="pesan" placeholder="Tuliskan perbedaan dana yang Anda terima..." required></textarea>
 

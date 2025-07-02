@@ -98,16 +98,15 @@ class SiswaController extends Controller
         'status' => 'belum dibaca',
     ]);
 
-    return back()->with('success', 'Laporan telah dikirim ke admin/pemerintah!');
+    return redirect()->route('siswa.dashboard')->with('success', 'Laporan telah dikirim ke admin/pemerintah!');
 }
-    
-    public function laporStore(Request $request)
+
+public function laporStore(Request $request)
 {
     $request->validate([
         'pencairan_id' => 'required|exists:pencairan,id',
         'pesan' => 'required|string',
         'bukti' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048'
-    
     ]);
     
     // Simpan file ke folder storage/app/public/bukti_laporan
@@ -120,18 +119,19 @@ class SiswaController extends Controller
         'bukti' => $buktiPath
     ]);
 
-    return redirect()->back()->with('success', 'Laporan berhasil dikirim!');
+    // redirect ke dashboard agar $pencairan_riwayat tersedia
+    return redirect()->route('siswa.dashboard')->with('success', 'Laporan berhasil dikirim!');
 }
-
-    public function dashboard()
+public function dashboard()
 {
-    $nisn = auth()->user()->nisn;
-    $pencairan_riwayat = Pencairan::whereHas('siswa', function($q) use ($nisn) {
-        $q->where('nisn', $nisn);
-    })->get();
+    $user = auth()->user();
 
-    return view('siswa.dashboard', compact('pencairan_riwayat'));
+    // Pastikan ada field siswa_id di tabel pencairan
+    $pencairan_riwayat = \App\Models\Pencairan::where('siswa_id', $user->id)->get();
+
+    return view('Siswa.dashboardSiswa', compact('pencairan_riwayat'));
 }
+
 
 
 }
