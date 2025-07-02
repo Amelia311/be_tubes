@@ -27,4 +27,23 @@ class PencairanController extends Controller
 
         return redirect()->back()->with('success', 'Data pencairan berhasil disimpan!');
     }
+    public function konfirmasiView()
+{
+    $data = Pencairan::with('siswa')->orderBy('created_at', 'desc')->get();
+    return view('pencairan.konfirmasi', compact('data'));
+}
+
+    public function konfirmasi($id){
+    $pencairan = Pencairan::findOrFail($id);
+
+    $txId = 'TX' . strtoupper(uniqid());
+
+    $pencairan->update([
+        'status' => 'Sudah Cair',
+        'blockchain_tx' => $txId
+    ]);
+
+    return redirect()->route('konfirmasi.index')->with('success', 'Pencairan telah dikonfirmasi dan dicatat di blockchain!');
+}
+
 }

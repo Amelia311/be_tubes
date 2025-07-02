@@ -22,6 +22,10 @@ Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])->name('siswa.d
 Route::get('/pencairan', [PencairanController::class, 'create'])->name('pencairan.create');
 Route::post('/pencairan', [PencairanController::class, 'store'])->name('pencairan.store');
 
+//konfirmasi pencairan
+Route::get('/konfirmasi', [PencairanController::class, 'konfirmasiView'])->name('konfirmasi.index');
+Route::post('/konfirmasi/{id}', [PencairanController::class, 'konfirmasi'])->name('konfirmasi.update');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 });
