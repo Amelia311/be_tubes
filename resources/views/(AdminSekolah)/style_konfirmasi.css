@@ -1,0 +1,183 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0f172a;
+  color: white;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #1e293b;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar h2 {
+  font-size: 22px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.sidebar nav ul {
+  list-style: none;
+}
+
+.sidebar nav ul li {
+  margin-bottom: 20px;
+}
+
+.sidebar nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.sidebar nav ul li a:hover,
+.sidebar nav ul li a.active {
+  background-color: #334155;
+}
+
+/* Logout */
+.logout {
+  margin-top: auto;
+}
+
+.logout a {
+  background-color: #ef4444;
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 8px;
+  display: block;
+  text-align: center;
+  font-weight: bold;
+}
+
+.logout a:hover {
+  background-color: #dc2626;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  background-color: #0f172a;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.topbar {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.topbar h3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Content Box */
+.content-box {
+  background-color: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.content-box h3 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Table */
+.table-konfirmasi {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table-konfirmasi th,
+.table-konfirmasi td {
+  padding: 12px 16px;
+  text-align: left;
+  background-color: #1e293b;
+  color: white;
+}
+
+.table-konfirmasi thead th {
+  background-color: #334155;
+  font-weight: 600;
+}
+
+.table-konfirmasi tbody tr:nth-child(even) {
+  background-color: #1e293b;
+}
+
+.table-konfirmasi tbody tr:nth-child(odd) {
+  background-color: #1e293b;
+}
+
+/* Status Label */
+.status {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.status.belum {
+  background-color: #f97316; /* orange */
+  color: white;
+}
+
+.status.sudah {
+  background-color: #22c55e; /* green */
+  color: white;
+}
+
+/* Button Aksi */
+.btn-konfirmasi {
+  background-color: #3b82f6;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-konfirmasi:hover {
+  background-color: #2563eb;
+}
+
+.btn-terkonfirmasi {
+  background-color: #64748b;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: not-allowed;
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - Daftar Siswa</title>
+  <link rel="stylesheet" href="style_daftar_siswa.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Dashboard</h2>
+      <nav>
+        <ul>
+          <li><a href="#"><i class="fas fa-users"></i> Daftar Siswa</a></li>
+          <li><a href="#"><i class="fas fa-money-bill-wave"></i> Input Pencairan</a></li>
+          <li><a href="#"><i class="fas fa-check-circle"></i> Konfirmasi & Catat Blockchain</a></li>
+          <li><a href="#"><i class="fas fa-history"></i> Riwayat Pencairan</a></li>
+          <li><a href="#"><i class="fas fa-globe"></i> Transparansi Umum</a></li>
+        </ul>
+      </nav>
+      <div class="logout">
+        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <h3>Admin Sekolah</h3>
+      </header>
+
+      <section class="content-box">
+        <div class="header-table">
+          <h3>Daftar Siswa</h3>
+          <div class="actions">
+            <input type="text" placeholder="Cari nama siswa..." />
+            <button class="btn-tambah"><i class="fas fa-plus"></i> Tambah Siswa</button>
+          </div>
+        </div>
+
+        <table class="table-siswa">
+          <thead>
+            <tr>
+              <th>NO</th>
+              <th>NAMA SISWA</th>
+              <th>NISN</th>
+              <th>ASAL SEKOLAH</th>
+              <th>ALAMAT</th>
+              <th>AKSI</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Ani Rahmawati</td>
+              <td>1234567890</td>
+              <td>SMP Negeri 1</td>
+              <td>Jl. Merdeka No. 10</td>
+              <td>
+                <i class="fas fa-eye action-icon"></i>
+                <i class="fas fa-pen action-icon"></i>
+                <i class="fas fa-trash action-icon"></i>
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Budi Santoso</td>
+              <td>9876543210</td>
+              <td>SMP Negeri 2</td>
+              <td>Jl. Kamboja No. 5</td>
+              <td>
+                <i class="fas fa-eye action-icon"></i>
+                <i class="fas fa-pen action-icon"></i>
+                <i class="fas fa-trash action-icon"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
