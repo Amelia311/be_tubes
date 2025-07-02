@@ -16,41 +16,65 @@ class SiswaController extends Controller
     
         $data = $query->get();
     
-        return view('AdminSekolah.daftarSiswa', ['siswa' => $data]);
+        return view('AdminSekolah.siswa.daftarSiswa', ['siswa' => $data]);
     }
 
-    
-    public function store(Request $request) 
+    public function create()
     {
-        $validated = $request->validate(([
+        return view('AdminSekolah.siswa.create');
+    }
+
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
             'nama' => 'required',
             'nisn' => 'required|unique:siswa',
             'asal_sekolah' => 'required',
             'alamat' => 'required',
-        ]));
-
-        $siswa = Siswa::create($validated);
-        return response()->json($siswa, 201);
+        ]);
+    
+        Siswa::create($validated);
+    
+        return redirect()->route('siswa.index')->with('success', 'Siswa berhasil ditambahkan.');
     }
-
+    
     public function show($id)
     {
         return response()->json(Siswa::findOrFail($id));
 
     }
 
+    public function edit($id)
+    {
+        $siswa = Siswa::findOrFail($id);
+        return view('AdminSekolah.siswa.edit', compact('siswa'));
+    }
+
+
     public function update(Request $request, $id)
     {
         $siswa = Siswa::findOrFail($id);
-        $siswa->update($request->all());
-        return response()->json($siswa);
+
+        $validated = $request->validate([
+            'nama' => 'required',
+            'nisn' => 'required|unique:siswa,nisn,' . $id,
+            'asal_sekolah' => 'required',
+            'alamat' => 'required',
+        ]);
+
+        $siswa->update($validated);
+
+        return redirect()->route('siswa.index')->with('success', 'Siswa berhasil diperbarui.');
     }
+
 
     public function destroy($id)
     {
         Siswa::destroy($id);
-        return response()->json(['message' => 'Deleted successfully']);
+        return redirect()->route('siswa.index')->with('success', 'Siswa berhasil dihapus.');
     }
+
 
     public function adminFull(Request $request)
     {
@@ -73,7 +97,7 @@ class SiswaController extends Controller
         }
 
         $siswa = $query->get();
-        return view('AdminSekolah.daftarSiswa', compact('siswa'));
+        return view('AdminSekolah.siswa.daftarSiswa', compact('siswa'));
     }
 
 
