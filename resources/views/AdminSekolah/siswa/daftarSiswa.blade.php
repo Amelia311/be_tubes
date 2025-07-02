@@ -13,10 +13,10 @@
       <h2>Dashboard</h2>
       <nav>
         <ul>
-          <li><a href="#"><i class="fas fa-users"></i> Daftar Siswa</a></li>
-          <li><a href="#"><i class="fas fa-money-bill-wave"></i> Input Pencairan</a></li>
-          <li><a href="#"><i class="fas fa-check-circle"></i> Konfirmasi & Catat Blockchain</a></li>
-          <li><a href="#"><i class="fas fa-history"></i> Riwayat Pencairan</a></li>
+          <li><a href="{{ url('/dashboard/sekolah/daftar-siswa') }}" class="active"><i class="fas fa-users"></i> Daftar Siswa</a></li>
+          <li><a href="{{ url('/dashboard/sekolah/input') }}"><i class="fas fa-money-bill-wave"></i> Input Pencairan</a></li>
+          <li><a href="{{ url('/dashboard/sekolah/konfirmasi') }}"><i class="fas fa-check-circle"></i> Konfirmasi & Catat Blockchain</a></li>
+          <li><a href="{{ url('/dashboard/sekolah/riwayat') }}"><i class="fas fa-history"></i> Riwayat Pencairan</a></li>
           <li><a href="#"><i class="fas fa-globe"></i> Transparansi Umum</a></li>
         </ul>
       </nav>
@@ -34,14 +34,15 @@
         <div class="header-table">
           <h3>Daftar Siswa</h3>
           <div class="actions">
-          <form method="GET" action="{{ route('siswa.index') }}" class="actions">
-            <input type="text" name="cari" placeholder="Cari nama siswa..." value="{{ request('cari') }}">
-            <button type="submit" class="btn-tambah"><i class="fas fa-search"></i> Cari</button>
-          </form>
+            <form method="GET" action="{{ route('siswa.index') }}" class="actions">
+              <input type="text" name="cari" placeholder="Cari nama siswa..." value="{{ request('cari') }}">
+              <button type="submit" class="btn-tambah"><i class="fas fa-search"></i> Cari</button>
+            </form>
             <a href="{{ route('siswa.create') }}" class="btn-tambah"><i class="fas fa-plus"></i> Tambah Siswa</a>
           </div>
         </div>
-         @if(session('success'))
+
+        @if(session('success'))
           <div style="background-color: #22c55e; color: white; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
             {{ session('success') }}
           </div>
@@ -71,21 +72,18 @@
                 <form action="{{ route('siswa.destroy', $item->id) }}" method="POST" style="display:inline;">
                   @csrf
                   @method('DELETE')
-                  <button type="submit" style="background: none; border: none;">
+                  <button type="submit" onclick="return confirm('Yakin ingin menghapus siswa ini?')" style="background: none; border: none;">
                     <i class="fas fa-trash action-icon"></i>
                   </button>
                 </form>
               </td>
             </tr>
-            @empty
+          @empty
             <tr>
-              <td colspan="6">Tidak ditemukan siswa dengan kata kunci tersebut.</td>
-            </tr>
-            <tr>
-              <td colspan="6">Belum ada data siswa.</td>
+              <td colspan="6">Belum ada data siswa atau hasil pencarian tidak ditemukan.</td>
             </tr>
           @endforelse
-        </tbody>
+          </tbody>
         </table>
       </section>
     </main>

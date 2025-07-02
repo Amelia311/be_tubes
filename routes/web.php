@@ -5,7 +5,6 @@ use App\Http\Controllers\PencairanController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
-
 // === ROUTES DIMULAI DI SINI ===
 
 // Login dan logout
@@ -35,3 +34,15 @@ Route::get('/konfirmasi', [PencairanController::class, 'konfirmasiView'])->name(
 Route::post('/konfirmasi/{id}', [PencairanController::class, 'konfirmasi'])->name('konfirmasi.update');
 
 // ... (lanjutkan route lain kamu seperti sebelumnya)
+Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
+Route::get('/siswa/create', [SiswaController::class, 'create'])->name('siswa.create');
+Route::get('/siswa/{id}/edit', [SiswaController::class, 'edit'])->name('siswa.edit');
+Route::put('/siswa/{id}', [SiswaController::class, 'update'])->name('siswa.update');
+
+// Route untuk kelola siswa
+Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
+Route::get('/siswa/create', [SiswaController::class, 'create'])->name('siswa.create');
+Route::post('/siswa', [SiswaController::class, 'store'])->name('siswa.store');
+Route::get('/siswa/{id}/edit', [SiswaController::class, 'edit'])->name('siswa.edit');
+Route::put('/siswa/{id}', [SiswaController::class, 'update'])->name('siswa.update');
+Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
