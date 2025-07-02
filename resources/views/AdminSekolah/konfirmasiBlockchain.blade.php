@@ -16,7 +16,7 @@
           <li><a href="daftar-siswa.html"><i class="fas fa-users"></i> Daftar Siswa</a></li>
           <li><a href="input-pencairan.html"><i class="fas fa-money-bill-wave"></i> Input Pencairan</a></li>
           <li><a href="konfirmasi-blockchain.html" class="active"><i class="fas fa-check-circle"></i> Konfirmasi & Blockchain</a></li>
-          <li><a href="#"><i class="fas fa-history"></i> Riwayat Pencairan</a></li>
+          <li><a href="riwayatPencairan.html"><i class="fas fa-history"></i> Riwayat Pencairan</a></li>
           <li><a href="#"><i class="fas fa-globe"></i> Transparansi Umum</a></li>
         </ul>
       </nav>

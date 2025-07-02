@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Laporan;
+use App\Models\Pencairan;
 
 class SiswaController extends Controller
 {
@@ -100,6 +103,59 @@ class SiswaController extends Controller
         return view('AdminSekolah.siswa.daftarSiswa', compact('siswa'));
     }
 
+    public function riwayatSaya()
+{
+    $nisn = auth()->user()->nisn;
+
+    $riwayat = \App\Models\Pencairan::whereHas('siswa', function($q) use ($nisn) {
+        $q->where('nisn', $nisn);
+    })->orderBy('tanggal_cair', 'desc')->get();
+
+    return view('(Siswa).riwayatPencairanSiswa', compact('riwayat'));
+}
+
+    public function lapor($id)
+{
+    \App\Models\Laporan::create([
+        'pencairan_id' => $id,
+        'pesan' => 'Dana tidak sesuai atau belum diterima.',
+        'status' => 'belum dibaca',
+    ]);
+
+    return back()->with('success', 'Laporan telah dikirim ke admin/pemerintah!');
+}
+    
+    public function laporStore(Request $request)
+{
+    $request->validate([
+        'pencairan_id' => 'required|exists:pencairan,id',
+        'pesan' => 'required|string',
+        'bukti' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048'
+    
+    ]);
+    
+    // Simpan file ke folder storage/app/public/bukti_laporan
+    $buktiPath = $request->file('bukti')->store('bukti_laporan', 'public');
+
+    \App\Models\Laporan::create([
+        'pencairan_id' => $request->pencairan_id,
+        'pesan' => $request->pesan,
+        'status' => 'belum dibaca',
+        'bukti' => $buktiPath
+    ]);
+
+    return redirect()->back()->with('success', 'Laporan berhasil dikirim!');
+}
+
+    public function dashboard()
+{
+    $nisn = auth()->user()->nisn;
+    $pencairan_riwayat = Pencairan::whereHas('siswa', function($q) use ($nisn) {
+        $q->where('nisn', $nisn);
+    })->get();
+
+    return view('siswa.dashboard', compact('pencairan_riwayat'));
+}
 
 
 }
