@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dashboard Admin</title>
-  <link rel="stylesheet" href="style_dashboard.css">
+  <link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_dashboard.css') }}">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -13,10 +13,10 @@
       <h2>Dashboard</h2>
       <nav>
         <ul>
-          <li><a href="daftar_siswa.html"><i class="fas fa-users"></i> Daftar Siswa</a></li>
-          <li><a href="#"><i class="fas fa-money-bill-wave"></i> Input Pencairan</a></li>
-          <li><a href="#"><i class="fas fa-check-circle"></i> Konfirmasi & Ctat Blockchain</a></li>
-          <li><a href="#"><i class="fas fa-history"></i> Riwayat Pencairan</a></li>
+        <li><a href="{{ url('/dashboard/sekolah/daftar-siswa') }}"><i class="fas fa-users"></i> Daftar Siswa</a></li>
+          <li><a href="{{ url('/dashboard/sekolah/input') }}"><i class="fas fa-money-bill-wave"></i> Input Pencairan</a></li>
+          <li><a href="{{ url('/dashboard/sekolah/konfirmasi') }}"><i class="fas fa-check-circle"></i> Konfirmasi & Ctat Blockchain</a></li>
+          <li><a href="{{ url('/dashboard/sekolah/riwayat') }}"><i class="fas fa-history"></i> Riwayat Pencairan</a></li>
           <li><a href="#"><i class="fas fa-globe"></i> Transparansi Umum</a></li>
         </ul>
       </nav>

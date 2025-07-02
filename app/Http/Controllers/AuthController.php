@@ -35,7 +35,16 @@ class AuthController extends Controller
                 Session::put('login', true);
                 Session::put('username', $user['username']);
                 Session::put('role', $user['role']);
-                return redirect('/dashboard');
+
+                 // Langsung mengarahkan halaman sesuai role
+                if ($user['role'] === 'sekolah') {
+                    return redirect('/dashboard/sekolah');
+                } elseif ($user['role'] === 'siswa') {
+                    return redirect('/dashboard/siswa');
+                } elseif ($user['role'] === 'pemerintah') {
+                    return redirect('/dashboard/pemerintah');
+                }
+                
             }
         }
 

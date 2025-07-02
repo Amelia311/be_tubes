@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Riwayat Pencairan</title>
-  <link rel="stylesheet" href="style_riwayat.css" />
+  <title>Konfirmasi & Blockchain</title>
+  <link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_konfirmasi.css') }}">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
 </head>
 <body>
@@ -15,8 +15,8 @@
         <ul>
           <li><a href="daftar-siswa.html"><i class="fas fa-users"></i> Daftar Siswa</a></li>
           <li><a href="input-pencairan.html"><i class="fas fa-money-bill-wave"></i> Input Pencairan</a></li>
-          <li><a href="konfirmasi-blockchain.html"><i class="fas fa-check-circle"></i> Konfirmasi & Blockchain</a></li>
-          <li><a href="riwayat-pencairan.html" class="active"><i class="fas fa-history"></i> Riwayat Pencairan</a></li>
+          <li><a href="konfirmasi-blockchain.html" class="active"><i class="fas fa-check-circle"></i> Konfirmasi & Blockchain</a></li>
+          <li><a href="#"><i class="fas fa-history"></i> Riwayat Pencairan</a></li>
           <li><a href="#"><i class="fas fa-globe"></i> Transparansi Umum</a></li>
         </ul>
       </nav>
@@ -31,30 +31,34 @@
       </header>
 
       <section class="content-box">
-        <div class="header-table">
-          <h3>Riwayat Pencairan</h3>
-          <input type="text" placeholder="Search..." class="search-input" />
-        </div>
-
-        <table class="table-riwayat">
+        <h3>Konfirmasi dan Catat Blockchain</h3>
+        <table class="table-konfirmasi">
           <thead>
             <tr>
-              <th>NO</th>
-              <th>NAMA</th>
+              <th>NAMA SISWA</th>
+              <th>ASAL SEKOLAH</th>
+              <th>TANGGAL</th>
               <th>JUMLAH</th>
               <th>STATUS</th>
-              <th>BUKTI</th>
-              <th>BLOCKCHAIN TX</th>
+              <th>AKSI</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>1</td>
               <td>Ani Rahmawati</td>
+              <td>SMP Negeri 1</td>
+              <td>2024-07-01</td>
               <td>500.000</td>
-              <td><span class="status sudah">Sudah</span></td>
-              <td><a href="#" class="link">Lihat</a></td>
-              <td><a href="#" class="link">link</a></td>
+              <td><span class="status belum">Belum Cair</span></td>
+              <td><button class="btn-konfirmasi">Konfirmasi</button></td>
+            </tr>
+            <tr>
+              <td>Budi Santoso</td>
+              <td>SMP Negeri 2</td>
+              <td>2024-06-20</td>
+              <td>600.000</td>
+              <td><span class="status sudah">Sudah Cair</span></td>
+              <td><button class="btn-terkonfirmasi"><i class="fas fa-check"></i> Terkonfirmasi</button></td>
             </tr>
           </tbody>
         </table>

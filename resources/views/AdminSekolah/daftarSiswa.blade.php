@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard - Daftar Siswa</title>
-  <link rel="stylesheet" href="style_daftar_siswa.css" />
+  <link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_daftar_siswa.css') }}">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
 </head>
 <body>
@@ -51,31 +51,30 @@
             </tr>
           </thead>
           <tbody>
+          @forelse ($siswa as $item)
             <tr>
-              <td>1</td>
-              <td>Ani Rahmawati</td>
-              <td>1234567890</td>
-              <td>SMP Negeri 1</td>
-              <td>Jl. Merdeka No. 10</td>
+              <td>{{ $loop->iteration }}</td>
+              <td>{{ $item->nama }}</td>
+              <td>{{ $item->nisn }}</td>
+              <td>{{ $item->asal_sekolah }}</td>
+              <td>{{ $item->alamat }}</td>
               <td>
-                <i class="fas fa-eye action-icon"></i>
-                <i class="fas fa-pen action-icon"></i>
-                <i class="fas fa-trash action-icon"></i>
+                <a href="{{ route('siswa.edit', $item->id) }}"><i class="fas fa-pen action-icon"></i></a>
+                <form action="{{ route('siswa.destroy', $item->id) }}" method="POST" style="display:inline;">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" style="background: none; border: none;">
+                    <i class="fas fa-trash action-icon"></i>
+                  </button>
+                </form>
               </td>
             </tr>
+          @empty
             <tr>
-              <td>2</td>
-              <td>Budi Santoso</td>
-              <td>9876543210</td>
-              <td>SMP Negeri 2</td>
-              <td>Jl. Kamboja No. 5</td>
-              <td>
-                <i class="fas fa-eye action-icon"></i>
-                <i class="fas fa-pen action-icon"></i>
-                <i class="fas fa-trash action-icon"></i>
-              </td>
+              <td colspan="6">Belum ada data siswa.</td>
             </tr>
-          </tbody>
+          @endforelse
+        </tbody>
         </table>
       </section>
     </main>
