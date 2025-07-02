@@ -13,9 +13,9 @@
       <h2>Dashboard</h2>
       <nav>
         <ul>
-        <li><a href="{{ url('/dashboard/sekolah/daftar-siswa') }}"><i class="fas fa-users"></i> Daftar Siswa</a></li>
-          <li><a href="{{ url('/dashboard/sekolah/input') }}"><i class="fas fa-money-bill-wave"></i> Input Pencairan</a></li>
-          <li><a href="{{ url('/dashboard/sekolah/konfirmasi') }}"><i class="fas fa-check-circle"></i> Konfirmasi & Ctat Blockchain</a></li>
+          <li><a href="{{ route('admin.daftarSiswa') }}"><i class="fas fa-users"></i> Daftar Siswa</a></li>
+          <li><a href="{{ route('pencairan.create') }}"><i class="fas fa-money-bill-wave"></i> Input Pencairan</a></li>
+          <li><a href="{{ route('konfirmasi.index') }}"><i class="fas fa-check-circle"></i> Konfirmasi & Catat Blockchain</a></li>
           <li><a href="{{ url('/dashboard/sekolah/riwayat') }}"><i class="fas fa-history"></i> Riwayat Pencairan</a></li>
           <li><a href="#"><i class="fas fa-globe"></i> Transparansi Umum</a></li>
         </ul>
