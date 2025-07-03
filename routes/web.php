@@ -16,6 +16,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard/sekolah', function () {
     return view('AdminSekolah.layouts.admin');
 });
+Route::get('/dashboard/siswa', function () {
+    return view('Siswa.dashboardSiswa');
+});
 
 // Daftar Siswa
 Route::match(['get', 'post'], '/dashboard/sekolah/daftar-siswa', [SiswaController::class, 'adminFull'])->name('admin.daftarSiswa');
@@ -70,3 +73,8 @@ Route::post('/siswa', [SiswaController::class, 'store'])->name('siswa.store');
 Route::get('/siswa/{id}/edit', [SiswaController::class, 'edit'])->name('siswa.edit');
 Route::put('/siswa/{id}', [SiswaController::class, 'update'])->name('siswa.update');
 Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
+
+
+
+
+
