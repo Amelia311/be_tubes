@@ -16,10 +16,10 @@ class SiswaController extends Controller
         if ($request->has('cari')) {
             $query->where('nama', 'like', '%' . $request->cari . '%');
         }
-    
-        $data = $query->get();
-    
-        return view('AdminSekolah.siswa.daftarSiswa', ['siswa' => $data]);
+        
+        $siswa = $query->get();
+
+        return view('AdminSekolah.siswa.daftarSiswa', compact('siswa'));
     }
 
     public function create()

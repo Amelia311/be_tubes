@@ -1,3 +1,4 @@
+@extends('AdminSekolah.layouts.admin')
 <h2>Daftar Laporan Siswa</h2>
 
 <table>

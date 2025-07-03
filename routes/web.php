@@ -16,7 +16,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 
 Route::get('/dashboard/sekolah', function () {
-    return view('AdminSekolah.dashboardsekolah');
+    return view('AdminSekolah.layouts.admin');
 });
 // ADMIN SEKOLAH VIEWS
 Route::match(['get', 'post'], '/dashboard/sekolah/daftar-siswa', [SiswaController::class, 'adminFull'])->name('admin.daftarSiswa');
@@ -24,9 +24,9 @@ Route::match(['get', 'post'], '/dashboard/sekolah/daftar-siswa', [SiswaControlle
 
 
 // Route halaman daftar siswa
-// Route::get('/dashboard/sekolah/daftar-siswa', function () {
-//     return view('AdminSekolah.daftarSiswa');
-// });
+Route::get('/dashboard/sekolah/daftar-siswa', function () {
+    return view('AdminSekolah.siswa.daftarSiswa');
+});
 Route::get('/dashboard/sekolah/input', function () {
     return view('AdminSekolah.inputPencairan');
 });
