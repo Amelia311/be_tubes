@@ -22,8 +22,15 @@
         </ul>
       </nav>
       <div class="logout">
-        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <form method="POST" action="{{ route('logout') }}">
+          @csrf
+          <button type="submit" style="background: none; border: none; color: red; cursor: pointer;">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </form>
       </div>
+
+
     </aside>
 
     <main class="main-content">

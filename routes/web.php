@@ -21,8 +21,19 @@ Route::get('/dashboard/sekolah', function () {
 Route::match(['get', 'post'], '/dashboard/sekolah/daftar-siswa', [SiswaController::class, 'adminFull'])->name('admin.daftarSiswa');
 
 // Input Pencairan
+
 Route::get('/dashboard/sekolah/input', [PencairanController::class, 'create'])->name('pencairan.create');
 Route::post('/pencairan', [PencairanController::class, 'store'])->name('pencairan.store');
+
+// Route::get('/dashboard/sekolah/data-input', function () {
+//     return view('AdminSekolah.input.dataInputPencairan');
+// })->name('data.input');
+
+
+
+
+
+
 
 
 // Route halaman daftar siswa
@@ -32,6 +43,8 @@ Route::post('/pencairan', [PencairanController::class, 'store'])->name('pencaira
 // Route::get('/dashboard/sekolah/input', function () {
 //     return view('AdminSekolah.input.inputPencairan');
 // });
+
+
 Route::get('/dashboard/sekolah/konfirmasi', function () {
     return view('AdminSekolah.konfirmasiBlockchain');
 });

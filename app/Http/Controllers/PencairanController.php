@@ -29,7 +29,6 @@ class PencairanController extends Controller
             'jumlah' => 'required|numeric',
             'keterangan' => 'required|string',
         ]);
-
         Pencairan::create([
             'siswa_id' => $request->siswa_id,
             'tanggal_cair' => $request->tanggal_cair,
@@ -39,7 +38,10 @@ class PencairanController extends Controller
             'blockchain_tx' => null,
         ]);
 
-        return redirect()->route('data.input')->with('success', 'Data pencairan berhasil disimpan!');
+        return redirect()->route('pencairan.create')->with('success', 'Data pencairan berhasil disimpan!');
+
+
+        
     }
 
     /**
