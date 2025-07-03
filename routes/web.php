@@ -6,6 +6,7 @@ use App\Http\Controllers\PencairanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
 
+
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
@@ -42,6 +43,16 @@ Route::get('/dashboard/sekolah/riwayat', function () {
 Route::get('/dashboard/siswa', function () {
     return view('Siswa.dashboardsiswa');
 });
+Route::get('/dashboard/siswa/riwayat', function () {
+    return view('Siswa.riwayatPencairanSiswa');
+});
+Route::post('/siswa/pencairan/{id}/konfirmasi', [SiswaController::class, 'konfirmasiPencairan'])->name('siswa.konfirmasiPencairan');
+Route::get('/siswa/riwayat', [SiswaController::class, 'riwayat'])->name('siswa.riwayat');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/riwayat-saya', [PencairanController::class, 'riwayat'])->name('siswa.riwayat');
+});
+
 
 Route::get('/dashboard/pemerintah', function () {
     return view('Pemerintah.dashboardpemerintah'); // kalau kamu sudah buat juga

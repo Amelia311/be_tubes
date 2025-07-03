@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Pencairan;
 use App\Models\Siswa;
+use App\Models\Laporan;
 use Illuminate\Http\Request;
 
 class PencairanController extends Controller
 {
-
     public function create()
     {
         $siswa = Siswa::all();
@@ -37,42 +37,40 @@ class PencairanController extends Controller
     }
 
     public function dashboard()
-{
-    $user = auth()->user();
+    {
+        $user = auth()->user();
+        $pencairan_riwayat = Pencairan::where('siswa_id', $user->id)->get();
 
-    // Ambil riwayat pencairan berdasarkan siswa_id
-    $pencairan_riwayat = \App\Models\Pencairan::where('siswa_id', $user->id)->get();
+        return view('Siswa.dashboardSiswa', compact('pencairan_riwayat'));
+    }
 
-    return view('Siswa.dashboardSiswa', compact('pencairan_riwayat'));
-}
-
-    // Menampilkan daftar data untuk dikonfirmasi admin
     public function konfirmasiView()
     {
         $data = Pencairan::with('siswa')->orderBy('created_at', 'desc')->get();
         return view('pencairan.konfirmasi', compact('data'));
     }
-    public function riwayat()
-    {
-        $pencairan_riwayat = Pencairan::with('siswa')->orderBy('created_at', 'desc')->get();
-        return view('riwayatPencairanSiswa', compact('pencairan_riwayat'));
-        return view('Siswa.dashboardSiswa', compact('pencairan_riwayat'));
 
-    }
+    public function riwayat()
+{
+    $user = auth()->user();
+    $riwayat = Pencairan::where('siswa_id', $user->id)
+                ->orderBy('tanggal_cair', 'desc')
+                ->get();
+
+    return view('riwayatPencairanSiswa', compact('riwayat'));
+}
 
 
     public function riwayatSekolah()
-{
-    $data = \App\Models\Pencairan::with('siswa')->orderBy('tanggal_cair', 'desc')->get();
-    return view('(AdminSekolah).riwayat_pencairan', compact('data'));
-}
+    {
+        $data = Pencairan::with('siswa')->orderBy('tanggal_cair', 'desc')->get();
+        return view('AdminSekolah.riwayat', compact('data'));
+    }
 
-    // Mengonfirmasi pencairan dan menambahkan TX simulatif
     public function konfirmasi($id)
     {
         $pencairan = Pencairan::findOrFail($id);
-
-        $txId = 'TX-' . strtoupper(uniqid()); // Simulasi TX hash
+        $txId = 'TX-' . strtoupper(uniqid());
 
         $pencairan->update([
             'status' => 'Sudah Cair',
@@ -82,7 +80,6 @@ class PencairanController extends Controller
         return redirect()->route('konfirmasi.index')->with('success', 'Pencairan telah dikonfirmasi dan dicatat di blockchain (simulasi)!');
     }
 
-    //integrasi Web3.js
     public function simpanDenganTx(Request $request)
     {
         $request->validate([
@@ -102,13 +99,15 @@ class PencairanController extends Controller
             'blockchain_tx' => $request->blockchain_tx
         ]);
 
-        return response()->json(['message' => 'Data dengan transaksi blockchain berhasil disimpan!', 'data' => $data]);
+        return response()->json([
+            'message' => 'Data dengan transaksi blockchain berhasil disimpan!',
+            'data' => $data
+        ]);
     }
 
     public function lihatLaporan()
     {
-    $laporan = \App\Models\Laporan::with('pencairan.siswa')->orderBy('created_at', 'desc')->get();
-    return view('admin.laporan', compact('laporan'));
+        $laporan = Laporan::with('pencairan.siswa')->orderBy('created_at', 'desc')->get();
+        return view('AdminSekolah.laporan', compact('laporan'));
     }
-
 }

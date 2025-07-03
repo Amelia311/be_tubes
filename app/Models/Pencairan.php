@@ -9,11 +9,19 @@ class Pencairan extends Model
 {
     use HasFactory;
     protected $table = 'pencairan';
-    protected $fillable = ['siswa_id', 'tanggal_cair', 'jumlah', 'keterangan'];
+    protected $fillable = [
+    'siswa_id',
+    'tanggal_cair',
+    'jumlah',
+    'keterangan',
+    'status',
+    'blockchain_tx',
+    'status_konfirmasi'
+];
 
     public function siswa()
     {
         return $this->belongsTo(Siswa::class);
     }
-
+   
 }

@@ -13,9 +13,8 @@
       <h1>PIPGuard</h1>
     </div>
     <nav class="menu-nav">
-      <a href="#" class="active" data-section="status-dana"><i class="fas fa-wallet"></i>Status Dana</a>
-      <a href="#" data-section="detail-pencairan"><i class="fas fa-info-circle"></i>Detail</a>
-      <a href="#" data-section="laporan-ketidaksesuaian"><i class="fas fa-exclamation-triangle"></i>Laporan</a>
+      <a href="{{ url('/dashboard/siswa/riwayat') }}" data-section="riwayat"><i class="fas fa-info-circle"></i>Detail</a>
+      <a href="{{ route('siswa.riwayat') }}" data-section="laporan-ketidaksesuaian"><i class="fas fa-exclamation-triangle"></i>Laporan</a>
       <a href="#" data-section="transparansi"><i class="fas fa-chart-pie"></i>Transparansi</a> <!-- Ini -->
       <button class="logout-btn" onclick="logout()">Logout</button>
 </nav>

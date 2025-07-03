@@ -90,6 +90,27 @@ class SiswaController extends Controller
     return view('(Siswa).riwayatPencairanSiswa', compact('riwayat'));
 }
 
+
+    public function konfirmasiPencairan(Request $request, $id)
+    {
+        $pencairan = \App\Models\Pencairan::findOrFail($id);
+
+        // Pastikan hanya siswa yang bersangkutan yang bisa konfirmasi
+        if ($pencairan->siswa_id != auth()->user()->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $request->validate([
+            'status_konfirmasi' => 'required|in:diterima,tidak_sesuai'
+        ]);
+
+        $pencairan->update([
+            'status_konfirmasi' => $request->status_konfirmasi
+        ]);
+
+        return redirect()->back()->with('success', 'Konfirmasi pencairan berhasil dikirim.');
+    }
+
     public function lapor($id)
 {
     \App\Models\Laporan::create([
@@ -126,12 +147,12 @@ public function dashboard()
 {
     $user = auth()->user();
 
-    // Pastikan ada field siswa_id di tabel pencairan
-    $pencairan_riwayat = \App\Models\Pencairan::where('siswa_id', $user->id)->get();
+    $riwayat = \App\Models\Pencairan::where('siswa_id', $user->id)
+        ->orderBy('tanggal_cair', 'desc')
+        ->get();
 
-    return view('Siswa.dashboardSiswa', compact('pencairan_riwayat'));
+    return view('Siswa.dashboardSiswa', compact('riwayat'));
 }
 
 
-
-}
+};
