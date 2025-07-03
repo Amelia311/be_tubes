@@ -1,12 +1,12 @@
+
 @extends('AdminSekolah.layouts.admin')
+
 
 @section('title', 'input pencairan')
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_input.css') }}">
-@endpush
 
 @section('content')
+<link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_input.css') }}">
       <section class="content-box">
         <div class="form-container">
           <h3>Input Pencairan</h3>
@@ -17,7 +17,7 @@
             </div>
           @endif
 
-          <form method="POST" action="{{ route('pencairan.store') }}">
+          <form method="POST" action="{{ route('pencairan.store') }}" class="actions">
             @csrf
 
             <label for="siswa_id">Pilih Siswa</label>

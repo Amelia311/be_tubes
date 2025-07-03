@@ -15,7 +15,7 @@ class PencairanController extends Controller
     public function create()
     {
         $siswa = Siswa::all();
-        return view('AdminSekolah.inputPencairan', compact('siswa'));
+        return view('AdminSekolah.input.inputPencairan', compact('siswa'));
     }
 
     /**
@@ -57,7 +57,7 @@ class PencairanController extends Controller
     public function riwayatSekolah()
     {
         $data = Pencairan::with('siswa')->orderBy('tanggal_cair', 'desc')->get();
-        return view('AdminSekolah.riwayat_pencairan', compact('data'));
+        return view('AdminSekolah.riwayatPencairan', compact('data'));
     }
 
     /**
