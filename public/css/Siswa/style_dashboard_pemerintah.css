@@ -1,0 +1,648 @@
+:root {
+  --gradient-header: linear-gradient(90deg, #004e92, #000428);
+  --header-text: #fff;
+  --body-bg: #f4f6f9;
+  --section-bg: #fff;
+  --section-border: #ddd;
+  --accent-color: #ffb347;
+  --green-pip: #1abc9c;
+  --red-logout: #e74c3c;
+}
+
+body, html {
+  margin: 0; padding: 0; height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f2f5;
+  color: #222;
+}
+
+.wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
+#sidebar {
+  width: 250px;
+  background-color: #003366;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid #004080;
+}
+
+.sidebar-header img {
+  width: 40px;
+  height: 40px;
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+#sidebar ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+#sidebar ul li {
+  padding: 0.9rem 1.5rem;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid #004080;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  flex-grow: 1;
+}
+
+#sidebar ul li.active, #sidebar ul li:hover {
+  background-color: #0059b3;
+}
+
+#sidebar ul li i {
+  margin-right: 1rem;
+  min-width: 20px;
+  text-align: center;
+}
+
+#sidebar ul li.dropdown.open > ul.submenu {
+  display: block;
+}
+
+#sidebar ul li.dropdown > ul.submenu {
+  display: none;
+  background-color: #004080;
+  padding-left: 1rem;
+}
+
+#sidebar ul li.dropdown > ul.submenu li {
+  padding: 0.5rem 1.5rem;
+  border-bottom: none;
+}
+
+#sidebar ul li.dropdown > ul.submenu li:hover, #sidebar ul li.dropdown > ul.submenu li.active {
+  background-color: #0066cc;
+}
+
+#sidebar button#logout-btn {
+  width: 100%;
+  background-color: red;
+  border: 5;
+  color: #ffff;
+  font-weight: 700;
+  padding: 1rem;
+  cursor: pointer;
+  border-radius: 0;
+  margin-top: auto;
+}
+
+#sidebar button#logout-btn:hover {
+  background-color: var(--red-logout);
+}
+
+/* Content area */
+#content {
+  flex-grow: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  background: white;
+}
+
+header h1 {
+  margin-top: 0;
+  font-weight: 700;
+  color: #003366;
+}
+
+/* Konten section */
+.content-section {
+  display: none;
+}
+
+.content-section.active {
+  display: block;
+}
+
+/* Dropdown menu ke bawah (vertikal) */
+.sidebar nav ul li ul {
+  display: none;          /* sembunyikan dropdown default */
+  flex-direction: column; /* susun vertikal */
+  position: static;       /* agar dropdown tidak melayang samping */
+  background-color: transparent; /* biar sesuai desain */
+  padding-left: 1rem;     /* indentasi dropdown */
+  margin-top: 0.25rem;
+}
+
+.sidebar nav ul li:hover ul {
+  display: flex;          /* tampilkan dropdown saat hover */
+}
+
+/* Buat tombol logout jadi merah */
+.logout-btn {
+  background-color: var(--red-logout) !important; /* merah cerah */
+  color: white !important;
+  border: none !important;
+  cursor: pointer;
+  padding: 0.5rem 6rem;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b !important;
+}
+
+.dashboard-content {
+  padding: 20px;
+}
+
+.progress-section h3,
+.reports-section h3 {
+  color: #003366;
+  margin-bottom: 10px;
+}
+
+.progress-bar-container {
+  display: flex;
+  height: 30px;
+  border-radius: 8px;
+  overflow: hidden;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: white;
+  user-select: none;
+}
+
+.progress-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-bar.completed {
+  background-color: #4CAF50; /* hijau */
+}
+
+.progress-bar.processing {
+  background-color: #FFC107; /* kuning */
+  color: #000;
+}
+
+.progress-bar.pending {
+  background-color: #F44336; /* merah */
+}
+
+.report-list {
+  list-style-type: none;
+  padding-left: 0;
+  color: #444;
+}
+
+.report-list li {
+  background: #e3f2fd;
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.content-section h2, .content-section h3 {
+  color: #003366;
+  margin-bottom: 1rem;
+}
+
+/* Container Statistik */
+.stats-cards {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 8px #bcbfc2;
+  flex: 1 1 220px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #2b2b2b;
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px var(--green-pip);
+}
+
+.card .icon {
+  font-size: 2.8rem;
+  color: #003366; /* warna biru gelap */
+  min-width: 48px;
+  text-align: center;
+}
+
+.card .info h3 {
+  margin: 0 0 0.4rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.card .info p {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #444;
+}
+
+/* Container laporan */
+.laporan-container {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+  color: #2b2b2b;
+}
+
+/* Tabel laporan */
+.laporan-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.laporan-table th,
+.laporan-table td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.laporan-table thead th {
+  background-color: #f5f8fa;
+  font-weight: 600;
+  color: #003366;
+}
+
+.laporan-table tbody tr:hover {
+  background-color: #e6fff1;
+}
+
+.laporan-table tbody td:last-child {
+  font-weight: 600;
+}
+
+/* Status warna */
+.laporan-table td.status-menunggu {
+  color: #d97706; /* kuning tua */
+}
+
+.laporan-table td.status-ditindaklanjuti {
+  color: #2563eb; /* biru */
+}
+
+.laporan-table td.status-selesai {
+  color: #16a34a; /* hijau */
+}
+
+.chart-container h3 {
+  text-align: center;
+  margin-bottom: 5rem; /* supaya ada jarak ke grafik */
+}
+
+/* Container header atas */
+.kelola-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Search box */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.search-container input[type="text"] {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 200px;
+  font-size: 1rem;
+}
+
+.search-container button {
+  background-color: #28a745; /* hijau */
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-container button:hover {
+  background-color: #218838;
+}
+
+/* Tombol tambah */
+.btn {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  border: none;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  margin-top: 1rem;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Tabel */
+.sekolah-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sekolah-table th, .sekolah-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.sekolah-table th {
+  background-color: #f4f4f4;
+}
+
+.content-section h2 {
+  color:#030835;
+}
+
+
+/* Aksi button */
+#upload-penerima > h2 {
+  color: #2563eb !important;
+}
+
+
+.btn-aksi {
+  margin-right: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-edit {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.btn-edit:hover {
+  background-color: #e0a800;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  position: relative;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.modal-content label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.close {
+  position: absolute;
+  right: 1rem;
+  top: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Container section */
+#upload-penerima {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 25px 30px;
+  background-color: #f9faff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Judul section */
+.section-title {
+  color: #0056b3;
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  border-left: 6px solid #0056b3;
+  padding-left: 12px;
+}
+
+/* Form styling */
+.upload-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.form-label {
+  flex: 1 1 200px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+}
+
+.file-input {
+  flex: 2 1 300px;
+  padding: 6px 10px;
+  font-size: 15px;
+  border: 1.8px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.file-input:hover {
+  border-color: #0056b3;
+}
+
+/* Button */
+.btn {
+  background-color: #0056b3;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 10px 22px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.btn:hover {
+  background-color: #003d80;
+}
+
+/* Preview container */
+.preview-container {
+  overflow-x: auto;
+}
+
+/* Preview table */
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  min-width: 650px;
+}
+
+.preview-table th, .preview-table td {
+  border: 1px solid #bbb;
+  padding: 10px 12px;
+  text-align: left;
+  color: #444;
+}
+
+.preview-table thead {
+  background-color: #0056b3;
+  color: white;
+  font-weight: 600;
+}
+
+.preview-table tbody tr:nth-child(even) {
+  background-color: #f1f7ff;
+}
+
+.preview-title {
+  margin-bottom: 15px;
+  color: #004080;
+  font-weight: 600;
+  font-size: 22px;
+}
+
+
+.form-label {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+}
+
+.file-input {
+  padding: 8px 10px;
+  font-size: 15px;
+  border: 1.8px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.file-input:hover {
+  border-color: #0056b3;
+}
+
+.upload-btn {
+  background-color: #28a745;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 10px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  align-self: flex-start; /* tombol rata kiri */
+}
+
+.upload-btn:hover {
+  background-color: #1b4d32;
+}

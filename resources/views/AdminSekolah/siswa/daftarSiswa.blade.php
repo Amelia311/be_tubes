@@ -12,14 +12,15 @@
         <div class="header-table">
           <h3>Daftar Siswa</h3>
           <div class="actions">
-          <form method="GET" action="{{ route('siswa.index') }}" class="actions">
-            <input type="text" name="cari" placeholder="Cari nama siswa..." value="{{ request('cari') }}">
-            <button type="submit" class="btn-tambah"><i class="fas fa-search"></i> Cari</button>
-          </form>
+            <form method="GET" action="{{ route('siswa.index') }}" class="actions">
+              <input type="text" name="cari" placeholder="Cari nama siswa..." value="{{ request('cari') }}">
+              <button type="submit" class="btn-tambah"><i class="fas fa-search"></i> Cari</button>
+            </form>
             <a href="{{ route('siswa.create') }}" class="btn-tambah"><i class="fas fa-plus"></i> Tambah Siswa</a>
           </div>
         </div>
-         @if(session('success'))
+
+        @if(session('success'))
           <div style="background-color: #22c55e; color: white; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
             {{ session('success') }}
           </div>
@@ -49,7 +50,7 @@
                 <form action="{{ route('siswa.destroy', $item->id) }}" method="POST" style="display:inline;">
                   @csrf
                   @method('DELETE')
-                  <button type="submit" style="background: none; border: none;">
+                  <button type="submit" onclick="return confirm('Yakin ingin menghapus siswa ini?')" style="background: none; border: none;">
                     <i class="fas fa-trash action-icon"></i>
                   </button>
                 </form>
