@@ -23,6 +23,11 @@ Route::get('/dashboard/siswa', function () {
 
 Route::get('/dashboard/siswa', [SiswaController::class, 'dashboard'])->name('siswa.dashboard');
 Route::post('/dashboard/siswa', [SiswaController::class, 'dashboard'])->name('siswa.riwayat');
+Route::get('/status-dana', [SiswaController::class, 'statusDana'])->name('siswa.status');
+Route::get('/detail', [SiswaController::class, 'detail'])->name('siswa.detail');
+Route::get('/laporan', [SiswaController::class, 'laporan'])->name('siswa.laporan');
+Route::get('/transparansi', [SiswaController::class, 'transparansi'])->name('siswa.transparansi');
+
 
 
 // Daftar Siswa
