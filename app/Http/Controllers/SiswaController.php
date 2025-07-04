@@ -140,33 +140,16 @@ public function laporStore(Request $request)
         'bukti' => $buktiPath
     ]);
 
-    // redirect ke dashboard agar $pencairan_riwayat tersedia
-    return redirect()->route('siswa.dashboard')->with('success', 'Laporan berhasil dikirim!');
-}
-public function dashboard()
-{
-    $username = session('username');
-    $role = session('role');
-
-    // Hanya lanjutkan jika rolenya siswa
-    if ($role !== 'siswa') {
-        abort(403, 'Unauthorized');
+        return redirect()->back()->with('success', 'Laporan berhasil dikirim!');
     }
 
-    // Ambil siswa berdasarkan username (misalnya username = nama siswa di tabel)
-    $siswa = \App\Models\Siswa::where('nama', $username)->first();
+    public function dashboard()
+    {
+        $nisn = auth()->user()->nisn;
+        $pencairan_riwayat = Pencairan::whereHas('siswa', function ($q) use ($nisn) {
+            $q->where('nisn', $nisn);
+        })->get();
 
-    $riwayat = [];
-
-    if ($siswa) {
-        $riwayat = \App\Models\Pencairan::where('siswa_id', $siswa->id)
-            ->orderBy('tanggal_cair', 'desc')
-            ->get();
+        return view('Siswa.dashboard', compact('pencairan_riwayat'));
     }
-
-    return view('Siswa.dashboardSiswa', compact('riwayat'));
 }
-
-
-
-};

@@ -5,9 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class laporan extends Model
+class Laporan extends Model
 {
     use HasFactory;
-    protected $fillable = ['pencairan_id', 'pesan', 'status', 'bukti'];
 
+    protected $table = 'laporan'; // karena default-nya Laravel pakai 'laporans'
+
+    protected $fillable = [
+        'pencairan_id',
+        'pesan',
+        'status',
+        'bukti',
+    ];
 }

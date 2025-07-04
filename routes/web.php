@@ -5,8 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PencairanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
-
-
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
+// === ROUTES DIMULAI DI SINI ===
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -27,11 +28,13 @@ Route::match(['get', 'post'], '/dashboard/sekolah/daftar-siswa', [SiswaControlle
 
 // Route halaman daftar siswa
 // Route::get('/dashboard/sekolah/daftar-siswa', function () {
-//     return view('AdminSekolah.daftarSiswa');
+//     return view('AdminSekolah.siswa.daftarSiswa');
 // });
-Route::get('/dashboard/sekolah/input', function () {
-    return view('AdminSekolah.inputPencairan');
-});
+// Route::get('/dashboard/sekolah/input', function () {
+//     return view('AdminSekolah.input.inputPencairan');
+// });
+
+
 Route::get('/dashboard/sekolah/konfirmasi', function () {
     return view('AdminSekolah.konfirmasiBlockchain');
 });
@@ -78,32 +81,7 @@ Route::get('/siswa/{id}/edit', [SiswaController::class, 'edit'])->name('siswa.ed
 Route::put('/siswa/{id}', [SiswaController::class, 'update'])->name('siswa.update');
 Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
 
-// Dashboard siswa (gunakan route yang konsisten)
-Route::get('/dashboard-siswa', [SiswaController::class, 'dashboard'])->name('siswa.dashboard');
-Route::get('/dashboard/siswa', [SiswaController::class, 'dashboard'])->name('siswa.dashboard');
-Route::get('/siswa/riwayat', [SiswaController::class, 'riwayatSaya'])->name('siswa.riwayat');
-Route::post('/siswa/lapor/{id}', [SiswaController::class, 'lapor'])->name('siswa.lapor');
-Route::post('/siswa/lapor-store', [SiswaController::class, 'laporStore'])->name('siswa.laporStore');
 
-// Dashboard sekolah
-Route::get('/dashboard/sekolah', function () {
-    return view('AdminSekolah.dashboardSekolah');
-});
-Route::match(['get', 'post'], '/dashboard/sekolah/daftar-siswa', [SiswaController::class, 'adminFull'])->name('admin.daftarSiswa');
 
-// Input dan konfirmasi pencairan
-Route::get('/pencairan', [PencairanController::class, 'create'])->name('pencairan.create');
-Route::post('/pencairan', [PencairanController::class, 'store'])->name('pencairan.store');
-Route::get('/konfirmasi', [PencairanController::class, 'konfirmasiView'])->name('konfirmasi.index');
-Route::post('/konfirmasi/{id}', [PencairanController::class, 'konfirmasi'])->name('konfirmasi.update');
 
-// Pemerintah
-Route::get('/dashboard/pemerintah', function () {
-    return view('Pemerintah.dashboardPemerintah');
-}); 
 
-//Logout
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/login'); // arahkan ke login setelah logout
-})->name('logout');

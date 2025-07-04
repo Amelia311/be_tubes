@@ -142,4 +142,23 @@ class PencairanController extends Controller
         return view('admin.laporan', compact('laporan'));
 
     }
+
+    public function simpanTx(Request $request)
+    {
+        $request->validate([
+            'pencairan_id' => 'required|exists:pencairan,id',
+            'blockchain_tx' => 'required|string'
+        ]);
+
+        $pencairan = Pencairan::findOrFail($request->pencairan_id);
+        $pencairan->update([
+            'status' => 'Sudah Cair',
+            'blockchain_tx' => $request->blockchain_tx
+        ]);
+
+        return response()->json(['message' => 'Berhasil!']);
+    }
+
+
+
 }

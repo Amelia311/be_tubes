@@ -16,8 +16,8 @@ return new class extends Migration
         $table->unsignedBigInteger('pencairan_id');
         $table->text('pesan')->nullable();
         $table->string('status')->default('belum dibaca');
-        $table->timestamps();
         $table->string('bukti')->nullable();
+        $table->timestamps();
 
 
         $table->foreign('pencairan_id')->references('id')->on('pencairan')->onDelete('cascade');
