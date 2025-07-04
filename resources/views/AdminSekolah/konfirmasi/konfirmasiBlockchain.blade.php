@@ -2,12 +2,18 @@
 
 @section('title', 'konfirmasi pencairan')
 
-
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_konfirmasi.css') }}">
+@endpush
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_konfirmasi.css') }}">
 <div class="container">
     <h4>Konfirmasi dan Catat Blockchain</h4>
+    @if(session('success'))
+      <div class="alert alert-success">
+        {{ session('success') }}
+      </div>
+    @endif
     <table class="table table-bordered mt-3">
         <thead>
             <tr>
@@ -24,7 +30,7 @@
             <tr>
                 <td>{{ $item->siswa->nama }}</td>
                 <td>{{ $item->siswa->asal_sekolah }}</td>
-                <td>{{ $item->created_at->format('Y-m-d') }}</td>
+                <td>{{ optional($item->created_at)->format('Y-m-d') ?? '-' }}</td>
                 <td>{{ number_format($item->jumlah, 0, ',', '.') }}</td>
                 <td>
                     @if($item->status == 'Sudah Cair')

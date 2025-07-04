@@ -21,28 +21,35 @@ class SiswaController extends Controller
     
         $data = $query->get();
     
-        return view('AdminSekolah.daftarSiswa', ['siswa' => $data]);
+        return view('AdminSekolah.siswa.daftarSiswa', ['siswa' => $data]);
     }
 
     
     public function store(Request $request) 
     {
-        $validated = $request->validate(([
+        $validated = $request->validate([
             'nama' => 'required',
             'nisn' => 'required|unique:siswa',
             'asal_sekolah' => 'required',
             'alamat' => 'required',
-        ]));
-
-        $siswa = Siswa::create($validated);
-        return response()->json($siswa, 201);
+        ]);
+    
+        Siswa::create($validated);
+        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil ditambahkan!');
     }
+    
 
     public function show($id)
     {
         return response()->json(Siswa::findOrFail($id));
 
     }
+
+    public function create()
+    {
+        return view('AdminSekolah.siswa.create'); // sesuaikan dengan nama file view form kamu
+    }
+
 
     public function update(Request $request, $id)
     {
@@ -78,7 +85,7 @@ class SiswaController extends Controller
         }
 
         $siswa = $query->get();
-        return view('AdminSekolah.daftarSiswa', compact('siswa'));
+        return view('AdminSekolah.siswa.daftarSiswa', compact('siswa'));
     }
 
     public function riwayatSaya()
@@ -89,7 +96,7 @@ class SiswaController extends Controller
         $q->where('nisn', $nisn);
     })->orderBy('tanggal_cair', 'desc')->get();
 
-    return view('(Siswa).riwayatPencairanSiswa', compact('riwayat'));
+    return view('Siswa.riwayatPencairanSiswa', compact('riwayat'));
 }
 
 
@@ -149,10 +156,19 @@ public function laporStore(Request $request)
     {
         // $nisn = auth()->user()->nisn;
         $nisn = Session::get('nisn');
+
+
         $pencairan_riwayat = Pencairan::whereHas('siswa', function ($q) use ($nisn) {
             $q->where('nisn', $nisn);
         })->get();
 
-        return view('Siswa.dashboard', compact('pencairan_riwayat'));
+        return view('Siswa.dashboardSiswa', compact('pencairan_riwayat'));
     }
+
+    public function pencairan()
+    {
+        return $this->hasMany(Pencairan::class);
+    }
+
+
 }

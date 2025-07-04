@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 
+
 class AuthController extends Controller
 {
     // Pindahkan deklarasi ke dalam method atau jadikan properti class
