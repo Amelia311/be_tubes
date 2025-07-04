@@ -68,14 +68,27 @@ class PencairanController extends Controller
 
     }
 
-    /**
-     * Menampilkan riwayat pencairan untuk admin sekolah
-     */
-    public function riwayatSekolah()
+    public function riwayatSekolah(Request $request)
     {
-        $data = Pencairan::with('siswa')->orderBy('tanggal_cair', 'desc')->get();
+        $query = Pencairan::with('siswa');
+
+        // Filter berdasarkan nama siswa
+        if ($request->filled('search')) {
+            $query->whereHas('siswa', function ($q) use ($request) {
+                $q->where('nama', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // Filter berdasarkan tanggal dari - sampai
+        if ($request->filled('tanggal_awal') && $request->filled('tanggal_akhir')) {
+            $query->whereBetween('tanggal_cair', [$request->tanggal_awal, $request->tanggal_akhir]);
+        }
+
+        $data = $query->orderBy('tanggal_cair', 'desc')->get();
+
         return view('AdminSekolah.riwayat.riwayatPencairan', compact('data'));
     }
+
 
     /**
      * Mengonfirmasi pencairan dan memberikan simulasi TX ID blockchain
@@ -92,7 +105,6 @@ class PencairanController extends Controller
 
         return redirect()->route('konfirmasi.index')->with('success', 'Pencairan telah dikonfirmasi dan dicatat di blockchain (simulasi)!');
     }
-    
 
     /**
      * Simpan data dengan input TX dari Web3.js atau eksternal

@@ -34,6 +34,7 @@ class SiswaController extends Controller
             'alamat' => 'required',
             'kelas' => 'required|in:X,XI,XII',
         ]);
+
     
         Siswa::create($validated);
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil ditambahkan!');
@@ -99,15 +100,15 @@ class SiswaController extends Controller
     }
 
     public function riwayatSaya()
-{
-    $nisn = auth()->user()->nisn;
+    {
+        $nisn = auth()->user()->nisn;
 
-    $riwayat = \App\Models\Pencairan::whereHas('siswa', function($q) use ($nisn) {
-        $q->where('nisn', $nisn);
-    })->orderBy('tanggal_cair', 'desc')->get();
+        $riwayat = \App\Models\Pencairan::whereHas('siswa', function($q) use ($nisn) {
+            $q->where('nisn', $nisn);
+        })->orderBy('tanggal_cair', 'desc')->get();
 
-    return view('Siswa.riwayatPencairanSiswa', compact('riwayat'));
-}
+        return view('Siswa.riwayatPencairanSiswa', compact('riwayat'));
+    }
 
 
     public function konfirmasiPencairan(Request $request, $id)
