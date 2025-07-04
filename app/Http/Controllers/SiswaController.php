@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Laporan;
 use App\Models\Pencairan;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
 
 
 class SiswaController extends Controller
@@ -35,13 +36,23 @@ class SiswaController extends Controller
             'kelas' => 'required|in:X,XI,XII',
             'password' => 'required|min:6',
         ]);
-        
+
         $validated['password'] = Hash::make($request->password);
     
         Siswa::create($validated);
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil ditambahkan!');
     }
     
+    public function akunSiswa()
+
+    {
+
+        $siswaList = Siswa::all();
+
+        return view('AdminSekolah.akun.akun_siswa', compact('siswaList'));
+
+    }
+
 
     public function show($id)
     {
@@ -253,6 +264,18 @@ public function laporStore(Request $request)
     
         $laporan = Laporan::with('pencairan.siswa')->latest()->take(3)->get();
     
+        // Jika login sebagai admin
+        if (auth()->check() && auth()->user()->role === 'sekolah') {
+            return view('AdminSekolah.transparansiDana', compact(
+                'totalDana',
+                'jumlahPenerima',
+                'periodeTerbaru',
+                'infoTerbaru',
+                'laporan'
+            ));
+        }
+    
+        // Default siswa
         return view('Siswa.transparansiDana', compact(
             'totalDana',
             'jumlahPenerima',
@@ -261,6 +284,7 @@ public function laporStore(Request $request)
             'laporan'
         ));
     }
+    
     
 
 
