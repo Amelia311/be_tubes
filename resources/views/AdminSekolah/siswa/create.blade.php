@@ -7,34 +7,45 @@
 @endpush
 
 @section('content')
-  <h3 style="color: #fcd34d;">Tambah Siswa</h3>
+<div class="content-box">
+
   <form action="{{ route('siswa.store') }}" method="POST" class="form-siswa">
     @csrf
+
+    <h3>Tambah Siswa</h3>
+
     <div class="form-group">
       <label for="nama">Nama Siswa</label>
-      <input type="text" name="nama" required>
+      <input type="text" name="nama" id="nama" required>
     </div>
+
     <div class="form-group">
       <label for="nisn">NISN</label>
-      <input type="text" name="nisn" required>
+      <input type="text" name="nisn" id="nisn" required>
     </div>
+
     <div class="form-group">
       <label for="asal_sekolah">Asal Sekolah</label>
-      <input type="text" name="asal_sekolah" required>
+      <input type="text" name="asal_sekolah" id="asal_sekolah" required>
     </div>
+
     <div class="form-group">
       <label for="alamat">Alamat</label>
-      <textarea name="alamat" required></textarea>
+      <textarea name="alamat" id="alamat" required></textarea>
     </div>
-    <div>
-      <label>Kelas:</label>
-      <select name="kelas" required>
+
+    <div class="form-group">
+      <label for="kelas">Kelas:</label>
+      <select name="kelas" id="kelas" required>
         <option value="">Pilih Kelas</option>
         <option value="X">X</option>
         <option value="XI">XI</option>
         <option value="XII">XII</option>
       </select>
     </div>
-    <button type="submit" class="btn-tambah">Simpan</button>
+
+    <button type="submit" class="btn-submit">Simpan</button>
   </form>
+
+</div>
 @endsection

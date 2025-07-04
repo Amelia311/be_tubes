@@ -20,6 +20,7 @@
           <li><a href="{{ url('/dashboard/sekolah/riwayat') }}"><i class="fas fa-history"></i> Riwayat Pencairan</a></li>
           <li><a href="{{ route('laporan.kendala') }}"><i class="fas fa-exclamation-triangle"></i> Laporan</a></li>
           <li><a href="{{ route('akun.siswa') }}"><i class="fas fa-user-cog"></i> Akun Siswa</a></li>
+          <li><a href="{{ route('siswa.transparansi') }}"><i class="fas fa-chart-pie"></i>Transparansi</a></li>
         </ul>
       </nav>
       <form method="POST" action="{{ route('logout') }}" class="logout-form">
@@ -39,4 +40,3 @@
   @stack('scripts')
 </body>
 </html>
-

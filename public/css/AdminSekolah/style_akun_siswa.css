@@ -1,52 +1,64 @@
-body {
-    background-color: #0F172A;
-    color: #fff;
+.page-wrapper {
+    padding: 20px;
+    background-color: #f5f6fa; /* background terang untuk isi halaman */
+    min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.page-wrapper {
-    padding: 20px;
+h3 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #fcd34d; /* warna kuning agar konsisten dengan tema */
 }
 
 .table-akun {
     width: 100%;
     border-collapse: collapse;
-    background-color: #1E293B;
-    color: #fff;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.table-akun th, .table-akun td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #334155;
-    text-align: left;
+.table-akun th,
+.table-akun td {
+    padding: 14px 18px;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    color: #333333; /* TEKS GELAP agar terbaca */
+    font-size: 14px;
 }
 
-.table-akun thead tr {
-    background-color: #0F172A;
-    font-weight: bold;
-}
-
-.table-akun tbody tr:hover {
-    background-color: #334155;
+.table-akun th {
+    background-color: #f0f2f5; /* abu terang */
+    font-weight: 600;
+    color: #111827;
 }
 
 .btn-edit,
-.btn-delete {
-    background: none;
-    border: none;
+.btn-hapus {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
     cursor: pointer;
-    font-size: 18px;
-    margin-right: 5px;
-    color: #fff;
+    transition: 0.3s ease;
+    border: none;
+}
+
+.btn-edit {
+    background-color: #4CAF50;
+    color: white;
 }
 
 .btn-edit:hover {
-    color: #3B82F6;
+    background-color: #45a049;
 }
 
-.btn-delete:hover {
-    color: #EF4444;
+.btn-hapus {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-hapus:hover {
+    background-color: #d32f2f;
 }
