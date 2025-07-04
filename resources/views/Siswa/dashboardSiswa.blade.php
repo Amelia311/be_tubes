@@ -17,7 +17,7 @@
     </p>
   </div>
   <div class="intro-image">
-    <img src="{{ asset('storage/img/pip-cartoon.jpeg') }}" alt="Ilustrasi Dashboard PIPGuard" />
+    <img src="{{ asset('storage/img/pip.jpg') }}" alt="Ilustrasi Dashboard PIPGuard" />
   </div>
 </section>
 

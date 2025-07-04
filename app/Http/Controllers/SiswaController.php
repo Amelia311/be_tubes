@@ -186,22 +186,17 @@ public function laporStore(Request $request)
 
     public function statusDana()
     {
-
         $nisn = Session::get('nisn');
-    
         $siswa = \App\Models\Siswa::where('nisn', $nisn)->firstOrFail();
     
         $pencairan = \App\Models\Pencairan::where('siswa_id', $siswa->id)
             ->orderBy('tanggal_cair', 'desc')
             ->get();
     
-        // Kelompokkan berdasarkan kelas (dari siswa, atau bisa juga dari field tambahan)
         $riwayat = [];
     
         foreach ($pencairan as $data) {
-            // Misalnya kita asumsikan kelas berdasarkan tahun, kamu bisa sesuaikan dengan field asli
-            $kelas = $siswa->kelas ?? 'XI'; // default jika belum ada field kelas
-    
+            $kelas = $siswa->kelas ?? 'XI'; // default ke XI
             $riwayat[$kelas][] = [
                 'periode' => $data->keterangan ?? 'Semester Tidak Diketahui',
                 'status' => $data->status ?? 'Belum Dicairkan',
@@ -210,13 +205,26 @@ public function laporStore(Request $request)
             ];
         }
     
-        // Ambil status terakhir jika ada
+        // PERBAIKI INI!
+        $firstKelas = !empty($riwayat) ? array_key_first($riwayat) : null;
         $status = $pencairan->first()->status ?? 'Belum Dicairkan';
-        
-        dd($riwayat);
-        return view('Siswa.status.statusDana', compact('riwayat', 'status'));
+    
+        return view('Siswa.status.statusDana', compact('riwayat', 'status', 'firstKelas'));
     }
     
+    public function laporan()
+    {
+        $nisn = session('nisn');
+
+        $pencairanTerbaru = \App\Models\Pencairan::whereHas('siswa', function ($query) use ($nisn) {
+            $query->where('nisn', $nisn);
+        })->latest()->first();
+
+        return view('Siswa.laporan.laporanKetidaksesuaian', [
+            'pencairan_id' => $pencairanTerbaru ? $pencairanTerbaru->id : null,
+        ]);
+    }
+
     
 
 

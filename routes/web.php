@@ -25,6 +25,7 @@ Route::get('/dashboard/siswa', [SiswaController::class, 'dashboard'])->name('sis
 Route::post('/dashboard/siswa', [SiswaController::class, 'dashboard'])->name('siswa.riwayat');
 Route::get('/siswa/status-dana', [SiswaController::class, 'statusDana'])->name('siswa.statusDana');
 Route::get('/siswa/detail', [SiswaController::class, 'detail'])->name('siswa.detail');
+Route::post('/siswa/lapor', [LaporanController::class, 'store'])->name('siswa.laporStore');
 Route::get('/laporan', [SiswaController::class, 'laporan'])->name('siswa.laporan');
 Route::get('/transparansi', [SiswaController::class, 'transparansi'])->name('siswa.transparansi');
 

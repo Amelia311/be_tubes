@@ -106,7 +106,7 @@
 <body>
   <div class="container" id="login-section">
     <div class="header-logo">
-      <img src="{{ asset('img/logo.png') }}" alt="PIPGuard Logo" />
+      <img src="{{ asset('/storage/img/logo.png') }}" alt="PIPGuard Logo" />
       <h2>PIPGuard Login</h2>
     </div>
 

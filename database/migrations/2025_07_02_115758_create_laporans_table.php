@@ -14,13 +14,14 @@ return new class extends Migration
     Schema::create('laporan', function (Blueprint $table) {
         $table->id();
         $table->unsignedBigInteger('pencairan_id');
-        $table->text('pesan')->nullable();
+        $table->string('pesan');
+        $table->string('bukti'); // path ke file
         $table->string('status')->default('belum dibaca');
         $table->timestamps();
-
-
+    
         $table->foreign('pencairan_id')->references('id')->on('pencairan')->onDelete('cascade');
     });
+    
 }
 
 

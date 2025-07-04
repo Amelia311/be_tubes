@@ -46,9 +46,10 @@
           </tr>
         </thead>
         <tbody id="riwayat-table">
-          @php
-            $firstKelas = array_key_first($riwayat);
-          @endphp
+        @php
+          $firstKelas = !empty($riwayat) ? array_key_first($riwayat) : null;
+        @endphp
+        @if($firstKelas && isset($riwayat[$firstKelas]))
           @foreach($riwayat[$firstKelas] as $row)
           <tr>
             <td>{{ $row['periode'] }}</td>
@@ -57,6 +58,11 @@
             <td>{{ $row['tanggal'] }}</td>
           </tr>
           @endforeach
+          @else
+            <tr>
+              <td colspan="4">Belum ada data pencairan.</td>
+            </tr>
+          @endif
         </tbody>
       </table>
     </div>
