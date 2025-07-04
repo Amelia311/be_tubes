@@ -157,4 +157,11 @@ public function laporStore(Request $request)
 
         return view('Siswa.dashboardSiswa', compact('pencairan_riwayat'));
     }
+
+    public function pencairan()
+    {
+        return $this->hasMany(Pencairan::class);
+    }
+
+
 }

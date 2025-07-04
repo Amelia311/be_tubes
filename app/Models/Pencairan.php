@@ -8,17 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Pencairan extends Model
 {
     use HasFactory;
+
     protected $table = 'pencairan';
 
     protected $fillable = [
-    'siswa_id',
-    'tanggal_cair',
-    'jumlah',
-    'keterangan',
-    'status',
-    'blockchain_tx',
-    'status_konfirmasi'
-];
+        'siswa_id',
+        'tanggal_cair',
+        'jumlah',
+        'keterangan',
+        'status',
+        'blockchain_tx',
+        'status_konfirmasi'
+    ];
+
+    public $timestamps = true;
 
     public function siswa()
     {
