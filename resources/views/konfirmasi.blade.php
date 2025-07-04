@@ -30,12 +30,10 @@
                 </td>
                 <td>
                     @if($item->status == 'Sudah Cair')
-                        <button class="btn btn-secondary" disabled>✓ Terkonfirmasi</button>
+                        <span class="badge bg-success">Sudah Cair</span>
+                        <br><small class="text-white">TX: {{ $item->blockchain_tx }}</small>
                     @else
-                        <form method="POST" action="{{ route('konfirmasi.update', $item->id) }}">
-                            @csrf
-                            <button type="submit" class="btn btn-primary">Konfirmasi</button>
-                        </form>
+                        <span class="badge bg-warning text-dark">Belum Cair</span>
                     @endif
                 </td>
             </tr>
@@ -43,4 +41,36 @@
         </tbody>
     </table>
 </div>
+
+
+<script>
+const konfirmasiKeBlockchain = async (pencairanId) => {
+  const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+  const from = accounts[0];
+
+  const contractAddress = '0xYourContractAddressHere'; // ← ganti nanti
+  const contractABI = [ /* ... ABI kontrak kamu nanti */ ];
+
+  const web3 = new Web3(window.ethereum);
+  const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+  const tx = await contract.methods.catatPencairan(pencairanId).send({ from });
+
+  fetch('/api/simpan-blockchain-tx', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+    },
+    body: JSON.stringify({
+      pencairan_id: pencairanId,
+      blockchain_tx: tx.transactionHash
+    })
+  }).then(() => {
+    alert('Berhasil dicatat ke blockchain & database!');
+    window.location.reload();
+  });
+};
+</script>
+
 @endsection

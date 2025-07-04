@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PencairanController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Auth;
 // === ROUTES DIMULAI DI SINI ===
 
@@ -41,13 +42,13 @@ Route::post('/pencairan', [PencairanController::class, 'store'])->name('pencaira
 
 // Route halaman daftar siswa
 // Route::get('/dashboard/sekolah/daftar-siswa', function () {
-//     return view('AdminSekolah.siswa.daftarSiswa');
-// });
-// Route::get('/dashboard/sekolah/input', function () {
-//     return view('AdminSekolah.input.inputPencairan');
-// });
-
-
+    //     return view('AdminSekolah.siswa.daftarSiswa');
+    // });
+    // Route::get('/dashboard/sekolah/input', function () {
+        //     return view('AdminSekolah.input.inputPencairan');
+        // });
+        
+        
 Route::get('/dashboard/sekolah/konfirmasi', function () {
     return view('AdminSekolah.konfirmasiBlockchain');
 });
@@ -74,7 +75,9 @@ Route::get('/siswa/{id}/edit', [SiswaController::class, 'edit'])->name('siswa.ed
 Route::put('/siswa/{id}', [SiswaController::class, 'update'])->name('siswa.update');
 Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
 
+Route::post('/api/simpan-blockchain-tx', [PencairanController::class, 'simpanTx'])->name('pencairan.simpanTx');
 
+Route::post('/siswa/lapor', [LaporanController::class, 'store'])->name('siswa.laporStore');
 
 
 

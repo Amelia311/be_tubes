@@ -146,6 +146,11 @@ class SiswaController extends Controller
             $q->where('nisn', $nisn);
         })->get();
 
-        return view('Siswa.dashboard', compact('pencairan_riwayat'));
+        foreach ($pencairan_riwayat as $p) {
+            dump($p->siswa); // Uji relasi berjalan atau error
+        }
+        
+
+        return view('Siswa.dashboardSiswa', compact('pencairan_riwayat'));
     }
 }
