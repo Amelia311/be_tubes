@@ -149,6 +149,9 @@ public function laporStore(Request $request)
     {
         // $nisn = auth()->user()->nisn;
         $nisn = Session::get('nisn');
+        dd(Session::all());
+
+
         $pencairan_riwayat = Pencairan::whereHas('siswa', function ($q) use ($nisn) {
             $q->where('nisn', $nisn);
         })->get();

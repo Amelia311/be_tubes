@@ -17,10 +17,20 @@
       <a href="{{ route('siswa.dashboard') }}"><i class="fas fa-info-circle"></i>Detail</a>
       <a href="{{ route('siswa.riwayat') }}"><i class="fas fa-exclamation-triangle"></i>Laporan</a>
       <a href="#transparansi"><i class="fas fa-chart-pie"></i>Transparansi</a>
-      <form method="POST" action="{{ route('logout') }}" style="display:inline;">
-        @csrf
-        <button type="submit" class="logout-btn">Logout</button>
-      </form>
+      <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+  Logout
+</a>
+
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    @csrf
+</form>
+
+
+      <form method="POST" action="{{ route('logout') }}">
+  @csrf
+  <button type="submit">Logout</button>
+</form>
+
     </nav>
   </header>
 
