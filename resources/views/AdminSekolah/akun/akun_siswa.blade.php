@@ -1,7 +1,10 @@
 @extends('AdminSekolah.layouts.admin')
 
 @section('title', 'Akun Siswa')
+
+@push('styles')
 <link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_akun_siswa.css') }}">
+@endpush
 
 @section('content')
 <div class="page-wrapper">

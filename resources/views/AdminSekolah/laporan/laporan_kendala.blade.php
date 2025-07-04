@@ -1,7 +1,10 @@
 @extends('AdminSekolah.layouts.admin')
 
 @section('title', 'Laporan Kendala PIP')
+
+@push('styles')
 <link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_laporan.css') }}">
+@endpush
 
 @section('content')
 <div class="page-wrapper">

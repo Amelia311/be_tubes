@@ -2,6 +2,10 @@
 
 @section('title', 'Tambah Siswa')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_dashboard.css') }}">
+@endpush
+
 @section('content')
   <h3 style="color: #fcd34d;">Tambah Siswa</h3>
   <form action="{{ route('siswa.store') }}" method="POST" class="form-siswa">

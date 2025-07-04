@@ -61,6 +61,7 @@ Route::get('/dashboard/sekolah/transparansi', [SiswaController::class, 'transpar
 
 
 
+
 // Route halaman daftar siswa
 // Route::get('/dashboard/sekolah/daftar-siswa', function () {
     //     return view('AdminSekolah.siswa.daftarSiswa');
