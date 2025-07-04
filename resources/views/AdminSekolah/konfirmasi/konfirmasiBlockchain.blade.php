@@ -7,9 +7,6 @@
 @endpush
 
 @section('content')
-
-
-@section('content')
 <div class="container">
     <h4>Konfirmasi dan Catat Blockchain</h4>
     @if(session('success'))

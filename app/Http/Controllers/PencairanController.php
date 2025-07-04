@@ -74,7 +74,7 @@ class PencairanController extends Controller
     public function riwayatSekolah()
     {
         $data = Pencairan::with('siswa')->orderBy('tanggal_cair', 'desc')->get();
-        return view('AdminSekolah.riwayatPencairan', compact('data'));
+        return view('AdminSekolah.riwayat.riwayatPencairan', compact('data'));
     }
 
     /**

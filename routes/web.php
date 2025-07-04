@@ -31,6 +31,8 @@ Route::get('/dashboard/sekolah/input', [PencairanController::class, 'create'])->
 Route::post('/pencairan', [PencairanController::class, 'store'])->name('pencairan.store');
 
 Route::get('/dashboard/sekolah/konfirmasi', [PencairanController::class, 'konfirmasiView'])->name('konfirmasi.index');
+Route::get('/dashboard/sekolah/riwayat', [PencairanController::class, 'riwayatSekolah'])->name('riwayat.sekolah');
+
 // Route::get('/dashboard/sekolah/data-input', function () {
 //     return view('AdminSekolah.input.dataInputPencairan');
 // })->name('data.input');
@@ -53,9 +55,9 @@ Route::get('/dashboard/sekolah/konfirmasi', [PencairanController::class, 'konfir
 //     return view('AdminSekolah.konfirmasiBlockchain');
 // });
 
-Route::get('/dashboard/sekolah/riwayat', function () {
-    return view('AdminSekolah.riwayatPencairan');
-});
+// Route::get('/dashboard/sekolah/riwayat', function () {
+//     return view('AdminSekolah.riwayat.riwayatPencairan');
+// });
 
 // Konfirmasi
 Route::get('/konfirmasi', [PencairanController::class, 'konfirmasiView'])->name('konfirmasi.index');

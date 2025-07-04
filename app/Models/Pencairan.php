@@ -18,7 +18,8 @@ class Pencairan extends Model
         'keterangan',
         'status',
         'blockchain_tx',
-        'status_konfirmasi'
+        'status_konfirmasi',
+        'bukti'
     ];
 
     public $timestamps = true;
