@@ -41,6 +41,8 @@ Route::post('/pencairan', [PencairanController::class, 'store'])->name('pencaira
 
 Route::get('/dashboard/sekolah/konfirmasi', [PencairanController::class, 'konfirmasiView'])->name('konfirmasi.index');
 Route::get('/dashboard/sekolah/riwayat', [PencairanController::class, 'riwayatSekolah'])->name('riwayat.sekolah');
+Route::get('/dashboard/sekolah/transparansi', [SiswaController::class, 'transparansi'])->name('sekolah.transparansi');
+
 
 // Route::get('/dashboard/sekolah/data-input', function () {
 //     return view('AdminSekolah.input.dataInputPencairan');

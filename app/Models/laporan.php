@@ -17,4 +17,10 @@ class Laporan extends Model
         'status',
         'bukti',
     ];
+
+    public function pencairan()
+    {
+        return $this->belongsTo(Pencairan::class);
+    }
+
 }

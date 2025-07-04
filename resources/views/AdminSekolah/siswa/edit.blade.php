@@ -22,6 +22,15 @@
       <label for="alamat">Alamat</label>
       <textarea id="alamat" name="alamat" rows="3" required>{{ $siswa->alamat }}</textarea>
     </div>
+    <div>
+      <label>Kelas:</label>
+      <select name="kelas" required>
+        <option value="">Pilih Kelas</option>
+        <option value="X">X</option>
+        <option value="XI">XI</option>
+        <option value="XII">XII</option>
+      </select>
+    </div>
     <button type="submit" class="btn-tambah">Update</button>
   </form>
 </section>

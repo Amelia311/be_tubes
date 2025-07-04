@@ -51,12 +51,21 @@ class SiswaController extends Controller
         return view('AdminSekolah.siswa.create'); // sesuaikan dengan nama file view form kamu
     }
 
+    public function edit($id)
+    {
+        $siswa = Siswa::findOrFail($id);
+        return view('AdminSekolah.siswa.edit', compact('siswa'));
+        
+    }
+
+
 
     public function update(Request $request, $id)
     {
         $siswa = Siswa::findOrFail($id);
         $siswa->update($request->all());
-        return response()->json($siswa);
+        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diperbarui!');
+
     }
 
     public function destroy($id)
@@ -186,31 +195,34 @@ public function laporStore(Request $request)
 
     public function statusDana()
     {
-        $nisn = Session::get('nisn');
-        $siswa = \App\Models\Siswa::where('nisn', $nisn)->firstOrFail();
+        
+        $nisn = session('nisn');
     
-        $pencairan = \App\Models\Pencairan::where('siswa_id', $siswa->id)
-            ->orderBy('tanggal_cair', 'desc')
-            ->get();
-    
+        // Ambil data pencairan berdasarkan NISN siswa
+        $pencairan = Pencairan::whereHas('siswa', function ($query) use ($nisn) {
+            $query->where('nisn', $nisn);
+        })->get();
+        
+        // Kumpulkan data riwayat berdasarkan kelas
         $riwayat = [];
-    
-        foreach ($pencairan as $data) {
-            $kelas = $siswa->kelas ?? 'XI'; // default ke XI
+        foreach ($pencairan as $item) {
+            $kelas = $item->siswa->kelas ?? 'Tidak Diketahui';
+            
             $riwayat[$kelas][] = [
-                'periode' => $data->keterangan ?? 'Semester Tidak Diketahui',
-                'status' => $data->status ?? 'Belum Dicairkan',
-                'nominal' => 'Rp ' . number_format($data->jumlah, 0, ',', '.'),
-                'tanggal' => $data->tanggal_cair ? \Carbon\Carbon::parse($data->tanggal_cair)->translatedFormat('d F Y') : '-'
+                'periode' => $item->periode ?? 'Periode tidak diketahui',
+                'status' => $item->status,
+                'nominal' => $item->jumlah,
+                'tanggal' => $item->tanggal_cair,
             ];
         }
-    
-        // PERBAIKI INI!
-        $firstKelas = !empty($riwayat) ? array_key_first($riwayat) : null;
-        $status = $pencairan->first()->status ?? 'Belum Dicairkan';
-    
-        return view('Siswa.status.statusDana', compact('riwayat', 'status', 'firstKelas'));
+        
+        // Hitung status terakhir (ambil status dari pencairan terakhir)
+        $status = $pencairan->last()->status ?? 'Belum Dicairkan';
+        
+ 
+        return view('Siswa.status.statusDana', compact('status', 'riwayat'));
     }
+    
     
     public function laporan()
     {
@@ -225,6 +237,27 @@ public function laporStore(Request $request)
         ]);
     }
 
+    public function transparansi()
+    {
+        $totalDana = Pencairan::where('status', 'Sudah Cair')->sum('jumlah');
+        $jumlahPenerima = Pencairan::where('status', 'Sudah Cair')->distinct('siswa_id')->count('siswa_id');
+        $periodeTerbaru = Pencairan::orderBy('tanggal_cair', 'desc')->value('periode');
+    
+        $infoTerbaru = Pencairan::with('siswa')
+            ->orderBy('tanggal_cair', 'desc')
+            ->take(3)
+            ->get();
+    
+        $laporan = Laporan::with('pencairan.siswa')->latest()->take(3)->get();
+    
+        return view('Siswa.transparansiDana', compact(
+            'totalDana',
+            'jumlahPenerima',
+            'periodeTerbaru',
+            'infoTerbaru',
+            'laporan'
+        ));
+    }
     
 
 
