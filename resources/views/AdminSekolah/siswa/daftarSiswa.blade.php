@@ -2,12 +2,12 @@
 
 @section('title', 'Daftar Siswa')
 
-<!-- @push('styles')
-@endpush -->
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_dashboard.css') }}">
+@endpush
 
 @section('content')
 
-<link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_daftar_siswa.css') }}">
       <section class="content-box">
         <div class="header-table">
           <h3>Daftar Siswa</h3>
