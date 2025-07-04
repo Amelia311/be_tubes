@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dashboard - PIPGuard</title>
-  <link rel="stylesheet" href="../css/dashboard_siswa.css" />
+  <link rel="stylesheet" href="{{ asset('css/Siswa/style_dashboard_siswa.css') }}">
 </head>
 <body>
   <header>
