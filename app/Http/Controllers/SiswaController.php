@@ -27,22 +27,29 @@ class SiswaController extends Controller
     
     public function store(Request $request) 
     {
-        $validated = $request->validate(([
+        $validated = $request->validate([
             'nama' => 'required',
             'nisn' => 'required|unique:siswa',
             'asal_sekolah' => 'required',
             'alamat' => 'required',
-        ]));
-
-        $siswa = Siswa::create($validated);
-        return response()->json($siswa, 201);
+        ]);
+    
+        Siswa::create($validated);
+        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil ditambahkan!');
     }
+    
 
     public function show($id)
     {
         return response()->json(Siswa::findOrFail($id));
 
     }
+
+    public function create()
+    {
+        return view('AdminSekolah.siswa.create'); // sesuaikan dengan nama file view form kamu
+    }
+
 
     public function update(Request $request, $id)
     {
