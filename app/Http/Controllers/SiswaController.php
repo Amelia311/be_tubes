@@ -32,6 +32,7 @@ class SiswaController extends Controller
             'nisn' => 'required|unique:siswa',
             'asal_sekolah' => 'required',
             'alamat' => 'required',
+            'kelas' => 'required|in:X,XI,XII',
         ]);
     
         Siswa::create($validated);
@@ -169,6 +170,54 @@ public function laporStore(Request $request)
     {
         return $this->hasMany(Pencairan::class);
     }
+
+    public function detail()
+    {
+        $nisn = Session::get('nisn'); 
+        $pencairan = \App\Models\Pencairan::with('siswa')
+            ->whereHas('siswa', function ($q) use ($nisn) {
+                $q->where('nisn', $nisn);
+            })
+            ->latest('tanggal_cair')
+            ->first(); 
+
+        return view('Siswa.detail.detailPencairan', compact('pencairan'));
+    }
+
+    public function statusDana()
+    {
+
+        $nisn = Session::get('nisn');
+    
+        $siswa = \App\Models\Siswa::where('nisn', $nisn)->firstOrFail();
+    
+        $pencairan = \App\Models\Pencairan::where('siswa_id', $siswa->id)
+            ->orderBy('tanggal_cair', 'desc')
+            ->get();
+    
+        // Kelompokkan berdasarkan kelas (dari siswa, atau bisa juga dari field tambahan)
+        $riwayat = [];
+    
+        foreach ($pencairan as $data) {
+            // Misalnya kita asumsikan kelas berdasarkan tahun, kamu bisa sesuaikan dengan field asli
+            $kelas = $siswa->kelas ?? 'XI'; // default jika belum ada field kelas
+    
+            $riwayat[$kelas][] = [
+                'periode' => $data->keterangan ?? 'Semester Tidak Diketahui',
+                'status' => $data->status ?? 'Belum Dicairkan',
+                'nominal' => 'Rp ' . number_format($data->jumlah, 0, ',', '.'),
+                'tanggal' => $data->tanggal_cair ? \Carbon\Carbon::parse($data->tanggal_cair)->translatedFormat('d F Y') : '-'
+            ];
+        }
+    
+        // Ambil status terakhir jika ada
+        $status = $pencairan->first()->status ?? 'Belum Dicairkan';
+        
+        dd($riwayat);
+        return view('Siswa.status.statusDana', compact('riwayat', 'status'));
+    }
+    
+    
 
 
 }

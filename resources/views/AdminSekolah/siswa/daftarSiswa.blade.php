@@ -34,40 +34,36 @@
               <th>NISN</th>
               <th>ASAL SEKOLAH</th>
               <th>ALAMAT</th>
+              <th>KELAS</th> 
               <th>AKSI</th>
             </tr>
           </thead>
           <tbody>
-          @forelse ($siswa as $item)
-            <tr>
-              <td>{{ $loop->iteration }}</td>
-              <td>{{ $item->nama }}</td>
-              <td>{{ $item->nisn }}</td>
-              <td>{{ $item->asal_sekolah }}</td>
-              <td>{{ $item->alamat }}</td>
-              <td>
-                <a href="{{ route('siswa.edit', $item->id) }}"><i class="fas fa-pen action-icon"></i></a>
-                <form action="{{ route('siswa.destroy', $item->id) }}" method="POST" style="display:inline;">
-                  @csrf
-                  @method('DELETE')
-                  <button type="submit" onclick="return confirm('Yakin ingin menghapus siswa ini?')" style="background: none; border: none;">
-                    <i class="fas fa-trash action-icon"></i>
-                  </button>
-                </form>
-              </td>
-            </tr>
+            @forelse ($siswa as $item)
+              <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $item->nama }}</td>
+                <td>{{ $item->nisn }}</td>
+                <td>{{ $item->asal_sekolah }}</td>
+                <td>{{ $item->alamat }}</td>
+                <td>{{ $item->kelas ?? '-' }}</td> {{-- Tambahkan ini --}}
+                <td>
+                  <a href="{{ route('siswa.edit', $item->id) }}"><i class="fas fa-pen action-icon"></i></a>
+                  <form action="{{ route('siswa.destroy', $item->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('Yakin ingin menghapus siswa ini?')" style="background: none; border: none;">
+                      <i class="fas fa-trash action-icon"></i>
+                    </button>
+                  </form>
+                </td>
+              </tr>
             @empty
-            @if(request('cari'))
               <tr>
-                <td colspan="6">Tidak ditemukan siswa dengan kata kunci tersebut.</td>
+                <td colspan="7">Data siswa tidak ditemukan.</td>
               </tr>
-            @else
-              <tr>
-                <td colspan="6">Belum ada data siswa.</td>
-              </tr>
-            @endif
-          @endforelse
-        </tbody>
+            @endforelse
+          </tbody>
         </table>
       </section>
       @endsection

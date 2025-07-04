@@ -18,7 +18,7 @@
       <a href="{{ route('siswa.dashboard') }}" class="{{ request()->routeIs('siswa.dashboard') ? 'active' : '' }}">
         <i class="fas fa-home"></i>Dashboard
       </a>
-      <a href="{{ route('siswa.status') }}"><i class="fas fa-wallet"></i>Status Dana</a>
+      <a href="{{ route('siswa.statusDana') }}"><i class="fas fa-wallet"></i>Status Dana</a>
       <a href="{{ route('siswa.detail') }}"><i class="fas fa-info-circle"></i>Detail</a>
       <a href="{{ route('siswa.laporan') }}"><i class="fas fa-exclamation-triangle"></i>Laporan</a>
       <a href="{{ route('siswa.transparansi') }}"><i class="fas fa-chart-pie"></i>Transparansi</a>
