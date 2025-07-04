@@ -16,6 +16,6 @@ class AdminSekolahController extends Controller
     public function akunSiswa()
     {
         $siswaList = Siswa::all();
-        return view('AdminSekolah.akun_siswa', compact('siswaList'));
+        return view('AdminSekolah.akun.akun_siswa', compact('siswaList'));
     }
 }

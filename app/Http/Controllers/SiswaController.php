@@ -33,8 +33,10 @@ class SiswaController extends Controller
             'asal_sekolah' => 'required',
             'alamat' => 'required',
             'kelas' => 'required|in:X,XI,XII',
+            'password' => 'required|min:6',
         ]);
-
+        
+        $validated['password'] = Hash::make($request->password);
     
         Siswa::create($validated);
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil ditambahkan!');

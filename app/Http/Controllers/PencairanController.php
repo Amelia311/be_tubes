@@ -38,22 +38,26 @@ class PencairanController extends Controller
             'blockchain_tx' => null,
         ]);
 
-        return redirect()->route('pencairan.create')->with('success', 'Data pencairan berhasil disimpan!');
-
-
-        
+        return redirect()->route('pencairan.create')->with('success', 'Data pencairan berhasil disimpan!'); 
     }
 
+    public function index()
+    {
+        $laporanList = Laporan::with('pencairan.siswa')->latest()->get();
+        return view('AdminSekolah.laporan.laporan_kendala', compact('laporanList'));
+    }
+
+
     public function dashboard()
-{
-    $user = auth()->user();
+    {
+        $user = auth()->user();
 
-    $riwayat = \App\Models\Pencairan::where('siswa_id', $user->id)
-        ->orderBy('tanggal_cair', 'desc')
-        ->get();
+        $riwayat = \App\Models\Pencairan::where('siswa_id', $user->id)
+            ->orderBy('tanggal_cair', 'desc')
+            ->get();
 
-    return view('Siswa.dashboardSiswa', compact('riwayat'));
-}
+        return view('Siswa.dashboardSiswa', compact('riwayat'));
+    }
 
 
     /**
