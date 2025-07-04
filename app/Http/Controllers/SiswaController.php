@@ -19,70 +19,53 @@ class SiswaController extends Controller
             $query->where('nama', 'like', '%' . $request->cari . '%');
         }
     
-        $siswa = $query->get();
-
-        return view('AdminSekolah.siswa.daftarSiswa', compact('siswa'));
+        $data = $query->get();
+    
+        return view('AdminSekolah.daftarSiswa', ['siswa' => $data]);
     }
 
-    public function create()
+    
+    public function store(Request $request) 
     {
-        return view('AdminSekolah.siswa.create');
-    }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
+        $validated = $request->validate(([
             'nama' => 'required',
             'nisn' => 'required|unique:siswa',
             'asal_sekolah' => 'required',
             'alamat' => 'required',
-        ]);
+        ]));
 
-        Siswa::create($validated);
-
-        return redirect()->route('siswa.index')->with('success', 'Siswa berhasil ditambahkan.');
+        $siswa = Siswa::create($validated);
+        return response()->json($siswa, 201);
     }
 
     public function show($id)
     {
         return response()->json(Siswa::findOrFail($id));
-    }
 
-    public function edit($id)
-    {
-        $siswa = Siswa::findOrFail($id);
-        return view('AdminSekolah.siswa.edit', compact('siswa'));
     }
 
     public function update(Request $request, $id)
     {
         $siswa = Siswa::findOrFail($id);
-
-        $validated = $request->validate([
-            'nama' => 'required',
-            'nisn' => 'required|unique:siswa,nisn,' . $id,
-            'asal_sekolah' => 'required',
-            'alamat' => 'required',
-        ]);
-
-        $siswa->update($validated);
-
-        return redirect()->route('siswa.index')->with('success', 'Siswa berhasil diperbarui.');
+        $siswa->update($request->all());
+        return response()->json($siswa);
     }
 
     public function destroy($id)
     {
         Siswa::destroy($id);
-        return redirect()->route('siswa.index')->with('success', 'Siswa berhasil dihapus.');
+        return response()->json(['message' => 'Deleted successfully']);
     }
 
     public function adminFull(Request $request)
     {
+        // Cari
         $query = Siswa::query();
         if ($request->has('cari')) {
             $query->where('nama', 'like', '%' . $request->cari . '%');
         }
 
+        // Tambah (jika POST)
         if ($request->isMethod('post') && $request->has('nama')) {
             $request->validate([
                 'nama' => 'required',
@@ -90,53 +73,74 @@ class SiswaController extends Controller
                 'asal_sekolah' => 'required',
                 'alamat' => 'required',
             ]);
-
             Siswa::create($request->only(['nama', 'nisn', 'asal_sekolah', 'alamat']));
             return redirect()->back()->with('success', 'Data siswa ditambahkan!');
         }
 
         $siswa = $query->get();
-        return view('AdminSekolah.siswa.daftarSiswa', compact('siswa'));
+        return view('AdminSekolah.daftarSiswa', compact('siswa'));
     }
 
     public function riwayatSaya()
+{
+    $nisn = auth()->user()->nisn;
+
+    $riwayat = \App\Models\Pencairan::whereHas('siswa', function($q) use ($nisn) {
+        $q->where('nisn', $nisn);
+    })->orderBy('tanggal_cair', 'desc')->get();
+
+    return view('(Siswa).riwayatPencairanSiswa', compact('riwayat'));
+}
+
+
+    public function konfirmasiPencairan(Request $request, $id)
     {
-        $nisn = auth()->user()->nisn;
+        $pencairan = \App\Models\Pencairan::findOrFail($id);
 
-        $riwayat = Pencairan::whereHas('siswa', function ($q) use ($nisn) {
-            $q->where('nisn', $nisn);
-        })->orderBy('tanggal_cair', 'desc')->get();
+        // Pastikan hanya siswa yang bersangkutan yang bisa konfirmasi
+        if ($pencairan->siswa_id != auth()->user()->id) {
+            abort(403, 'Unauthorized action.');
+        }
 
-        return view('Siswa.riwayatPencairanSiswa', compact('riwayat'));
+        $request->validate([
+            'status_konfirmasi' => 'required|in:diterima,tidak_sesuai'
+        ]);
+
+        $pencairan->update([
+            'status_konfirmasi' => $request->status_konfirmasi
+        ]);
+
+        return redirect()->back()->with('success', 'Konfirmasi pencairan berhasil dikirim.');
     }
 
     public function lapor($id)
-    {
-        Laporan::create([
-            'pencairan_id' => $id,
-            'pesan' => 'Dana tidak sesuai atau belum diterima.',
-            'status' => 'belum dibaca',
-        ]);
+{
+    \App\Models\Laporan::create([
+        'pencairan_id' => $id,
+        'pesan' => 'Dana tidak sesuai atau belum diterima.',
+        'status' => 'belum dibaca',
+    ]);
 
-        return back()->with('success', 'Laporan telah dikirim ke admin/pemerintah!');
-    }
+    return redirect()->route('siswa.dashboard')->with('success', 'Laporan telah dikirim ke admin/pemerintah!');
+}
 
-    public function laporStore(Request $request)
-    {
-        $request->validate([
-            'pencairan_id' => 'required|exists:pencairan,id',
-            'pesan' => 'required|string',
-            'bukti' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048'
-        ]);
+public function laporStore(Request $request)
+{
+    $request->validate([
+        'pencairan_id' => 'required|exists:pencairan,id',
+        'pesan' => 'required|string',
+        'bukti' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048'
+    ]);
+    
+    // Simpan file ke folder storage/app/public/bukti_laporan
+    $buktiPath = $request->file('bukti')->store('bukti_laporan', 'public');
 
-        $buktiPath = $request->file('bukti')->store('bukti_laporan', 'public');
-
-        Laporan::create([
-            'pencairan_id' => $request->pencairan_id,
-            'pesan' => $request->pesan,
-            'status' => 'belum dibaca',
-            'bukti' => $buktiPath
-        ]);
+    \App\Models\Laporan::create([
+        'pencairan_id' => $request->pencairan_id,
+        'pesan' => $request->pesan,
+        'status' => 'belum dibaca',
+        'bukti' => $buktiPath
+    ]);
 
         return redirect()->back()->with('success', 'Laporan berhasil dikirim!');
     }
@@ -149,11 +153,6 @@ class SiswaController extends Controller
             $q->where('nisn', $nisn);
         })->get();
 
-        foreach ($pencairan_riwayat as $p) {
-            dump($p->siswa); // Uji relasi berjalan atau error
-        }
-        
-
-        return view('Siswa.dashboardSiswa', compact('pencairan_riwayat'));
+        return view('Siswa.dashboard', compact('pencairan_riwayat'));
     }
 }

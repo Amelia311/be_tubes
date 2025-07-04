@@ -44,6 +44,18 @@ class PencairanController extends Controller
         
     }
 
+    public function dashboard()
+{
+    $user = auth()->user();
+
+    $riwayat = \App\Models\Pencairan::where('siswa_id', $user->id)
+        ->orderBy('tanggal_cair', 'desc')
+        ->get();
+
+    return view('Siswa.dashboardSiswa', compact('riwayat'));
+}
+
+
     /**
      * Menampilkan daftar data untuk dikonfirmasi admin
      */
@@ -53,7 +65,6 @@ class PencairanController extends Controller
         return view('AdminSekolah.konfirmasi.konfirmasiBlockchain', compact('data'));
 
     }
-
 
     /**
      * Menampilkan riwayat pencairan untuk admin sekolah
@@ -79,6 +90,7 @@ class PencairanController extends Controller
 
         return redirect()->route('konfirmasi.index')->with('success', 'Pencairan telah dikonfirmasi dan dicatat di blockchain (simulasi)!');
     }
+    
 
     /**
      * Simpan data dengan input TX dari Web3.js atau eksternal
@@ -102,7 +114,10 @@ class PencairanController extends Controller
             'blockchain_tx' => $request->blockchain_tx
         ]);
 
-        return response()->json(['message' => 'Data dengan transaksi blockchain berhasil disimpan!', 'data' => $data]);
+        return response()->json([
+            'message' => 'Data dengan transaksi blockchain berhasil disimpan!',
+            'data' => $data
+        ]);
     }
 
     /**
@@ -111,7 +126,10 @@ class PencairanController extends Controller
     public function lihatLaporan()
     {
         $laporan = Laporan::with('pencairan.siswa')->orderBy('created_at', 'desc')->get();
+        return view('AdminSekolah.laporan', compact('laporan'));
+
         return view('admin.laporan', compact('laporan'));
+
     }
 
     public function simpanTx(Request $request)

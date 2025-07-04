@@ -46,6 +46,7 @@
     </style>
 </head>
 <body>
+    
 
     <h2>Riwayat Pencairan Dana PIP Saya</h2>
 
@@ -67,6 +68,7 @@
             </tr>
         </thead>
         <tbody>
+            
             @forelse ($riwayat as $item)
                 <tr>
                     <td>{{ $item->tanggal_cair }}</td>
