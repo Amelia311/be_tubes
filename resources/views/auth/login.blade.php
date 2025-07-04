@@ -77,14 +77,20 @@
     button:hover {
       background-color: #d99725;
     }
-    .error-msg {
-      color: red;
+    .error-msg, .alert {
       margin-top: 0.5rem;
       font-size: 0.9rem;
       text-align: center;
+      padding: 0.5rem;
+      border-radius: 6px;
     }
-    .hidden {
-      display: none;
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .alert-danger {
+      background-color: #f8d7da;
+      color: #721c24;
     }
     .link {
       margin-top: 0.75rem;
@@ -94,88 +100,47 @@
       color: #0056b3;
       text-decoration: none;
       font-size: 0.9rem;
-      cursor: pointer;
     }
   </style>
 </head>
 <body>
   <div class="container" id="login-section">
     <div class="header-logo">
-      <img src="img/logo.png" alt="PIPGuard Logo" />
+      <img src="{{ asset('img/logo.png') }}" alt="PIPGuard Logo" />
       <h2>PIPGuard Login</h2>
     </div>
 
-    <select id="role-select" aria-label="Pilih Role">
-      <option value="" selected disabled>-- Pilih Role --</option>
-      <option value="siswa">Siswa</option>
-      <option value="sekolah">Sekolah</option>
-      <option value="pemerintah">Pemerintah</option>
-    </select>
+    @if(session('success'))
+      <div class="alert alert-success">
+        {{ session('success') }}
+      </div>
+    @endif
 
-    <input type="text" id="username" placeholder="NISN / NPSN / Email" autocomplete="username" />
-    <input type="password" id="password" placeholder="Password" autocomplete="current-password" />
-    <button id="login-btn">Masuk</button>
+    @if($errors->any())
+      <div class="alert alert-danger">
+        {{ $errors->first() }}
+      </div>
+    @endif
+
+    <form method="POST" action="{{ url('/login') }}">
+      @csrf
+
+      <select name="role" required>
+        <option value="" disabled selected>-- Pilih Role --</option>
+        <option value="siswa" {{ old('role') === 'siswa' ? 'selected' : '' }}>Siswa</option>
+        <option value="sekolah" {{ old('role') === 'sekolah' ? 'selected' : '' }}>Sekolah</option>
+        <option value="pemerintah" {{ old('role') === 'pemerintah' ? 'selected' : '' }}>Pemerintah</option>
+      </select>
+
+      <input type="text" name="username" value="{{ old('username') }}" placeholder="NISN / NPSN / Email" autocomplete="username" required />
+      <input type="password" name="password" placeholder="Password" autocomplete="current-password" required />
+
+      <button type="submit">Masuk</button>
+    </form>
 
     <div class="link">
-      <a href="lupa-password.html" id="forgot-password">Lupa password?</a>
+      <a href="#">Lupa password?</a>
     </div>
-
-    <p id="error-msg" class="error-msg hidden"></p>
   </div>
-
-  <script>
-    const roleSelect = document.getElementById('role-select');
-    const usernameInput = document.getElementById('username');
-    const passwordInput = document.getElementById('password');
-    const loginBtn = document.getElementById('login-btn');
-    const errorMsg = document.getElementById('error-msg');
-    const forgotPasswordLink = document.getElementById('forgot-password');
-
-    // Update placeholder berdasarkan role
-    roleSelect.addEventListener('change', () => {
-      const role = roleSelect.value;
-      usernameInput.placeholder = role === 'siswa' ? 'NISN' :
-                                 role === 'sekolah' ? 'NPSN' :
-                                 role === 'pemerintah' ? 'Email' :
-                                 'NISN / NPSN / Email';
-    });
-
-    loginBtn.addEventListener('click', () => {
-      const role = roleSelect.value;
-      const username = usernameInput.value.trim();
-      const password = passwordInput.value.trim();
-
-      if (!role) {
-        errorMsg.textContent = 'Harap pilih role.';
-        errorMsg.classList.remove('hidden');
-        return;
-      }
-      if (!username) {
-        errorMsg.textContent = 'Username tidak boleh kosong.';
-        errorMsg.classList.remove('hidden');
-        return;
-      }
-      if (!password) {
-        errorMsg.textContent = 'Password tidak boleh kosong.';
-        errorMsg.classList.remove('hidden');
-        return;
-      }
-
-      errorMsg.classList.add('hidden');
-
-      // Redirect sesuai role (pastikan path file dashboard benar)
-      if (role === 'siswa') {
-        window.location.href = 'siswa/dashboard.html';
-      } else if (role === 'sekolah') {
-        window.location.href = 'sekolah/dashboard.html';
-      } else if (role === 'pemerintah') {
-        window.location.href = 'pemerintah/dashboard.html';
-      }
-    });
-    
-  </script>
 </body>
 </html>
-
-
-

@@ -17,6 +17,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard/sekolah', function () {
     return view('AdminSekolah.layouts.admin');
 });
+Route::get('/dashboard/siswa', function () {
+    return view('Siswa.dashboardSiswa');
+});
 
 Route::get('/dashboard/siswa', [SiswaController::class, 'dashboard'])->name('siswa.dashboard');
 Route::post('/dashboard/siswa', [SiswaController::class, 'dashboard'])->name('siswa.riwayat');
