@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Laporan;
 use App\Models\Pencairan;
+use Illuminate\Support\Facades\Session;
+
 
 class SiswaController extends Controller
 {
@@ -141,7 +143,8 @@ class SiswaController extends Controller
 
     public function dashboard()
     {
-        $nisn = auth()->user()->nisn;
+        // $nisn = auth()->user()->nisn;
+        $nisn = Session::get('nisn');
         $pencairan_riwayat = Pencairan::whereHas('siswa', function ($q) use ($nisn) {
             $q->where('nisn', $nisn);
         })->get();

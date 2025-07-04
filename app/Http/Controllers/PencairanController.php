@@ -50,8 +50,10 @@ class PencairanController extends Controller
     public function konfirmasiView()
     {
         $data = Pencairan::with('siswa')->orderBy('created_at', 'desc')->get();
-        return view('pencairan.konfirmasi', compact('data'));
+        return view('AdminSekolah.konfirmasi.konfirmasiBlockchain', compact('data'));
+
     }
+
 
     /**
      * Menampilkan riwayat pencairan untuk admin sekolah

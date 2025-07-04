@@ -10,7 +10,7 @@ class AuthController extends Controller
     private $users = [
         ['username' => 'pemerintah', 'password' => '123', 'role' => 'pemerintah'],
         ['username' => 'sekolah', 'password' => '123', 'role' => 'sekolah'],
-        ['username' => 'siswa', 'password' => '123', 'role' => 'siswa'],
+        ['username' => 'siswa', 'password' => '123', 'role' => 'siswa', 'nisn' => '1234567890']
     ];
 
     public function showLogin()
@@ -35,6 +35,11 @@ class AuthController extends Controller
                 Session::put('login', true);
                 Session::put('username', $user['username']);
                 Session::put('role', $user['role']);
+
+                if (isset($user['nisn'])) {
+                    Session::put('nisn', $user['nisn']);
+                }
+                
 
                  // Langsung mengarahkan halaman sesuai role
                 if ($user['role'] === 'sekolah') {

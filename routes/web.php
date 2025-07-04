@@ -6,7 +6,7 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Auth;
-// === ROUTES DIMULAI DI SINI ===
+
 
 // Login dan logout
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -17,9 +17,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard/sekolah', function () {
     return view('AdminSekolah.layouts.admin');
 });
-Route::get('/dashboard/siswa', function () {
-    return view('Siswa.dashboardSiswa');
-});
+
+Route::get('/dashboard/siswa', [SiswaController::class, 'dashboard'])->name('siswa.dashboard');
 
 // Daftar Siswa
 Route::match(['get', 'post'], '/dashboard/sekolah/daftar-siswa', [SiswaController::class, 'adminFull'])->name('admin.daftarSiswa');
@@ -29,6 +28,7 @@ Route::match(['get', 'post'], '/dashboard/sekolah/daftar-siswa', [SiswaControlle
 Route::get('/dashboard/sekolah/input', [PencairanController::class, 'create'])->name('pencairan.create');
 Route::post('/pencairan', [PencairanController::class, 'store'])->name('pencairan.store');
 
+Route::get('/dashboard/sekolah/konfirmasi', [PencairanController::class, 'konfirmasiView'])->name('konfirmasi.index');
 // Route::get('/dashboard/sekolah/data-input', function () {
 //     return view('AdminSekolah.input.dataInputPencairan');
 // })->name('data.input');
@@ -46,12 +46,11 @@ Route::post('/pencairan', [PencairanController::class, 'store'])->name('pencaira
     // });
     // Route::get('/dashboard/sekolah/input', function () {
         //     return view('AdminSekolah.input.inputPencairan');
-        // });
-        
-        
-Route::get('/dashboard/sekolah/konfirmasi', function () {
-    return view('AdminSekolah.konfirmasiBlockchain');
-});
+        // });      
+// Route::get('/dashboard/sekolah/konfirmasi', function () {
+//     return view('AdminSekolah.konfirmasiBlockchain');
+// });
+
 Route::get('/dashboard/sekolah/riwayat', function () {
     return view('AdminSekolah.riwayatPencairan');
 });
