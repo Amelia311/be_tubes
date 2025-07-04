@@ -45,12 +45,16 @@ class PencairanController extends Controller
     }
 
     public function dashboard()
-    {
-        $user = auth()->user();
-        $pencairan_riwayat = Pencairan::where('siswa_id', $user->id)->get();
+{
+    $user = auth()->user();
 
-        return view('Siswa.dashboardSiswa', compact('pencairan_riwayat'));
-    }
+    $riwayat = \App\Models\Pencairan::where('siswa_id', $user->id)
+        ->orderBy('tanggal_cair', 'desc')
+        ->get();
+
+    return view('Siswa.dashboardSiswa', compact('riwayat'));
+}
+
 
     /**
      * Menampilkan daftar data untuk dikonfirmasi admin
@@ -97,6 +101,7 @@ class PencairanController extends Controller
 
         return redirect()->route('konfirmasi.index')->with('success', 'Pencairan telah dikonfirmasi dan dicatat di blockchain (simulasi)!');
     }
+    
 
     /**
      * Simpan data dengan input TX dari Web3.js atau eksternal

@@ -145,14 +145,28 @@ public function laporStore(Request $request)
 }
 public function dashboard()
 {
-    $user = auth()->user();
+    $username = session('username');
+    $role = session('role');
 
-    $riwayat = \App\Models\Pencairan::where('siswa_id', $user->id)
-        ->orderBy('tanggal_cair', 'desc')
-        ->get();
+    // Hanya lanjutkan jika rolenya siswa
+    if ($role !== 'siswa') {
+        abort(403, 'Unauthorized');
+    }
+
+    // Ambil siswa berdasarkan username (misalnya username = nama siswa di tabel)
+    $siswa = \App\Models\Siswa::where('nama', $username)->first();
+
+    $riwayat = [];
+
+    if ($siswa) {
+        $riwayat = \App\Models\Pencairan::where('siswa_id', $siswa->id)
+            ->orderBy('tanggal_cair', 'desc')
+            ->get();
+    }
 
     return view('Siswa.dashboardSiswa', compact('riwayat'));
 }
+
 
 
 };
