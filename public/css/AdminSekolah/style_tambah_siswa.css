@@ -1,0 +1,145 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9fb;
+  color: #1e293b;
+}
+
+/* Content Box */
+.content-box {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Header Table */
+.header-table {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.header-table h3 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #5b21b6;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.actions input[type="text"] {
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background-color: #fff;
+  width: 240px;
+  color: #111827;
+  font-size: 14px;
+}
+
+.actions input::placeholder {
+  color: #9ca3af;
+}
+
+.btn-tambah {
+  background-color: #8b5cf6;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-tambah:hover {
+  background-color: #7c3aed;
+}
+
+/* Success Alert */
+.alert-success {
+  background-color: #4ade80;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* Tabel Siswa */
+.table-siswa {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.table-siswa th,
+.table-siswa td {
+  padding: 14px 18px;
+  font-size: 14px;
+  text-align: left;
+  color: #374151;
+}
+
+.table-siswa thead th {
+  background-color: #ede9fe;
+  color: #4c1d95;
+  font-weight: 600;
+}
+
+.table-siswa tbody tr {
+  background-color: #f9f9fb;
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.3s;
+}
+
+.table-siswa tbody tr:hover {
+  background-color: #f3f0ff;
+}
+
+.action-icon {
+  color: #8b5cf6;
+  margin-right: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.action-icon:hover {
+  color: #7c3aed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-table {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .actions input[type="text"] {
+    width: 100%;
+  }
+}
