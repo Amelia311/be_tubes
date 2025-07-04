@@ -1,103 +1,181 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login PIPGuard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - PIPGuard</title>
   <style>
+    :root {
+      --pip-blue-dark: #003366;
+      --pip-yellow: #F9B233;
+      --pip-text-dark: #2b2b2b;
+      --pip-text-light: #555;
+    }
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
     body {
-      font-family: Arial, sans-serif;
-      background-color: #e5f2ff;
+      margin: 0;
+      background-color: var(--pip-blue-dark);
+      color: #fff;
+      min-height: 100vh;
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      padding: 20px;
+      padding: 1rem;
     }
-    .card {
-      background: #ffffff;
+    .container {
+      background: white;
+      color: var(--pip-text-dark);
       border-radius: 12px;
-      padding: 24px;
-      margin: 12px;
-      width: 320px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-    .card h2 {
-      margin-bottom: 8px;
-      font-size: 20px;
-      color: #00529B;
-    }
-    .card p {
-      font-size: 14px;
-      margin-bottom: 16px;
-    }
-    .card input, .card select, .card button {
+      max-width: 400px;
       width: 100%;
-      padding: 10px;
-      margin-bottom: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    #login-section {
+      text-align: center;
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+    .header-logo img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+    .header-logo h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--pip-text-dark);
+    }
+    select, input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 0.7rem;
+      margin-bottom: 1rem;
       border: 1px solid #ccc;
       border-radius: 6px;
+      font-size: 1rem;
     }
-    .card button {
-      background-color: #00529B;
+    button {
+      background-color: var(--pip-yellow);
       color: white;
-      font-weight: bold;
       border: none;
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 6px;
+      font-size: 1rem;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
-    .card button:hover {
-      background-color: #003f7d;
+    button:hover {
+      background-color: #d99725;
     }
-    .text-link {
-      font-size: 13px;
-      text-align: center;
-      color: #555;
-    }
-    .text-link a {
-      color: #00529B;
-      text-decoration: none;
-    }
-    .error-message {
+    .error-msg {
       color: red;
-      font-size: 14px;
-      margin-bottom: 10px;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    .hidden {
+      display: none;
+    }
+    .link {
+      margin-top: 0.75rem;
+      text-align: center;
+    }
+    .link a {
+      color: #0056b3;
+      text-decoration: none;
+      font-size: 0.9rem;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-
-  <!-- Login Form -->
-  <div class="card">
-    <h2>Masuk ke Akun Anda</h2>
-    <p>Silakan login sesuai peran Anda: Pemerintah, Sekolah, atau Siswa</p>
-
-    @if ($errors->any())
-      <div class="error-message">
-        @foreach ($errors->all() as $error)
-          <p>{{ $error }}</p>
-        @endforeach
-      </div>
-    @endif
-
-    <form method="POST" action="/login">
-      @csrf
-      <select name="role" required>
-        <option value="">Pilih Role</option>
-        <option value="siswa">Siswa</option>
-        <option value="sekolah">Sekolah</option>
-        <option value="pemerintah">Pemerintah</option>
-      </select>
-
-      <input type="text" name="username" placeholder="NISN / NPSN / Email" required>
-      <input type="password" name="password" placeholder="Password" required>
-
-      <button type="submit">Masuk</button>
-    </form>
-
-    <div class="text-link">
-      <a href="#">Lupa password?</a> | <a href="#">Butuh bantuan?</a>
+  <div class="container" id="login-section">
+    <div class="header-logo">
+      <img src="img/logo.png" alt="PIPGuard Logo" />
+      <h2>PIPGuard Login</h2>
     </div>
+
+    <select id="role-select" aria-label="Pilih Role">
+      <option value="" selected disabled>-- Pilih Role --</option>
+      <option value="siswa">Siswa</option>
+      <option value="sekolah">Sekolah</option>
+      <option value="pemerintah">Pemerintah</option>
+    </select>
+
+    <input type="text" id="username" placeholder="NISN / NPSN / Email" autocomplete="username" />
+    <input type="password" id="password" placeholder="Password" autocomplete="current-password" />
+    <button id="login-btn">Masuk</button>
+
+    <div class="link">
+      <a href="lupa-password.html" id="forgot-password">Lupa password?</a>
+    </div>
+
+    <p id="error-msg" class="error-msg hidden"></p>
   </div>
+
+  <script>
+    const roleSelect = document.getElementById('role-select');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const errorMsg = document.getElementById('error-msg');
+    const forgotPasswordLink = document.getElementById('forgot-password');
+
+    // Update placeholder berdasarkan role
+    roleSelect.addEventListener('change', () => {
+      const role = roleSelect.value;
+      usernameInput.placeholder = role === 'siswa' ? 'NISN' :
+                                 role === 'sekolah' ? 'NPSN' :
+                                 role === 'pemerintah' ? 'Email' :
+                                 'NISN / NPSN / Email';
+    });
+
+    loginBtn.addEventListener('click', () => {
+      const role = roleSelect.value;
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!role) {
+        errorMsg.textContent = 'Harap pilih role.';
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+      if (!username) {
+        errorMsg.textContent = 'Username tidak boleh kosong.';
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+      if (!password) {
+        errorMsg.textContent = 'Password tidak boleh kosong.';
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+
+      errorMsg.classList.add('hidden');
+
+      // Redirect sesuai role (pastikan path file dashboard benar)
+      if (role === 'siswa') {
+        window.location.href = 'siswa/dashboard.html';
+      } else if (role === 'sekolah') {
+        window.location.href = 'sekolah/dashboard.html';
+      } else if (role === 'pemerintah') {
+        window.location.href = 'pemerintah/dashboard.html';
+      }
+    });
+    
+  </script>
 </body>
 </html>
+
+
+
