@@ -19,6 +19,8 @@ Route::get('/dashboard/sekolah', function () {
 });
 
 Route::get('/dashboard/siswa', [SiswaController::class, 'dashboard'])->name('siswa.dashboard');
+Route::post('/dashboard/siswa', [SiswaController::class, 'dashboard'])->name('siswa.riwayat');
+
 
 // Daftar Siswa
 Route::match(['get', 'post'], '/dashboard/sekolah/daftar-siswa', [SiswaController::class, 'adminFull'])->name('admin.daftarSiswa');
