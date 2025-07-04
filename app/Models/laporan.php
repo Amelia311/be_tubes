@@ -9,7 +9,7 @@ class Laporan extends Model
 {
     use HasFactory;
 
-    protected $table = 'laporan'; // karena default-nya Laravel pakai 'laporans'
+    protected $table = 'laporans'; // karena default-nya Laravel pakai 'laporans'
 
     protected $fillable = [
         'pencairan_id',

@@ -17,8 +17,10 @@
         <ul>
           <li><a href="#" class="nav-link" data-url="{{ route('siswa.index') }}"><i class="fas fa-users"></i> Daftar Siswa</a></li>
           <li><a href="#" class="nav-link" data-url="{{ route('pencairan.create') }}"><i class="fas fa-money-bill-wave"></i> Input Pencairan</a></li>
-          <li><a href="{{ url('/dashboard/sekolah/konfirmasi') }}"><i class="fas fa-check-circle"></i> Konfirmasi & Catat Blockchain</a></li>
+          <li><a href="{{ url('/dashboard/sekolah/konfirmasi') }}"><i class="fas fa-check-circle"></i> Konfirmasi</a></li>
           <li><a href="{{ url('/dashboard/sekolah/riwayat') }}"><i class="fas fa-history"></i> Riwayat Pencairan</a></li>
+          <li><a href="#" class="nav-link" data-url="{{ route('laporan.kendala') }}"><i class="fas fa-exclamation-triangle"></i> Laporan</a></li>
+          <li><a href="{{ route('akun.siswa') }}"><i class="fas fa-user-cog"></i> Akun Siswa</a></li>
           <li><a href="#" class="nav-link"><i class="fas fa-globe"></i> Transparansi Umum</a></li>
         </ul>
       </nav>

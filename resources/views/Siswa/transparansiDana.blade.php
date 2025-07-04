@@ -1,15 +1,30 @@
-@extends('Siswa.layouts.siswa')
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Transparansi Dana - PIPGuard</title>
+  <link rel="stylesheet" href="../css/dashboard_siswa.css" />
+</head>
+<body>
+  <header>
+    <div class="logo-header">
+      <img src="../img/logo.png" alt="Logo PIPGuard" />
+      <h1>PIPGuard</h1>
+    </div>
+    <nav class="menu-nav">
+        <a href="dashboard.html"><i class="fas fa-home"></i>Dashboard</a>
+      <a href="status_dana.html"><i class="fas fa-wallet"></i>Status Dana</a>
+      <a href="detail_pencairan.html"><i class="fas fa-info-circle"></i>Detail</a>
+      <a href="laporan.html"><i class="fas fa-exclamation-triangle"></i>Laporan</a>
+      <a href="transparansi.html" class="active"><i class="fas fa-chart-pie"></i>Transparansi</a>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </nav>
+  </header>
 
-@section('title', 'Transparansi Dana - PIPGuard')
-
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/dashboard_siswa.css') }}">
-@endpush
-
-@section('content')
-<main class="container">
-  <section id="transparansi" class="content-section active">
-    <h2>Statistik Dana PIP</h2>
+  <main class="container">
+    <section id="transparansi" class="content-section active">
+      <h2>Statistik Dana PIP</h2>
 
     <div class="cards">
       <div class="card">

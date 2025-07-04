@@ -1,0 +1,52 @@
+body {
+    background-color: #0F172A;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.page-wrapper {
+    padding: 20px;
+}
+
+.table-akun {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1E293B;
+    color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-akun th, .table-akun td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #334155;
+    text-align: left;
+}
+
+.table-akun thead tr {
+    background-color: #0F172A;
+    font-weight: bold;
+}
+
+.table-akun tbody tr:hover {
+    background-color: #334155;
+}
+
+.btn-edit,
+.btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-right: 5px;
+    color: #fff;
+}
+
+.btn-edit:hover {
+    color: #3B82F6;
+}
+
+.btn-delete:hover {
+    color: #EF4444;
+}

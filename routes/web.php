@@ -6,6 +6,8 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AdminSekolahController;
+
 
 
 // Login dan logout
@@ -28,6 +30,10 @@ Route::get('/siswa/detail', [SiswaController::class, 'detail'])->name('siswa.det
 Route::post('/siswa/lapor', [LaporanController::class, 'store'])->name('siswa.laporStore');
 Route::get('/laporan', [SiswaController::class, 'laporan'])->name('siswa.laporan');
 Route::get('/transparansi', [SiswaController::class, 'transparansi'])->name('siswa.transparansi');
+Route::get('/admin/akun-siswa', [AdminSekolahController::class, 'akunSiswa'])->name('akun.siswa');
+Route::get('/admin/laporan-kendala', [AdminSekolahController::class, 'laporanKendala'])->name('laporan.kendala');
+
+
 
 
 
