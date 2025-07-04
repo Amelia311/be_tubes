@@ -11,7 +11,7 @@
 <body>
   <header>
     <div class="logo-header">
-      <img src="{{ asset('storage/logo.png') }}" alt="Logo PIPGuard" />
+      <img src="{{ asset('storage/img/logo.png') }}" alt="Logo PIPGuard" />
       <h1>PIPGuard</h1>
     </div>
     <nav class="menu-nav">
