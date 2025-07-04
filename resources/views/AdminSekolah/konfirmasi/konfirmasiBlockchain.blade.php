@@ -1,20 +1,23 @@
 @extends('AdminSekolah.layouts.admin')
 
-@section('title', 'konfirmasi pencairan')
+@section('title', 'Konfirmasi Pencairan')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_konfirmasi.css') }}">
 @endpush
 
 @section('content')
-<div class="container">
-    <h4>Konfirmasi dan Catat Blockchain</h4>
+<div class="main-content">
+  <div class="content-box">
+    <h3>Konfirmasi dan Catat Blockchain</h3>
+
     @if(session('success'))
-      <div class="alert alert-success">
+      <div class="alert-box success">
         {{ session('success') }}
       </div>
     @endif
-    <table class="table table-bordered mt-3">
+
+    <table class="table-konfirmasi mt-3">
         <thead>
             <tr>
                 <th>Nama Siswa</th>
@@ -34,31 +37,33 @@
                 <td>{{ number_format($item->jumlah, 0, ',', '.') }}</td>
                 <td>
                     @if($item->status == 'Sudah Cair')
-                        <span class="badge bg-success">Sudah Cair</span><br>
-                        <small>TX: {{ $item->blockchain_tx }}</small>
+                        <span class="status sudah">Sudah Cair</span><br>
+                        <small class="tx">TX: {{ $item->blockchain_tx }}</small>
                     @else
-                        <span class="badge bg-warning text-dark">Belum Cair</span>
+                        <span class="status belum">Belum Cair</span>
                     @endif
                 </td>
                 <td>
                     @if($item->status == 'Belum Cair')
                     <button 
-                        class="btn btn-primary"
+                        class="btn-konfirmasi"
                         data-id="{{ $item->id }}"
                         data-nama="{{ $item->siswa->nama }}"
                         data-jumlah="{{ $item->jumlah }}"
                         onclick="handleClick(this)">
                         Konfirmasi
                     </button>
+                    @else
+                    <button class="btn-terkonfirmasi" disabled>Terkonfirmasi</button>
                     @endif
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
+  </div>
 </div>
 
-<!-- Web3.js -->
 <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
 <script>
   function handleClick(button) {
@@ -69,10 +74,6 @@
   }
 
   const konfirmasiKeBlockchain = async (id, nama, jumlah) => {
-    console.log('ID:', id);
-    console.log('Nama:', nama);
-    console.log('Jumlah:', jumlah);
-
     if (typeof window.ethereum === 'undefined') {
       alert("MetaMask tidak ditemukan!");
       return;
