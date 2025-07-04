@@ -5,8 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PencairanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\AuthController;
-use Illuminate\Support\Facades\Auth;
+
 // === ROUTES DIMULAI DI SINI ===
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

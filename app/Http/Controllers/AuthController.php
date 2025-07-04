@@ -4,12 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
-
 
 class AuthController extends Controller
 {
-    // Pindahkan deklarasi ke dalam method atau jadikan properti class
     private $users = [
         ['username' => 'pemerintah', 'password' => '123', 'role' => 'pemerintah'],
         ['username' => 'sekolah', 'password' => '123', 'role' => 'sekolah'],
@@ -26,29 +23,28 @@ class AuthController extends Controller
         $request->validate([
             'username' => 'required',
             'password' => 'required',
-            'role'     => 'required',
+            'role' => 'required',
         ]);
 
         foreach ($this->users as $user) {
             if (
                 $user['username'] === $request->username &&
                 $user['password'] === $request->password &&
-                $user['role']     === $request->role
+                $user['role'] === $request->role
             ) {
-                // Simpan ke session
                 Session::put('login', true);
                 Session::put('username', $user['username']);
                 Session::put('role', $user['role']);
 
-                // Redirect berdasarkan role
-                switch ($user['role']) {
-                    case 'sekolah':
-                        return redirect('/dashboard/sekolah');
-                    case 'siswa':
-                        return redirect('/dashboard/siswa');
-                    case 'pemerintah':
-                        return redirect('/dashboard/pemerintah');
+                 // Langsung mengarahkan halaman sesuai role
+                if ($user['role'] === 'sekolah') {
+                    return redirect('/dashboard/sekolah');
+                } elseif ($user['role'] === 'siswa') {
+                    return redirect('/dashboard/siswa');
+                } elseif ($user['role'] === 'pemerintah') {
+                    return redirect('/dashboard/pemerintah');
                 }
+                
             }
         }
 
@@ -58,6 +54,6 @@ class AuthController extends Controller
     public function logout()
     {
         Session::flush();
-        return redirect('/login')->with('success', 'Anda telah logout.');
+        return redirect('/login');
     }
 }
