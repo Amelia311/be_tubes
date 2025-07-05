@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nisn');
             $table->string('asal_sekolah');
             $table->string('alamat');
-
+            $table->string('password');
             $table->timestamps();
         });
     }
