@@ -30,11 +30,8 @@ Route::get('/siswa/detail', [SiswaController::class, 'detail'])->name('siswa.det
 Route::post('/siswa/lapor', [LaporanController::class, 'store'])->name('siswa.laporStore');
 Route::get('/laporan', [SiswaController::class, 'laporan'])->name('siswa.laporan');
 Route::get('/transparansi', [SiswaController::class, 'transparansi'])->name('siswa.transparansi');
-Route::get('/admin/laporan-kendala', [AdminSekolahController::class, 'laporanKendala'])->name('laporan.kendala');
 Route::get('/admin/akun-siswa', [AdminSekolahController::class, 'akunSiswa'])->name('akun.siswa');
-Route::get('/admin/siswa/{id}/edit', [AdminSekolahController::class, 'editSiswa'])->name('siswa.edit');
-Route::delete('/admin/siswa/{id}', [AdminSekolahController::class, 'hapusSiswa'])->name('siswa.destroy');
-Route::get('/dashboard/sekolah/transparansiDana', [AdminSekolahController::class, 'transparansiDana'])->name('transparansiDana');
+Route::get('/admin/laporan-kendala', [AdminSekolahController::class, 'laporanKendala'])->name('laporan.kendala');
 
 
 
@@ -50,7 +47,7 @@ Route::post('/pencairan', [PencairanController::class, 'store'])->name('pencaira
 
 Route::get('/dashboard/sekolah/konfirmasi', [PencairanController::class, 'konfirmasiView'])->name('konfirmasi.index');
 Route::get('/dashboard/sekolah/riwayat', [PencairanController::class, 'riwayatSekolah'])->name('riwayat.sekolah');
-Route::get('/dashboard/sekolah/transparansiDana', [SiswaController::class, 'transparansi'])->name('sekolah.transparansi');
+Route::get('/dashboard/sekolah/transparansi', [SiswaController::class, 'transparansi'])->name('sekolah.transparansi');
 
 
 // Route::get('/dashboard/sekolah/data-input', function () {
