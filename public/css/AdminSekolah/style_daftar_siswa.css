@@ -10,46 +10,108 @@
   font-weight: bold;
 }
 
-/* Search Input */
-.search-box input[type="text"] {
-  background-color: rgba(255, 255, 255, 0.15); /* putih transparan */
-  border: 1px solid white;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
+/* General Reset Enhancements */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f3f4f6;
 }
 
-/* Search Input Placeholder */
-.search-box input[type="text"]::placeholder {
-  color: #f1f5f9;
-}
-
-/* Main Content Background (yang biru full itu) */
-.main-content {
-  background-color: #6aa3dc; /* semi-transparan gelap */
-  border-radius: 15px;
+/* Header Table */
+.header-table {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #89b0e6;
   padding: 20px;
-  backdrop-filter: blur(4px);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-/* Table Area */
-.table-container {
-  background-color: rgba(255, 252, 252, 0.05); /* biar ngambang dikit */
-  border-radius: 15px;
-  padding: 10px;
+.header-table h3 {
+  font-size: 24px;
+  margin: 0;
 }
 
-/* Tabel Header */
-.table-container table thead th {
-  background-color: rgba(15, 23, 42, 0.6);
+/* Search & Button */
+.header-table .actions {
+  display: flex;
+  gap: 10px;
+}
+
+.header-table input[type="text"] {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.btn-tambah {
+  background-color: #3b82f6;
   color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
 }
 
-/* Tabel Row */
-.table-container table tbody tr:nth-child(odd) {
-  background-color: rgba(255, 255, 255, 0.03);
+.btn-tambah:hover {
+  background-color: #2563eb;
 }
 
-.table-container table tbody tr:nth-child(even) {
-  background-color: rgba(255, 255, 255, 0.06);
+/* Table Styling */
+.table-siswa {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.table-siswa thead {
+  background-color: #2563eb;
+  color: #fafafa;
+  font-weight: bold;
+}
+
+.table-siswa th, .table-siswa td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.scroll-table-body {
+  max-height: 400px;
+  overflow-y: auto;
+  display: block;
+}
+
+.scroll-table-body tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* Action Icons */
+.action-icon {
+  font-size: 16px;
+  margin-right: 8px;
+  color: #4b5563;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.action-icon:hover {
+  color: #ef4444;
+}
+
+button[type="submit"] .action-icon {
+  color: #dc2626;
+}
+
+button[type="submit"] .action-icon:hover {
+  color: #991b1b;
 }
