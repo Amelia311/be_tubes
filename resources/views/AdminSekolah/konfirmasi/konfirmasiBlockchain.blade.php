@@ -697,60 +697,52 @@ h3::after {
     </div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// Create floating particles
+document.addEventListener('DOMContentLoaded', function () {
+  createParticles();
+});
+
+// Buat partikel latar belakang
 function createParticles() {
   const particlesContainer = document.getElementById('particles');
   const particleCount = 20;
-  
+
   for (let i = 0; i < particleCount; i++) {
     const particle = document.createElement('div');
     particle.classList.add('particle');
-    
-    // Random size between 5px and 15px
+
     const size = Math.random() * 10 + 5;
-    particle.style.width = ${size}px;
-    particle.style.height = ${size}px;
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
     
     // Random position
-    particle.style.left = ${Math.random() * 100}%;
-    particle.style.top = ${Math.random() * 100}%;
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.top = `${Math.random() * 100}%`;
     
     // Random animation duration between 10s and 20s
     const duration = Math.random() * 10 + 10;
-    particle.style.animationDuration = ${duration}s;
+    particle.style.animationDuration = `${duration}s`;
     
     // Random delay
-    particle.style.animationDelay = ${Math.random() * 5}s;
+    particle.style.animationDelay = `${Math.random() * 5}s`;
     
     particlesContainer.appendChild(particle);
   }
 }
 
-// Show loading overlay
-function showLoading() {
-  document.getElementById('loadingOverlay').style.display = 'flex';
-}
-
-// Hide loading overlay
-function hideLoading() {
-  document.getElementById('loadingOverlay').style.display = 'none';
-}
-
-// Current selected transaction data
+// Modal konfirmasi
 let currentTransaction = null;
 
-// Show confirmation modal
 function showConfirmationModal(button) {
   currentTransaction = {
     id: button.getAttribute('data-id'),
     nama: button.getAttribute('data-nama'),
     jumlah: button.getAttribute('data-jumlah')
   };
-  
+
   document.getElementById('modalNama').textContent = currentTransaction.nama;
   document.getElementById('modalJumlah').textContent = parseInt(currentTransaction.jumlah).toLocaleString('id-ID');
   document.getElementById('confirmationModal').style.display = 'flex';
@@ -759,41 +751,29 @@ function showConfirmationModal(button) {
   document.getElementById('transactionMessage').textContent = '';
 }
 
-// Close modal
 function closeModal() {
   document.getElementById('confirmationModal').style.display = 'none';
   currentTransaction = null;
 }
 
-// Confirm transaction
 async function confirmTransaction() {
   const confirmButton = document.getElementById('confirmButton');
   confirmButton.disabled = true;
   confirmButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
-  
   document.getElementById('transactionMessage').textContent = 'Menghubungkan ke MetaMask...';
-  
+
   try {
-    // Check if MetaMask is installed
     if (typeof window.ethereum === 'undefined') {
       throw new Error("🦊 MetaMask tidak ditemukan!");
     }
-    
-    document.getElementById('transactionMessage').textContent = 'Meminta koneksi ke MetaMask...';
-    
-    // Request account access
+
     const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
     const from = accounts[0];
-    
-    document.getElementById('transactionMessage').textContent = 'Mengonfirmasi jaringan...';
-    
-    // Check network (Sepolia Testnet)
+
     const SEPOLIA_CHAIN_ID = '0xaa36a7';
     const currentChainId = await ethereum.request({ method: 'eth_chainId' });
-    
+
     if (currentChainId !== SEPOLIA_CHAIN_ID) {
-      document.getElementById('transactionMessage').textContent = 'Beralih ke jaringan Sepolia...';
-      
       try {
         await ethereum.request({
           method: 'wallet_switchEthereumChain',
@@ -807,10 +787,7 @@ async function confirmTransaction() {
         }
       }
     }
-    
-    document.getElementById('transactionMessage').textContent = 'Menyiapkan transaksi...';
-    
-    // Contract details
+
     const contractAddress = '0x254384728adfbbbf3134af4f3e792fc44cc295c8';
     const contractABI = [
       {
@@ -849,20 +826,18 @@ async function confirmTransaction() {
         "type": "function"
       }
     ];
-    
+
     const web3 = new Web3(window.ethereum);
     const contract = new web3.eth.Contract(contractABI, contractAddress);
-    
+
     document.getElementById('transactionMessage').textContent = 'Mengirim transaksi ke blockchain...';
-    
-    // Send transaction
+
     const tx = await contract.methods.catatPencairan(currentTransaction.id).send({ from });
-    
+
     document.getElementById('blockchainAnimation').style.display = 'none';
     document.getElementById('successAnimation').style.display = 'flex';
     document.getElementById('transactionMessage').textContent = 'Transaksi berhasil! Menyimpan ke database...';
-    
-    // Save to Laravel backend
+
     const response = await fetch('/api/simpan-blockchain-tx', {
       method: 'POST',
       headers: {
@@ -874,12 +849,12 @@ async function confirmTransaction() {
         blockchain_tx: tx.transactionHash
       })
     });
-    
+
     const result = await response.json();
-    
+
     if (response.ok) {
       document.getElementById('transactionMessage').textContent = 
-        ✅ Berhasil dicatat! TX: ${tx.transactionHash.substring(0, 10)}...;
+        `✅ Berhasil dicatat! TX: ${tx.transactionHash.substring(0, 10)}...`;
       
       // Close modal and reload after 2 seconds
       setTimeout(() => {
@@ -889,6 +864,7 @@ async function confirmTransaction() {
     } else {
       throw new Error(result.message || 'Gagal menyimpan ke database');
     }
+
   } catch (error) {
     console.error(error);
     document.getElementById('transactionMessage').textContent = ❌ Error: ${error.message};
@@ -897,120 +873,5 @@ async function confirmTransaction() {
     confirmButton.innerHTML = 'Coba Lagi';
   }
 }
-
-// Initialize when page loads
-document.addEventListener('DOMContentLoaded', function() {
-  createParticles();
-});
-
 </script>
-<script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
-<script>
-  function handleClick(button) {
-    const id = button.getAttribute('data-id');
-    const nama = button.getAttribute('data-nama');
-    const jumlah = button.getAttribute('data-jumlah');
-    konfirmasiKeBlockchain(id, nama, jumlah);
-  }
-
-  const konfirmasiKeBlockchain = async (id, nama, jumlah) => {
-    if (typeof window.ethereum === 'undefined') {
-      alert("🦊 MetaMask tidak ditemukan!");
-      return;
-    }
-
-    const SEPOLIA_CHAIN_ID = '0xaa36a7'; // = 11155111 (Sepolia Testnet)
-    const currentChainId = await ethereum.request({ method: 'eth_chainId' });
-
-    // Cek apakah user di jaringan Sepolia
-    if (currentChainId !== SEPOLIA_CHAIN_ID) {
-      try {
-        await ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: SEPOLIA_CHAIN_ID }]
-        });
-      } catch (err) {
-        // Kalau jaringan belum ditambahkan ke MetaMask
-        if (err.code === 4902) {
-          alert("Jaringan Sepolia belum ditambahkan di MetaMask kamu.");
-        } else {
-          alert("Gagal beralih ke jaringan Sepolia.");
-        }
-        return;
-      }
-    }
-
-    // Request akses akun
-    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-    const from = accounts[0];
-
-    // Kontrak yang sudah kamu deploy ke Sepolia
-    const contractAddress = '0x254384728adfbbbf3134af4f3e792fc44cc295c8'; // HARUS dari Sepolia
-    const contractABI = [
-      {
-        "anonymous": false,
-        "inputs": [
-          { "indexed": true, "internalType": "uint256", "name": "id", "type": "uint256" },
-          { "indexed": true, "internalType": "address", "name": "konfirmasiOleh", "type": "address" },
-          { "indexed": false, "internalType": "uint256", "name": "waktuKonfirmasi", "type": "uint256" }
-        ],
-        "name": "PencairanDicatat",
-        "type": "event"
-      },
-      {
-        "inputs": [{ "internalType": "uint256", "name": "_id", "type": "uint256" }],
-        "name": "catatPencairan",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [{ "internalType": "uint256", "name": "_id", "type": "uint256" }],
-        "name": "getPencairan",
-        "outputs": [
-          {
-            "components": [
-              { "internalType": "uint256", "name": "id", "type": "uint256" },
-              { "internalType": "address", "name": "konfirmasiOleh", "type": "address" },
-              { "internalType": "uint256", "name": "waktuKonfirmasi", "type": "uint256" }
-            ],
-            "internalType": "struct DanaPIP.Pencairan",
-            "name": "",
-            "type": "tuple"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      }
-    ];
-
-    const web3 = new Web3(window.ethereum);
-    const contract = new web3.eth.Contract(contractABI, contractAddress);
-
-    try {
-      const tx = await contract.methods.catatPencairan(id).send({ from });
-
-      // Simpan ke backend Laravel
-      await fetch('/api/simpan-blockchain-tx', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({
-          pencairan_id: id,
-          blockchain_tx: tx.transactionHash
-        })
-      });
-
-      alert('✅ Berhasil dicatat ke blockchain Sepolia & database!');
-      window.location.reload();
-
-    } catch (error) {
-      console.error(error);
-      alert('❌ Gagal mencatat ke blockchain.');
-    }
-  };
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 @endsection
