@@ -16,8 +16,8 @@
       <ul>
           <li><a href="{{ route('siswa.index') }}"><i class="fas fa-users"></i> Daftar Siswa</a></li>
           <li><a href="{{ route('pencairan.create') }}"><i class="fas fa-money-bill-wave"></i> Input Pencairan</a></li>
-          <li><a href="{{ url('/dashboard/sekolah/riwayat') }}"><i class="fas fa-history"></i> Riwayat Pencairan</a></li>
           <li><a href="{{ url('/dashboard/sekolah/konfirmasi') }}"><i class="fas fa-check-circle"></i> Konfirmasi</a></li>
+          <li><a href="{{ url('/dashboard/sekolah/riwayat') }}"><i class="fas fa-history"></i> Riwayat Pencairan</a></li>
           <li><a href="{{ route('akun.siswa') }}"><i class="fas fa-user-cog"></i> Akun Siswa</a></li>
           <li><a href="{{ route('siswa.transparansi') }}"><i class="fas fa-chart-pie"></i>Transparansi</a></li>
         </ul>
@@ -27,18 +27,12 @@
         <button type="submit"><i class="fas fa-sign-out-alt"></i> Logout</button>
       </form>
     </aside>
+
     <main class="main-section">
-    <header class="topbar">
-      <div class="topbar-left">
+      <header class="topbar">
         <h3>Dashboard</h3>
-      </div>
-      <div class="topbar-right">
-        <div class="user-profile">
-          <img src="{{ asset('/storage/img/admin.png') }}" alt="Admin" />
-          <span>Admin Sekolah</span>
-        </div>
-      </div>
-    </header>
+      </header>
+
       @yield('content')
     </main>
   </div>
