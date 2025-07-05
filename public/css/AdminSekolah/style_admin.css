@@ -175,7 +175,7 @@ th, td {
   box-sizing: border-box;
 }
 
-body {
+/* body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #0f172a;
   color: white;
@@ -184,7 +184,7 @@ body {
 .container {
   display: flex;
   height: 100vh;
-}
+} */
 
 /* Sidebar */
 .sidebar {

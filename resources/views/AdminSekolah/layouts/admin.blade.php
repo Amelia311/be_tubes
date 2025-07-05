@@ -27,15 +27,21 @@
         <button type="submit"><i class="fas fa-sign-out-alt"></i> Logout</button>
       </form>
     </aside>
-
-    <main class="main-section">
-      <header class="topbar">
+    <!-- <main class="main-section">
+    <header class="topbar">
+      <div class="topbar-left">
         <h3>Dashboard</h3>
-      </header>
-
-      @yield('content')
-    </main>
-  </div>
+      </div>
+      <div class="topbar-right">
+        <div class="user-profile">
+          <img src="{{ asset('/storage/img/admin.png') }}" alt="Admin" />
+          <span>Admin Sekolah</span>
+        </div> 
+      </div>
+    </header> 
+ </main>
+</div>  -->
+@yield('content')
   @stack('scripts')
 </body>
 </html>
