@@ -223,6 +223,49 @@ button#lapor-btn:hover {
 .status-step#step-sudah.active .circle {
   background: #27ae60; /* hijau */
 }
+.status-section {
+  max-width: 1000px;
+  margin: 2rem auto;
+  background: var(--section-bg);
+  border: 1px solid var(--section-border);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  animation: fadein 0.5s;
+}
+.status-section h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  color: #003366;
+  border-bottom: 2px solid var(--accent-color);
+  display: inline-block;
+  padding-bottom: 0.3rem;
+}
+.periode-section {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+.periode-section h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #003366;
+}
+.periode-section label {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+.periode-section select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.status-info-table {
+  margin-top: 1rem;
+}
+
+
 
 
 .periode-info {
@@ -284,7 +327,7 @@ button#lapor-btn:hover {
 .card .value {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #1a202c;
+  color: #003366;
 }
 .chart-container {
   max-width: 600px;
@@ -294,6 +337,14 @@ button#lapor-btn:hover {
   box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
   margin-bottom: 2rem;
 }
+.card:hover {
+  background-color: powderblue; /* background agak kebiruan saat hover */
+  box-shadow: 0 6px 20px rgba(0, 51, 102, 0.3); /* shadow lebih tegas dan warna biru */
+  cursor: pointer;
+  transform: translateY(-4px); /* sedikit naik saat hover */
+  transition: all 0.3s ease;
+}
+
 .chart-legend {
   margin-top: 1rem;
   display: flex;
@@ -379,3 +430,153 @@ button#lapor-btn:hover {
   font-size: 1rem;
 }
 
+.intro-section {
+      max-width: 1000px;
+      margin: 2rem auto;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      background: var(--section-bg);
+      border: 1px solid var(--section-border);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      animation: fadein 0.5s;
+    }
+    .intro-text { 
+      flex: 1; 
+      color: #003366; 
+    }
+    .intro-text h2 { 
+      margin-bottom: 1rem; 
+      font-weight: 700; 
+      font-size: 2rem; 
+    }
+    .intro-text p { 
+      font-size: 1.1rem; 
+      line-height: 1.6; 
+      color: #555; 
+    }
+    .intro-image { 
+      flex: 1; 
+      display: flex; 
+      justify-content: center; 
+    }
+    .intro-image img { 
+      max-width: 100%;
+      width: 80%;           /* atur lebar gambar relatif ke kontainer */
+      max-width: 600px; 
+      border-radius: 12px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+    }
+
+    .carousel-container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      position: relative;
+      background: var(--section-bg);
+      border: 1px solid var(--section-border);
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .carousel-slide {
+      display: flex;
+      transition: transform 0.4s ease-in-out;
+      will-change: transform;
+    }
+    .carousel-item {
+      min-width: 100%;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      color: #003366;
+      font-weight: 600;
+      text-align: center;
+    }
+    .carousel-item img {
+      max-width: 100%;
+      max-height: 250px;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    .carousel-item p { margin: 0; font-size: 1.1rem; }
+    .carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  color: var(--accent-color);  /* pakai accent-color dari tema kamu */
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+  z-index: 10;
+}
+.carousel-btn:hover {
+  color: var(--green-pip); /* contoh warna oranye saat hover, bisa kamu ganti */
+  transform: scale(1.2);
+}
+.carousel-btn.prev {
+  left: 10px;
+}
+.carousel-btn.next {
+  right: 10px;
+}
+    .recent-activity {
+      max-width: 1000px;
+      margin: 2rem auto;
+      background: var(--section-bg);
+      border: 1px solid var(--section-border);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      animation: fadein 0.5s;
+    }
+    .recent-activity h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #003366;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 0.3rem;
+    }
+    .timeline-list { list-style: none; padding-left: 0; font-size: 1rem; color: #333; }
+    .timeline-list li {
+      position: relative;
+      padding-left: 1.8rem;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    .timeline-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 7px;
+      width: 12px;
+      height: 12px;
+      background: var(--accent-color);
+      border-radius: 50%;
+    }
+
+  .footer-info {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+  padding: 1.5rem 1rem;
+  background: #f9f9f9;
+  border-top: 1px solid #ddd;
+  margin-top: 2rem;
+}
+.footer-info a {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+.footer-info a:hover {
+  text-decoration: underline;
+}

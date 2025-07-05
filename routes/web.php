@@ -6,6 +6,8 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AdminSekolahController;
+
 
 
 // Login dan logout
@@ -17,9 +19,25 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard/sekolah', function () {
     return view('AdminSekolah.layouts.admin');
 });
+Route::get('/dashboard/siswa', function () {
+    return view('Siswa.dashboardSiswa');
+});
 
 Route::get('/dashboard/siswa', [SiswaController::class, 'dashboard'])->name('siswa.dashboard');
 Route::post('/dashboard/siswa', [SiswaController::class, 'dashboard'])->name('siswa.riwayat');
+Route::get('/siswa/status-dana', [SiswaController::class, 'statusDana'])->name('siswa.statusDana');
+Route::get('/siswa/detail', [SiswaController::class, 'detail'])->name('siswa.detail');
+Route::post('/siswa/lapor', [LaporanController::class, 'store'])->name('siswa.laporStore');
+Route::get('/laporan', [SiswaController::class, 'laporan'])->name('siswa.laporan');
+Route::get('/transparansi', [SiswaController::class, 'transparansi'])->name('siswa.transparansi');
+Route::get('/admin/laporan-kendala', [AdminSekolahController::class, 'laporanKendala'])->name('laporan.kendala');
+Route::get('/admin/akun-siswa', [AdminSekolahController::class, 'akunSiswa'])->name('akun.siswa');
+Route::get('/admin/siswa/{id}/edit', [AdminSekolahController::class, 'editSiswa'])->name('siswa.edit');
+Route::delete('/admin/siswa/{id}', [AdminSekolahController::class, 'hapusSiswa'])->name('siswa.destroy');
+Route::get('/dashboard/sekolah/transparansiDana', [AdminSekolahController::class, 'transparansiDana'])->name('transparansiDana');
+
+
+
 
 
 // Daftar Siswa
@@ -31,9 +49,14 @@ Route::get('/dashboard/sekolah/input', [PencairanController::class, 'create'])->
 Route::post('/pencairan', [PencairanController::class, 'store'])->name('pencairan.store');
 
 Route::get('/dashboard/sekolah/konfirmasi', [PencairanController::class, 'konfirmasiView'])->name('konfirmasi.index');
+Route::get('/dashboard/sekolah/riwayat', [PencairanController::class, 'riwayatSekolah'])->name('riwayat.sekolah');
+Route::get('/dashboard/sekolah/transparansiDana', [SiswaController::class, 'transparansi'])->name('sekolah.transparansi');
+
+
 // Route::get('/dashboard/sekolah/data-input', function () {
 //     return view('AdminSekolah.input.dataInputPencairan');
 // })->name('data.input');
+
 
 
 
@@ -53,9 +76,9 @@ Route::get('/dashboard/sekolah/konfirmasi', [PencairanController::class, 'konfir
 //     return view('AdminSekolah.konfirmasiBlockchain');
 // });
 
-Route::get('/dashboard/sekolah/riwayat', function () {
-    return view('AdminSekolah.riwayatPencairan');
-});
+// Route::get('/dashboard/sekolah/riwayat', function () {
+//     return view('AdminSekolah.riwayat.riwayatPencairan');
+// });
 
 // Konfirmasi
 Route::get('/konfirmasi', [PencairanController::class, 'konfirmasiView'])->name('konfirmasi.index');

@@ -38,22 +38,26 @@ class PencairanController extends Controller
             'blockchain_tx' => null,
         ]);
 
-        return redirect()->route('pencairan.create')->with('success', 'Data pencairan berhasil disimpan!');
-
-
-        
+        return redirect()->route('pencairan.create')->with('success', 'Data pencairan berhasil disimpan!'); 
     }
 
+    public function index()
+    {
+        $laporanList = Laporan::with('pencairan.siswa')->latest()->get();
+        return view('AdminSekolah.laporan.laporan_kendala', compact('laporanList'));
+    }
+
+
     public function dashboard()
-{
-    $user = auth()->user();
+    {
+        $user = auth()->user();
 
-    $riwayat = \App\Models\Pencairan::where('siswa_id', $user->id)
-        ->orderBy('tanggal_cair', 'desc')
-        ->get();
+        $riwayat = \App\Models\Pencairan::where('siswa_id', $user->id)
+            ->orderBy('tanggal_cair', 'desc')
+            ->get();
 
-    return view('Siswa.dashboardSiswa', compact('riwayat'));
-}
+        return view('Siswa.dashboardSiswa', compact('riwayat'));
+    }
 
 
     /**
@@ -62,18 +66,33 @@ class PencairanController extends Controller
     public function konfirmasiView()
     {
         $data = Pencairan::with('siswa')->orderBy('created_at', 'desc')->get();
+        
+
         return view('AdminSekolah.konfirmasi.konfirmasiBlockchain', compact('data'));
 
     }
 
-    /**
-     * Menampilkan riwayat pencairan untuk admin sekolah
-     */
-    public function riwayatSekolah()
+    public function riwayatSekolah(Request $request)
     {
-        $data = Pencairan::with('siswa')->orderBy('tanggal_cair', 'desc')->get();
-        return view('AdminSekolah.riwayatPencairan', compact('data'));
+        $query = Pencairan::with('siswa');
+
+        // Filter berdasarkan nama siswa
+        if ($request->filled('search')) {
+            $query->whereHas('siswa', function ($q) use ($request) {
+                $q->where('nama', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // Filter berdasarkan tanggal dari - sampai
+        if ($request->filled('tanggal_awal') && $request->filled('tanggal_akhir')) {
+            $query->whereBetween('tanggal_cair', [$request->tanggal_awal, $request->tanggal_akhir]);
+        }
+
+        $data = $query->orderBy('tanggal_cair', 'desc')->get();
+
+        return view('AdminSekolah.riwayat.riwayatPencairan', compact('data'));
     }
+
 
     /**
      * Mengonfirmasi pencairan dan memberikan simulasi TX ID blockchain
@@ -90,7 +109,6 @@ class PencairanController extends Controller
 
         return redirect()->route('konfirmasi.index')->with('success', 'Pencairan telah dikonfirmasi dan dicatat di blockchain (simulasi)!');
     }
-    
 
     /**
      * Simpan data dengan input TX dari Web3.js atau eksternal

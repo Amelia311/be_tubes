@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Laporan;
 use App\Models\Pencairan;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
 
 
 class SiswaController extends Controller
@@ -25,18 +26,32 @@ class SiswaController extends Controller
     }
 
     
-    public function store(Request $request) 
+    public function store(Request $request)
     {
-        $validated = $request->validate(([
+        $validated = $request->validate([
             'nama' => 'required',
             'nisn' => 'required|unique:siswa',
             'asal_sekolah' => 'required',
             'alamat' => 'required',
-        ]));
-
-        $siswa = Siswa::create($validated);
-        return response()->json($siswa, 201);
+            'kelas' => 'required|in:X,XI,XII',
+        ]);
+    
+        Siswa::create($validated);
+    
+        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil disimpan!');
     }
+    
+    
+    public function akunSiswa()
+
+    {
+
+        $siswaList = Siswa::all();
+
+        return view('AdminSekolah.akun.akun_siswa', compact('siswaList'));
+
+    }
+
 
     public function show($id)
     {
@@ -44,17 +59,32 @@ class SiswaController extends Controller
 
     }
 
+    public function create()
+    {
+        return view('AdminSekolah.siswa.create'); // sesuaikan dengan nama file view form kamu
+    }
+
+    public function edit($id)
+    {
+        $siswa = Siswa::findOrFail($id);
+        return view('AdminSekolah.siswa.edit', compact('siswa'));
+        
+    }
+
+
+
     public function update(Request $request, $id)
     {
         $siswa = Siswa::findOrFail($id);
         $siswa->update($request->all());
-        return response()->json($siswa);
+        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diperbarui!');
+
     }
 
     public function destroy($id)
     {
         Siswa::destroy($id);
-        return response()->json(['message' => 'Deleted successfully']);
+        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil dihapus!');
     }
 
     public function adminFull(Request $request)
@@ -82,15 +112,15 @@ class SiswaController extends Controller
     }
 
     public function riwayatSaya()
-{
-    $nisn = auth()->user()->nisn;
+    {
+        $nisn = auth()->user()->nisn;
 
-    $riwayat = \App\Models\Pencairan::whereHas('siswa', function($q) use ($nisn) {
-        $q->where('nisn', $nisn);
-    })->orderBy('tanggal_cair', 'desc')->get();
+        $riwayat = \App\Models\Pencairan::whereHas('siswa', function($q) use ($nisn) {
+            $q->where('nisn', $nisn);
+        })->orderBy('tanggal_cair', 'desc')->get();
 
-    return view('Siswa.riwayatPencairanSiswa', compact('riwayat'));
-}
+        return view('Siswa.riwayatPencairanSiswa', compact('riwayat'));
+    }
 
 
     public function konfirmasiPencairan(Request $request, $id)
@@ -157,4 +187,104 @@ public function laporStore(Request $request)
 
         return view('Siswa.dashboardSiswa', compact('pencairan_riwayat'));
     }
+
+    public function pencairan()
+    {
+        return $this->hasMany(Pencairan::class);
+    }
+
+    public function detail()
+    {
+        $nisn = Session::get('nisn'); 
+        $pencairan = \App\Models\Pencairan::with('siswa')
+            ->whereHas('siswa', function ($q) use ($nisn) {
+                $q->where('nisn', $nisn);
+            })
+            ->latest('tanggal_cair')
+            ->first(); 
+
+        return view('Siswa.detail.detailPencairan', compact('pencairan'));
+    }
+
+    public function statusDana()
+    {
+        
+        $nisn = session('nisn');
+    
+        // Ambil data pencairan berdasarkan NISN siswa
+        $pencairan = Pencairan::whereHas('siswa', function ($query) use ($nisn) {
+            $query->where('nisn', $nisn);
+        })->get();
+        
+        // Kumpulkan data riwayat berdasarkan kelas
+        $riwayat = [];
+        foreach ($pencairan as $item) {
+            $kelas = $item->siswa->kelas ?? 'Tidak Diketahui';
+            
+            $riwayat[$kelas][] = [
+                'periode' => $item->periode ?? 'Periode tidak diketahui',
+                'status' => $item->status,
+                'nominal' => $item->jumlah,
+                'tanggal' => $item->tanggal_cair,
+            ];
+        }
+        
+        // Hitung status terakhir (ambil status dari pencairan terakhir)
+        $status = $pencairan->last()->status ?? 'Belum Dicairkan';
+        
+ 
+        return view('Siswa.status.statusDana', compact('status', 'riwayat'));
+    }
+    
+    
+    public function laporan()
+    {
+        $nisn = session('nisn');
+
+        $pencairanTerbaru = \App\Models\Pencairan::whereHas('siswa', function ($query) use ($nisn) {
+            $query->where('nisn', $nisn);
+        })->latest()->first();
+
+        return view('Siswa.laporan.laporanKetidaksesuaian', [
+            'pencairan_id' => $pencairanTerbaru ? $pencairanTerbaru->id : null,
+        ]);
+    }
+
+    public function transparansi()
+    {
+        $totalDana = Pencairan::where('status', 'Sudah Cair')->sum('jumlah');
+        $jumlahPenerima = Pencairan::where('status', 'Sudah Cair')->distinct('siswa_id')->count('siswa_id');
+        $periodeTerbaru = Pencairan::orderBy('tanggal_cair', 'desc')->value('periode');
+    
+        $infoTerbaru = Pencairan::with('siswa')
+            ->orderBy('tanggal_cair', 'desc')
+            ->take(3)
+            ->get();
+    
+        $laporan = Laporan::with('pencairan.siswa')->latest()->take(3)->get();
+    
+        // Jika login sebagai admin
+        if (auth()->check() && auth()->user()->role === 'sekolah') {
+            return view('AdminSekolah.transparansiDana', compact(
+                'totalDana',
+                'jumlahPenerima',
+                'periodeTerbaru',
+                'infoTerbaru',
+                'laporan'
+            ));
+        }
+    
+        // Default siswa
+        return view('Siswa.transparansiDana', compact(
+            'totalDana',
+            'jumlahPenerima',
+            'periodeTerbaru',
+            'infoTerbaru',
+            'laporan'
+        ));
+    }
+    
+    
+
+
 }
