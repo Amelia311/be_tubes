@@ -1,391 +1,326 @@
-:root {
-  --primary-color: #105ca8;
-  --primary-dark: #174c81;
-  --accent-color: #ffb347;
-  --light-gray: #f4f6f9;
-  --card-bg: #ffffff;
-  --text-gray: #666;
-  --border-gray: #e0e0e0;
-  --highlight: #e3f2fd;
-  --success: #2ecc71;
-  --warning: #f39c12;
-  --danger: #e74c3c;
-  --purple: #9b59b6;
-    --dark-bg: #0f172a;
-    --sidebar-bg: #1e293b;
-    --table-head: #334155;
-    --accent-yellow: #facc15;
-    --accent-blue: #3b82f6;
-    --accent-blue-dark: #2563eb;
-    --accent-green: #10b981;
-    --hover-bg: #475569;
-    --input-bg: #1e293b;
-    --placeholder: #94a3b8;
+/* =====================
+   WARNA DASAR & VARIABLE
+   ===================== */
+   :root {
+    --primary-color: #0f4d8b;
+    --primary-dark: #0d3b69;
+    --accent-color: #ffb347;
+    --light-gray: #f4f6f9;
+    --card-bg: #ffffff;
+    --text-gray: #666;
+    --border-gray: #e0e0e0;
+    --highlight: #e3f2fd;
+    --success: #2ecc71;
+    --warning: #f39c12;
+    --danger: #e74c3c;
+    --purple: #9b59b6;
+  
+    --dark-bg: #ffffff;
+    --sidebar-bg: #105ca8;
+    --table-head: #f1f1f1;
+    --accent-yellow: #f59e0b;
+    --accent-blue: #105ca8;
+    --accent-blue-dark: #0b4b8f;
+    --accent-green: #2ecc71;
+    --hover-bg: #4c95e3;
+    --input-bg: #ffffff;
+    --placeholder: #aaa;
     --danger-red: #ef4444;
     --danger-dark: #dc2626;
-    --white: #fff;
-
-}
-
-/* Reset & Global */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: var(--light-gray);
-  color: var(--primary-color);
-}
-.container {
-  display: flex;
-  min-height: 100vh;
-}
-
-/* Sidebar */
-.sidebar {
-  width: 240px;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-.sidebar h2 {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 30px;
-}
-.sidebar nav ul {
-  list-style: none;
-}
-.sidebar nav ul li {
-  margin: 15px 0;
-}
-.sidebar nav ul li a {
-  color: white;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  font-size: 15px;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: 0.3s;
-}
-.sidebar nav ul li a i {
-  margin-right: 10px;
-}
-.sidebar nav ul li a:hover,
-.sidebar nav ul li a.active {
-  background-color: rgba(255, 255, 255, 0.15);
-}
-
-/* Logout button */
-.logout-form {
-  margin-top: auto;
-}
-.logout-form button {
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  padding: 10px;
-  font-size: 15px;
-  text-align: left;
-  width: 100%;
-}
-.logout-form button i {
-  margin-right: 8px;
-}
-
-/* Main Content */
-.main-section {
-  flex: 1;
-  padding: 30px;
-  background-color: var(--light-gray);
-}
-
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--sidebar-bg);
-}
-
-.user-profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: var(--sidebar-bg);
-  padding: 8px 12px;
-  border-radius: 8px;
-}
-
-.user-profile img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.user-profile span {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--white);
-}
-
-.topbar h3 {
-  font-size: 22px;
-  font-weight: 600;
-}
-.topbar input[type="text"] {
-  padding: 8px 14px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  width: 250px;
-}
-
-/* Cards */
-.card-grid {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-}
-.card {
-  flex: 1;
-  background: var(--card-bg);
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  min-width: 150px;
-}
-.card h4 {
-  font-size: 14px;
-  color: var(--text-gray);
-  margin-bottom: 8px;
-}
-.card p {
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--primary-color);
-}
-.card.highlight {
-  background-color: var(--accent-color);
-  color: white;
-}
-.card.highlight h4 {
-  color: white;
-}
-
-/* Table Section */
-.table-section {
-  background: var(--card-bg);
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-.table-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-.table-header h4 {
-  font-size: 18px;
-  font-weight: 600;
-}
-.table-header a {
-  background: var(--accent-color);
-  color: white;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  text-decoration: none;
-}
-.table-header a:hover {
-  background: #ffa726;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-thead {
-  background-color: #f1f1f1;
-}
-th, td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid var(--border-gray);
-}
-
-/* Status Labels */
-.status {
-  display: inline-block;
-  padding: 4px 10px;
-  font-size: 12px;
-  border-radius: 6px;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-.status.review {
-  background-color: var(--purple);
-  color: white;
-}
-.status.progress {
-  background-color: var(--warning);
-  color: white;
-}
-.status.pending {
-  background-color: #e67e22;
-  color: white;
-}
-.status.done {
-  background-color: var(--success);
-  color: white;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
+    --white: #ffffff;
+  }
+  
+  /* =====================
+     RESET & GLOBAL STYLE
+     ===================== */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--light-gray);
+    color: var(--primary-color);
+  }
   .container {
+    display: flex;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  
+  /* =====================
+     SIDEBAR
+     ===================== */
+  .sidebar {
+    width: 240px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 20px;
+    display: flex;
     flex-direction: column;
   }
-  .sidebar {
+  .sidebar h2 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+  .sidebar nav ul {
+    list-style: none;
+  }
+  .sidebar nav ul li {
+    margin: 15px 0;
+  }
+  .sidebar nav ul li a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: 0.3s;
+  }
+  .sidebar nav ul li a i {
+    margin-right: 10px;
+  }
+  .sidebar nav ul li a:hover,
+  .sidebar nav ul li a.active {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  .logout-form {
+    margin-top: auto;
+  }
+  .logout-form button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 15px;
+    text-align: left;
     width: 100%;
   }
-  .main-section {
-    padding: 20px;
+  .logout-form button i {
+    margin-right: 8px;
   }
-  .card-grid {
-    flex-direction: column;
+  
+  /* =====================
+     MAIN CONTENT AREA
+     ===================== */
+  .main-section {
+    flex: 1;
+    padding: 30px;
+    background-color: var(--light-gray);
   }
   .topbar {
-    flex-direction: column;
-    align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--sidebar-bg);
   }
-  .topbar input {
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--sidebar-bg);
+    padding: 8px 12px;
+    border-radius: 8px;
+  }
+  .user-profile img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .user-profile span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--white);
+  }
+  .topbar h3 {
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .topbar input[type="text"] {
+    padding: 8px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 250px;
+  }
+  
+  /* =====================
+     TABEL DAFTAR SISWA
+     ===================== */
+  .table-section {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .table-header h4 {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .table-header a {
+    background: var(--accent-color);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  .table-header a:hover {
+    background: #ffa726;
+  }
+  
+  /* TABEL UTAMA */
+  table {
     width: 100%;
-    margin-top: 10px;
+    border-collapse: collapse;
+    font-size: 14px;
   }
-}
+  thead {
+    background-color: var(--table-head);
+  }
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-gray);
+  }
+  
+  /* TABEL YANG BISA DISCROLL */
+  .scroll-table-body {
+    display: block;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #111;
+  }
+  .scroll-table-body tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+  .scroll-table-body td {
+    background-color: var(--white);
+    color: #111;
+  }
+  
+  .table-siswa thead,
+  .table-siswa tbody tr {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+  }
+  
+  /* =====================
+     FORM TAMBAH/EDIT SISWA
+     ===================== */
+  .content-box {
+    background-color: var(--sidebar-bg);
+    padding: 20px;
+    border-radius: 12px;
+  }
+  
+  .form-siswa {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 600px;
+    color: white;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  .form-group label {
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #fcd34d;
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: none;
+    background-color: #0f172a;
+    color: white;
+  }
+  .form-siswa select option {
+    background-color: #1e293b;
+    color: white;
+  }
+  
+  .btn-tambah {
+    align-self: flex-start;
+    background-color: var(--accent-blue);
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .btn-tambah:hover {
+    background-color: var(--accent-blue-dark);
+  }
+  
+  /* =====================
+     RESPONSIVE
+     ===================== */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+    .sidebar {
+      width: 100%;
+    }
+    .main-section {
+      padding: 20px;
+    }
+    .card-grid {
+      flex-direction: column;
+    }
+    .topbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .topbar input {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+  
 
-
-
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: var(--dark-bg);
-  color: var(--white);
-}
-
-.container {
-  display: flex;
-  height: 100vh;
-}
-
-/* Sidebar */
-.sidebar {
-  width: 250px;
-  background-color: var(--sidebar-bg);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.sidebar h2 {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 30px;
-}
-
-.sidebar nav ul {
-  list-style: none;
-}
-
-.sidebar nav ul li {
-  margin-bottom: 20px;
-}
-
-.sidebar nav ul li a {
-  color: var(--white);
-  text-decoration: none;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: 0.3s;
-}
-
-.sidebar nav ul li a:hover {
-  background-color: var(--hover-bg);
-}
-
-.logout {
-  margin-top: auto;
-}
-
-.logout a {
-  background-color: var(--danger-red);
-  color: var(--white);
-  padding: 10px;
-  border-radius: 8px;
-  text-align: center;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.logout a:hover {
-  background-color: var(--danger-dark);
-}
-
-/* Main Content */
-.main-content {
-  flex: 1;
-  padding: 20px;
-  background-color: var(--dark-bg);
-}
-
-.topbar {
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--sidebar-bg);
-}
-
-.topbar h3 {
-  font-size: 22px;
-  font-weight: bold;
-  color: var(--accent-blue);
-}
-
-/* Tampilan Create */
+  /* Tampilan Create */
 .content-box {
   background-color: #1e293b; /* warna latar dalam form */
-  padding: 30px;
+  padding: 15px;
   border-radius: 15px;
-  width: 100%;
-  max-width: 100%;
-  margin-top: 10px;
+  width: 90%;
+  max-width: 70%;
   box-sizing: border-box;
 }
 
 .box-title {
   font-size: 22px;
   font-weight: bold;
-  color: #facc15; /* kuning */
+  text-align: center;
+  color: #e1da10; /* kuning */
   margin-bottom: 20px;
 }
 
@@ -407,7 +342,7 @@ body {
 }
 
 .form-group label {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-weight: 600;
   color: #facc15; /* warna label */
 }
@@ -417,14 +352,14 @@ body {
 .form-group select {
   background-color: #0f172a;
   color: #ffffff;
-  padding: 10px;
-  border-radius: 8px;
+  padding: 5px;
+  border-radius: 5px;
   border: none;
   font-size: 14px;
 }
 
 .form-group textarea {
-  min-height: 60px;
+  min-height: 40px;
   resize: none;
 }
 
@@ -442,200 +377,5 @@ body {
 }
 
 .btn-tambah:hover {
-  background-color: #2563eb;
-}
-
-/* Content Box */
-.content-box {
-  background-color: var(--sidebar-bg);
-  padding: 20px;
-  border-radius: 12px;
-}
-
-.header-table {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.header-table h3 {
-  font-size: 22px;
-  color: var(--accent-yellow);
-  font-weight: bold;
-}
-
-.actions {
-  display: flex;
-  gap: 10px;
-}
-
-.actions input[type="text"] {
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: none;
-  background-color: var(--input-bg);
-  color: var(--white);
-  width: 200px;
-}
-
-.actions input::placeholder {
-  color: var(--placeholder);
-}
-
-.btn-tambah {
-  background-color: var(--accent-blue);
-  color: var(--white);
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.btn-tambah:hover {
-  background-color: var(--accent-blue-dark);
-}
-
-/* Table */
-.table-siswa {
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: 12px;
-  overflow: hidden;
-  margin-top: 10px;
-}
-
-.table-siswa th,
-.table-siswa td {
-  padding: 12px 16px;
-  text-align: left;
-}
-
-.table-siswa thead th {
-  background-color: var(--table-head);
-  color: var(--accent-yellow);
-  font-weight: 600;
-}
-
-.table-siswa tbody tr:nth-child(even) {
-  background-color: #1e2533;
-}
-
-.table-siswa tbody tr:nth-child(odd) {
-  background-color: #1b2230;
-}
-
-.table-siswa tbody tr:hover {
-  background-color: var(--hover-bg);
-  transition: background-color 0.3s;
-}
-
-.action-icon {
-  color: var(--accent-green);
-  margin-right: 8px;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.action-icon:hover {
-  color: var(--accent-yellow);
-}
-
-/* Form */
-.form-siswa {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-group label {
-  margin-bottom: 6px;
-  font-weight: 500;
-  color: var(--accent-yellow);
-}
-
-.form-group input,
-.form-group textarea {
-  padding: 10px 12px;
-  border-radius: 6px;
-  border: none;
-  background-color: var(--input-bg);
-  color: var(--white);
-}
-
-/* Tambah Siswa Section */
-h3 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #fcd34d;
-}
-
-/* Form Style */
-.form-siswa {
-  background-color: #1e293b;
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 600px;
-}
-
-.form-siswa .form-group,
-.form-siswa select {
-  margin-bottom: 16px;
-}
-
-.form-siswa label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 500;
-  color: #fcd34d;
-}
-
-.form-siswa input,
-.form-siswa textarea,
-.form-siswa select {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 6px;
-  border: none;
-  background-color: #0f172a;
-  color: white;
-  font-size: 14px;
-}
-
-.form-siswa input::placeholder,
-.form-siswa textarea::placeholder {
-  color: #94a3b8;
-}
-
-.form-siswa select {
-  background-color: #0f172a;
-  color: white;
-}
-
-.form-siswa select option {
-  background-color: #1e293b;
-  color: white;
-}
-
-.btn-tambah {
-  background-color: #3b82f6;
-  color: white;
-  padding: 10px 18px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.btn-tambah:hover {
-  background-color: #2563eb;
+  background-color: #163984;
 }
