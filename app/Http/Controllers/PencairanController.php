@@ -53,14 +53,50 @@ class PencairanController extends Controller
 
     public function dashboard()
     {
-        $user = auth()->user();
-
-        $riwayat = \App\Models\Pencairan::where('siswa_id', $user->id)
+        $nisn = session('nisn');
+        $siswa = Siswa::where('nisn', $nisn)->first();
+    
+        if (!$siswa) {
+            return redirect('/login')->with('error', 'Data siswa tidak ditemukan.');
+        }
+    
+        $rawData = Pencairan::where('siswa_id', $siswa->id)
             ->orderBy('tanggal_cair', 'desc')
             ->get();
-
-        return view('Siswa.dashboardSiswa', compact('riwayat'));
+    
+        $riwayat = [];
+    
+        foreach ($rawData as $item) {
+            $kelas = $siswa->kelas;
+            $riwayat[$kelas][] = [
+                'periode' => $item->periode ?? 'Tahap ?',
+                'status' => $item->status,
+                'nominal' => number_format($item->jumlah, 0, ',', '.'),
+                'tanggal' => \Carbon\Carbon::parse($item->tanggal_cair)->format('d M Y'),
+            ];
+        }
+    
+        // LOGIKA STATUS:
+        if ($rawData->isEmpty()) {
+            $statusTerakhir = 'Belum Dicairkan';
+        } else {
+            $latest = $rawData->first();
+            if ($latest->status === 'Sudah Cair') {
+                $statusTerakhir = 'Sudah Cair';
+            } elseif ($latest->status === 'Menunggu') {
+                if ($latest->bukti) {
+                    $statusTerakhir = 'Menunggu';
+                } else {
+                    $statusTerakhir = 'Menunggu';
+                }
+            } else {
+                $statusTerakhir = 'Belum Dicairkan';
+            }
+        }
+    
+        return view('Siswa.dashboardSiswa', compact('riwayat', 'statusTerakhir'))->with('status', $statusTerakhir);
     }
+    
 
 
     /**
@@ -121,42 +157,42 @@ class PencairanController extends Controller
     }
     
 
-    public function submitKonfirmasi(Request $request)
-    {
-        $request->validate([
-            'jumlah' => 'required|numeric|min:1',
-            'bukti' => 'required|image|max:2048',
-        ]);
-    
-        $nisn = session('nisn');
-        $siswa = Siswa::where('nisn', $nisn)->first();
-    
-        // Cari data pencairan yang sudah dibuat sebelumnya dan masih menunggu konfirmasi
-        $pencairan = Pencairan::where('siswa_id', $siswa->id)
-            ->where('status', 'Menunggu')
-            ->latest()
-            ->first();
-    
-        // Kalau tidak ditemukan, tampilkan error
-        if (!$pencairan) {
-            return redirect()->back()->with('error', 'Data pencairan tidak ditemukan atau sudah dikonfirmasi.');
-        }
-    
-        // Simpan file bukti
-        $buktiPath = $request->file('bukti')->store('bukti', 'public');
-    
-        // Update data pencairan yang sudah ada
-        $pencairan->update([
-            'jumlah' => $request->jumlah,
-            'bukti' => $buktiPath,
-            'tanggal_cair' => Carbon::now()->format('Y-m-d'),
-            'keterangan' => 'Konfirmasi pencairan oleh siswa',
-            // status tetap "Menunggu" untuk diverifikasi admin
-        ]);
-    
-        return redirect()->back()->with('success', 'Konfirmasi berhasil dikirim.');
+public function submitKonfirmasi(Request $request)
+{
+    $request->validate([
+        'jumlah' => 'required|numeric|min:1',
+        'bukti' => 'required|image|max:2048',
+    ]);
+
+    $nisn = session('nisn');
+    $siswa = Siswa::where('nisn', $nisn)->first();
+
+    // Cari data pencairan yang sudah dibuat sebelumnya dan masih menunggu konfirmasi
+    $pencairan = Pencairan::where('siswa_id', $siswa->id)
+        ->where('status', 'Menunggu')
+        ->latest()
+        ->first();
+
+    // Kalau tidak ditemukan, tampilkan error
+    if (!$pencairan) {
+        return redirect()->back()->with('error', 'Data pencairan tidak ditemukan atau sudah dikonfirmasi.');
     }
-    
+
+    // Simpan file bukti
+    $buktiPath = $request->file('bukti')->store('bukti', 'public');
+
+    // Update data pencairan yang sudah ada
+    $pencairan->update([
+        'jumlah' => $request->jumlah,
+        'bukti' => $buktiPath,
+        'tanggal_cair' => Carbon::now()->format('Y-m-d'),
+        'keterangan' => 'Konfirmasi pencairan oleh siswa',
+        // status tetap "Menunggu" untuk diverifikasi admin
+    ]);
+
+    return redirect()->back()->with('success', 'Konfirmasi berhasil dikirim.');
+}
+
     
     
     /**
@@ -231,6 +267,35 @@ class PencairanController extends Controller
         return response()->json(['message' => 'Berhasil!']);
     }
 
+
+    public function transparansiPublik()
+    {
+        $totalDana = Pencairan::where('status', 'Sudah Cair')->sum('jumlah');
+        $jumlahPenerima = Pencairan::where('status', 'Sudah Cair')->distinct('siswa_id')->count('siswa_id');
+        $periodeTerbaru = Pencairan::where('status', 'Sudah Cair')->latest()->value('periode');
+
+        $infoTerbaru = Pencairan::with('siswa')
+            ->where('status', 'Sudah Cair')
+            ->orderBy('tanggal_cair', 'desc')
+            ->take(5)
+            ->get();
+
+        $laporan = Laporan::with('pencairan.siswa')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('transparansiDana', compact(
+            'totalDana',
+            'jumlahPenerima',
+            'periodeTerbaru',
+            'infoTerbaru',
+            'laporan'
+        ));
+
+    return view('transparansiDana', compact('riwayat', 'statusTerakhir', 'infoTerbaru'))
+    ->with('status', $statusTerakhir);
+    }
 
 
 }

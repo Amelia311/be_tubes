@@ -56,14 +56,14 @@
         @endforelse
       </ul>
     </div>
-
+<!-- 
     <div class="laporan-section">
       <h3>Laporan Penting</h3>
       <ul class="laporan-list">
         <li><a href="{{ asset('laporan/laporan_pencairan_semester2_2024.pdf') }}" target="_blank" rel="noopener noreferrer">Laporan Pencairan Semester 2 Tahun 2024</a></li>
         <li><a href="{{ asset('laporan/ringkasan_audit_keuangan_2024.pdf') }}" target="_blank" rel="noopener noreferrer">Ringkasan Audit Keuangan PIP Tahun 2024</a></li>
       </ul>
-    </div>
+    </div> -->
 
     <div class="footer-info">
       Info lebih lanjut kunjungi situs resmi <a href="https://pip.kemendikdasmen.go.id" target="_blank" rel="noopener noreferrer">pip.kemendikdasmen.go.id</a>

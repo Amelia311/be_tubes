@@ -6,25 +6,28 @@
 <link rel="stylesheet" href="{{ asset('css/Siswa/style_dashboard_siswa.css') }}">
 @endpush
 
+
+
 @section('content')
+
+
 <main class="container">
   <section class="status-section">
     <h2>Status Terkini</h2>
     <div class="status-progress">
-      <div class="status-step {{ $status === 'Belum Dicairkan' ? 'active' : '' }}" id="step-belum">
-        <div class="circle"></div>
-        <p>Belum Dicairkan</p>
-      </div>
-      <div class="status-step {{ $status === 'Sedang Diproses' ? 'active' : '' }}" id="step-proses">
-        <div class="circle"></div>
-        <p>Dalam Proses</p>
-      </div>
-      <div class="status-step {{ $status === 'Sudah Cair' ? 'active' : '' }}" id="step-sudah">
-        <div class="circle"></div>
-        <p>Sudah Cair</p>
-      </div>
+    <div class="status-step {{ $status === 'Belum Dicairkan' ? 'active' : '' }}" id="step-belum">
+      <div class="circle"></div>
+      <p>Belum Dicairkan</p>
     </div>
-
+    <div class="status-step {{ $status === 'Menunggu' ? 'active' : '' }}" id="step-proses">
+      <div class="circle"></div>
+      <p>Dalam Proses</p>
+    </div>
+    <div class="status-step {{ $status === 'Sudah Cair' ? 'active' : '' }}" id="step-sudah">
+      <div class="circle"></div>
+      <p>Sudah Cair</p>
+    </div>
+    </div>
     <div class="periode-section">
       <h3>Periode Pencairan</h3>
       <label for="kelas-dropdown">Pilih Kelas:</label>

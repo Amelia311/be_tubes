@@ -13,7 +13,7 @@
             <h3 style="color: white;">Daftar Siswa</h3>
           <div class="actions">
            <input type="text" placeholder="Cari siswa...">
-           <button class="btn-tambah">+ Tambah Siswa</button>
+           <a href="{{ route('siswa.create') }}" class="btn-tambah">+ Tambah Siswa</a>
         </div>
     </div>
 

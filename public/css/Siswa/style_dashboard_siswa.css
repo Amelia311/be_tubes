@@ -631,3 +631,23 @@ button#lapor-btn:hover {
     border-radius: 6px;
     margin-bottom: 1rem;
   }
+
+
+  .status-step {
+    opacity: 0.4;
+  }
+  
+  .status-step.active#step-belum {
+    opacity: 1;
+    color: red;
+  }
+  
+  .status-step.active#step-proses {
+    opacity: 1;
+    color: orange;
+  }
+  
+  .status-step.active#step-sudah {
+    opacity: 1;
+    color: green;
+  }

@@ -44,7 +44,7 @@
       <label for="jumlah">Jumlah yang Diterima</label>
       <input type="text" id="jumlah" name="jumlah" placeholder="Contoh: 500000" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
 
-      <label for="keterangan">Periode</label>
+      <label for="keterangan">Keterangan</label>
       <input type="text" id="keterangan" name="keterangan" placeholder="Contoh: Tahap 1" required />
 
       <button type="submit">Simpan</button>

@@ -2,6 +2,11 @@
 
 @section('title', 'Konfirmasi Pencairan')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/Siswa/style_dashboard_siswa.css') }}">
+@endpush
+
+
 @section('content')
 <div class="form-container">
   <h3>Form Konfirmasi Pencairan Dana</h3>

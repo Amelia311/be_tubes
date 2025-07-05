@@ -109,3 +109,6 @@ Route::post('/siswa/lapor', [LaporanController::class, 'store'])->name('siswa.la
 Route::get('/siswa/konfirmasi', [PencairanController::class, 'formKonfirmasi'])->name('konfirmasi.form');
 Route::post('/siswa/konfirmasi', [PencairanController::class, 'submitKonfirmasi'])->name('submitKonfirmasi');
 
+Route::get('/transparansi-publik', [PencairanController::class, 'transparansiPublik'])->name('transparansi.publik');
+
+
