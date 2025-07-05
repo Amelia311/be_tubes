@@ -6,6 +6,8 @@ use App\Models\Pencairan;
 use App\Models\Siswa;
 use App\Models\Laporan;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class PencairanController extends Controller
 {
@@ -96,7 +98,39 @@ class PencairanController extends Controller
         return view('AdminSekolah.riwayat.riwayatPencairan', compact('data'));
     }
     
+        public function formKonfirmasi()
+    {
+        $siswa = Auth::user(); // diasumsikan siswa login via nisn
 
+        return view('Siswa.konfirmasi', [
+            'siswa' => $siswa,
+            'tanggal' => Carbon::now()->format('Y-m-d'),
+        ]);
+    }
+
+    public function submitKonfirmasi(Request $request)
+    {
+        $request->validate([
+            'jumlah' => 'required|numeric|min:1',
+            'bukti' => 'required|image|max:2048',
+        ]);
+
+        $siswa = Auth::user();
+
+        // Simpan file bukti
+        $buktiPath = $request->file('bukti')->store('bukti_pencairan', 'public');
+
+        // Simpan ke DB
+        Pencairan::create([
+            'siswa_id' => $siswa->id,
+            'jumlah' => $request->jumlah,
+            'bukti' => $buktiPath,
+            'status' => 'Menunggu',
+            'created_at' => Carbon::now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Konfirmasi berhasil dikirim.');
+    }
 
     /**
      * Mengonfirmasi pencairan dan memberikan simulasi TX ID blockchain

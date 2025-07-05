@@ -66,6 +66,12 @@
         </tbody>
       </table>
     </div>
+
+    <!-- Tombol ke halaman konfirmasi pencairan -->
+    <div style="margin-top: 1.5rem;">
+      <a href="{{ route('konfirmasi.form') }}" class="btn btn-primary" style="padding:0.7rem 1.2rem; background:#27ae60; color:#fff; border-radius:6px; text-decoration:none;">Konfirmasi Pencairan</a>
+    </div>
+
   </section>
 </main>
 @endsection

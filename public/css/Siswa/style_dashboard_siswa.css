@@ -580,3 +580,54 @@ button#lapor-btn:hover {
 .footer-info a:hover {
   text-decoration: underline;
 }
+.form-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: var(--section-bg);
+    border: 1px solid var(--section-border);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .form-container h2 {
+    color: #003366;
+    margin-bottom: 1.5rem;
+  }
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  .form-group input {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  .form-group input[readonly] {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  .btn-confirm {
+    background-color: #27ae60;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  .btn-confirm:hover {
+    background-color: #219150;
+  }
+  .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+  }

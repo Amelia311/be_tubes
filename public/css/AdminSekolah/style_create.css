@@ -1,74 +1,104 @@
-/* Tampilan Create */
-.content-box {
-    background-color: #1e293b; /* warna latar dalam form */
-    padding: 15px;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 70%;
-    box-sizing: border-box;
+/* Jarak isi dari sidebar */
+.form-wrapper {
+  margin-left: 270px; /* sesuaikan dengan width sidebar */
+  padding: 40px 20px;
+}
+
+/* Judul form */
+.box-title {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  color: #facc15;
+  margin-bottom: 30px;
+}
+
+/* Struktur form */
+.form-siswa {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Setiap field berurutan ke bawah */
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Grup setiap label + input */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label */
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #facc15;
+  font-size: 15px;
+}
+
+/* Input, textarea, dan select */
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"],
+.form-group input[type="number"],
+.form-group select,
+.form-group textarea {
+  background-color: #0f172a;
+  color: #ffffff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  appearance: none;
+}
+
+/* Efek ketika focus */
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #3b82f6;
+  background-color: #1e293b;
+  outline: none;
+}
+
+/* Ukuran textarea */
+.form-group textarea {
+  min-height: 80px;
+  resize: none;
+}
+
+/* Tombol Simpan */
+.btn-tambah {
+  align-self: flex-end;
+  background-color: #3b82f6;
+  color: #ffffff;
+  padding: 10px 24px;
+  font-weight: bold;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 20px;
+}
+
+.btn-tambah:hover {
+  background-color: #2563eb;
+  transform: scale(1.03);
+}
+
+/* Responsif untuk HP */
+@media (max-width: 768px) {
+  .form-wrapper {
+    margin-left: 0;
+    padding: 20px;
   }
-  
-  .box-title {
-    font-size: 22px;
-    font-weight: bold;
-    text-align: center;
-    color: #e1da10; /* kuning */
-    margin-bottom: 20px;
-  }
-  
-  .form-siswa {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-group label {
-    margin-bottom: 10px;
-    font-weight: 600;
-    color: #facc15; /* warna label */
-  }
-  
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    background-color: #0f172a;
-    color: #ffffff;
-    padding: 5px;
-    border-radius: 5px;
-    border: none;
-    font-size: 14px;
-  }
-  
-  .form-group textarea {
-    min-height: 40px;
-    resize: none;
-  }
-  
-  .btn-tambah {
-    align-self: flex-end;
-    background-color: #3b82f6;
-    color: #fff;
-    padding: 10px 20px;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 10px;
-  }
-  
-  .btn-tambah:hover {
-    background-color: #163984;
-  }
-  
+}
