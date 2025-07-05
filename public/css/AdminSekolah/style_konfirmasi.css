@@ -1,5 +1,5 @@
 body {
-  background-color: #0f172a;
+  background-color: #ffffff;
   color: white;
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
@@ -8,14 +8,15 @@ body {
 
 .main-content {
   padding: 20px;
-  background-color: #1e293b; /* sebelumnya #f4f7ff */
+  background-color: rgb(55, 104, 183); /* biru tua transparan */
+; /* sebelumnya #f4f7ff */
   border-radius: 15px;
   width: 100%;
   box-sizing: border-box;
 }
 
 .content-box {
-  background-color: #0d1117; /* lebih gelap untuk match tema */
+  background-color: #1754af; /* lebih gelap untuk match tema */
   padding: 20px;
   border-radius: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* sedikit lebih kuat */
@@ -25,13 +26,13 @@ body {
 
 .content-box h3 {
   font-size: 22px;
-  color: #facc15; /* lebih kuning agar konsisten dengan judul dashboard */
+  color: #ffffff; /* lebih kuning agar konsisten dengan judul dashboard */
   margin-bottom: 15px;
 }
 
 .alert-box.success {
   background-color: #22c55e;
-  color: white;
+  color: rgb(255, 255, 255);
   padding: 10px 16px;
   border-radius: 6px;
   margin-bottom: 12px;
@@ -50,12 +51,12 @@ body {
 .table-konfirmasi td {
   padding: 12px 16px;
   text-align: left;
-  color: white;
+  color: rgb(0, 0, 0);
   white-space: nowrap;
 }
 
 .table-konfirmasi thead th {
-  background-color: #1e293b; /* sebelumnya #334155, digelapin */
+  background-color: #fefefe; /* sebelumnya #334155, digelapin */
 }
 
 .table-konfirmasi tbody tr:nth-child(odd) {
@@ -86,7 +87,7 @@ body {
 
 .tx {
   font-size: 12px;
-  color: #cbd5e1;
+  color: #0072fd;
   max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
