@@ -15,13 +15,7 @@
             </form>
         </div>
 
-        <!-- <form method="GET" action="{{ route('riwayat.sekolah') }}" class="filter-form">
-          <input type="text" name="search" placeholder="Cari nama siswa..." value="{{ request('search') }}" />
-          <input type="date" name="tanggal_awal" value="{{ request('tanggal_awal') }}" />
-          <input type="date" name="tanggal_akhir" value="{{ request('tanggal_akhir') }}" />
-          <button type="submit">Filter</button>
-          <a href="{{ route('riwayat.sekolah') }}" class="reset-btn">Reset</a>
-        </form> -->
+
         <table class="table-riwayat">
           <thead>
             <tr>
