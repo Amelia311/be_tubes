@@ -1,0 +1,74 @@
+/* Tampilan Create */
+.content-box {
+    background-color: #1e293b; /* warna latar dalam form */
+    padding: 15px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 70%;
+    box-sizing: border-box;
+  }
+  
+  .box-title {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    color: #e1da10; /* kuning */
+    margin-bottom: 20px;
+  }
+  
+  .form-siswa {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #facc15; /* warna label */
+  }
+  
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background-color: #0f172a;
+    color: #ffffff;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+  }
+  
+  .form-group textarea {
+    min-height: 40px;
+    resize: none;
+  }
+  
+  .btn-tambah {
+    align-self: flex-end;
+    background-color: #3b82f6;
+    color: #fff;
+    padding: 10px 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+  
+  .btn-tambah:hover {
+    background-color: #163984;
+  }
+  

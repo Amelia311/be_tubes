@@ -1,6 +1,6 @@
 :root {
-  --primary-color: #003366;
-  --primary-dark: #002244;
+  --primary-color: #105ca8;
+  --primary-dark: #174c81;
   --accent-color: #ffb347;
   --light-gray: #f4f6f9;
   --card-bg: #ffffff;
@@ -11,6 +11,20 @@
   --warning: #f39c12;
   --danger: #e74c3c;
   --purple: #9b59b6;
+    --dark-bg: #0f172a;
+    --sidebar-bg: #1e293b;
+    --table-head: #334155;
+    --accent-yellow: #facc15;
+    --accent-blue: #3b82f6;
+    --accent-blue-dark: #2563eb;
+    --accent-green: #10b981;
+    --hover-bg: #475569;
+    --input-bg: #1e293b;
+    --placeholder: #94a3b8;
+    --danger-red: #ef4444;
+    --danger-dark: #dc2626;
+    --white: #fff;
+
 }
 
 /* Reset & Global */
@@ -22,7 +36,7 @@
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: var(--light-gray);
-  color: var(--primary-dark);
+  color: var(--primary-color);
 }
 .container {
   display: flex;
@@ -91,12 +105,38 @@ body {
   padding: 30px;
   background-color: var(--light-gray);
 }
+
 .topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--sidebar-bg);
 }
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--sidebar-bg);
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.user-profile img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-profile span {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--white);
+}
+
 .topbar h3 {
   font-size: 22px;
   font-weight: 600;
@@ -234,21 +274,7 @@ th, td {
   }
 }
 
-:root {
-  --dark-bg: #0f172a;
-  --sidebar-bg: #1e293b;
-  --table-head: #334155;
-  --accent-yellow: #facc15;
-  --accent-blue: #3b82f6;
-  --accent-blue-dark: #2563eb;
-  --accent-green: #10b981;
-  --hover-bg: #475569;
-  --input-bg: #1e293b;
-  --placeholder: #94a3b8;
-  --danger-red: #ef4444;
-  --danger-dark: #dc2626;
-  --white: #fff;
-}
+
 
 /* Reset */
 * {
@@ -342,7 +368,81 @@ body {
 .topbar h3 {
   font-size: 22px;
   font-weight: bold;
-  color: var(--accent-yellow);
+  color: var(--accent-blue);
+}
+
+/* Tampilan Create */
+.content-box {
+  background-color: #1e293b; /* warna latar dalam form */
+  padding: 30px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 10px;
+  box-sizing: border-box;
+}
+
+.box-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #facc15; /* kuning */
+  margin-bottom: 20px;
+}
+
+.form-siswa {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #facc15; /* warna label */
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  background-color: #0f172a;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  min-height: 60px;
+  resize: none;
+}
+
+.btn-tambah {
+  align-self: flex-end;
+  background-color: #3b82f6;
+  color: #fff;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.btn-tambah:hover {
+  background-color: #2563eb;
 }
 
 /* Content Box */

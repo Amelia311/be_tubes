@@ -8,8 +8,7 @@
 
 @section('content')
 <div class="page-wrapper">
-    <h3 style="color: #FFD700; margin-bottom: 20px;">Akun Siswa</h3>
-
+    <h3>Akun Siswa</h3>
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
         <div style="flex-grow: 1;">
             <input type="text" class="form-control" placeholder="Cari nama siswa..." style="padding: 8px 12px; border-radius: 5px; border: none; background-color: #1E293B; color: #fff; width: 250px;">
