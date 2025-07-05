@@ -96,7 +96,7 @@
   }
 
   kelasDropdown.addEventListener('change', () => {
-    updateRiwayat(kelasDropdown.value);
+    updateRiwayat(kelasDropdown.value);z
   });
 
   updateRiwayat(kelasDropdown.value);
