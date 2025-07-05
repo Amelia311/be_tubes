@@ -2,25 +2,30 @@ body {
   background-color: #0f172a;
   color: white;
   font-family: 'Segoe UI', sans-serif;
-
+  margin: 0;
+  padding: 0;
 }
 
 .main-content {
   padding: 20px;
-  background-color: #0f172a;
+  background-color: #1e293b; /* sebelumnya #f4f7ff */
   border-radius: 15px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .content-box {
-  background-color: #1e293b;
+  background-color: #0d1117; /* lebih gelap untuk match tema */
   padding: 20px;
   border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* sedikit lebih kuat */
+  width: 100%;
+  overflow-x: auto;
 }
 
 .content-box h3 {
   font-size: 22px;
-  color: #fcd34d;
+  color: #facc15; /* lebih kuning agar konsisten dengan judul dashboard */
   margin-bottom: 15px;
 }
 
@@ -37,6 +42,8 @@ body {
   width: 100%;
   border-collapse: collapse;
   margin-top: 12px;
+  table-layout: auto;
+  min-width: 100%;
 }
 
 .table-konfirmasi th,
@@ -44,10 +51,11 @@ body {
   padding: 12px 16px;
   text-align: left;
   color: white;
+  white-space: nowrap;
 }
 
 .table-konfirmasi thead th {
-  background-color: #334155;
+  background-color: #1e293b; /* sebelumnya #334155, digelapin */
 }
 
 .table-konfirmasi tbody tr:nth-child(odd) {
@@ -69,21 +77,25 @@ body {
 }
 
 .status.sudah {
-  background-color: #22c55e;
+  background-color: #16a34a; /* sedikit lebih hijau gelap */
 }
 
 .status.belum {
-  background-color: #f97316;
+  background-color: #ea580c; /* oranye gelap */
 }
 
 .tx {
   font-size: 12px;
   color: #cbd5e1;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Buttons */
 .btn-konfirmasi {
-  background-color: #3b82f6;
+  background-color: #2563eb;
   color: white;
   border: none;
   padding: 6px 12px;
@@ -93,11 +105,11 @@ body {
 }
 
 .btn-konfirmasi:hover {
-  background-color: #2563eb;
+  background-color: #1d4ed8;
 }
 
 .btn-terkonfirmasi {
-  background-color: #64748b;
+  background-color: #475569; /* sebelumnya #64748b, digelapin */
   color: white;
   border: none;
   padding: 6px 12px;

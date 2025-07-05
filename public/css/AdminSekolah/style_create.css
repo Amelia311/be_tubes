@@ -1,10 +1,12 @@
-/* Jarak isi dari sidebar */
+/* Style Tambahan Khusus Form */
+
 .form-wrapper {
-  margin-left: 270px; /* sesuaikan dengan width sidebar */
+  margin-left: 270px; /* lebar sidebar */
   padding: 40px 20px;
+  max-width: 800px;
+  margin-right: auto;
 }
 
-/* Judul form */
 .box-title {
   font-size: 28px;
   font-weight: bold;
@@ -13,89 +15,52 @@
   margin-bottom: 30px;
 }
 
-/* Struktur form */
-.form-siswa {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* Setiap field berurutan ke bawah */
-.form-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* Grup setiap label + input */
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Label */
-.form-group label {
-  margin-bottom: 8px;
+/* Label custom warna kuning */
+label.form-label {
   font-weight: 600;
   color: #facc15;
+}
+
+/* Custom input field background gelap */
+.form-control,
+.form-select {
+  background-color: #0f172a;
+  color: #fff;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 10px 14px;
   font-size: 15px;
 }
 
-/* Input, textarea, dan select */
-.form-group input[type="text"],
-.form-group input[type="password"],
-.form-group input[type="email"],
-.form-group input[type="number"],
-.form-group select,
-.form-group textarea {
-  background-color: #0f172a;
-  color: #ffffff;
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: 1px solid #334155;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  appearance: none;
-}
-
-/* Efek ketika focus */
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-  border-color: #3b82f6;
+/* Saat focus */
+.form-control:focus,
+.form-select:focus {
   background-color: #1e293b;
-  outline: none;
-}
-
-/* Ukuran textarea */
-.form-group textarea {
-  min-height: 80px;
-  resize: none;
+  border-color: #3b82f6;
+  color: #fff;
+  box-shadow: none;
 }
 
 /* Tombol Simpan */
-.btn-tambah {
-  align-self: flex-end;
+.btn-success {
   background-color: #3b82f6;
-  color: #ffffff;
-  padding: 10px 24px;
-  font-weight: bold;
-  font-size: 15px;
   border: none;
+  font-weight: bold;
+  padding: 10px 24px;
   border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  margin-top: 20px;
+  transition: background-color 0.3s ease;
 }
 
-.btn-tambah:hover {
+.btn-success:hover {
   background-color: #2563eb;
-  transform: scale(1.03);
 }
 
-/* Responsif untuk HP */
+/* Tombol Kembali */
+.btn-secondary {
+  font-weight: 500;
+}
+
+/* Responsif */
 @media (max-width: 768px) {
   .form-wrapper {
     margin-left: 0;

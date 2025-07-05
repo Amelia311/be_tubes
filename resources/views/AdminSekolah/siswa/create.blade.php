@@ -4,11 +4,14 @@
 
 @push('styles')
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_create.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_dashboard.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 @endpush
 
 @section('content')
-<div class="container py-4">
-  <div class="card shadow-sm rounded">
+<div class="form-wrapper">
+  <div class="card shadow-sm border-0">
     <div class="card-header bg-primary text-white">
       <h5 class="mb-0">{{ isset($siswa) ? 'Edit Siswa' : 'Tambah Siswa' }}</h5>
     </div>
@@ -19,7 +22,7 @@
           @method('PUT')
         @endif
 
-        <div class="row g-3">
+        <div class="row g-4">
           <div class="col-md-6">
             <label for="nama" class="form-label">Nama Siswa</label>
             <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $siswa->nama ?? '') }}" required>

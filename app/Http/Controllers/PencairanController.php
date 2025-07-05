@@ -8,6 +8,7 @@ use App\Models\Laporan;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class PencairanController extends Controller
 {
@@ -98,15 +99,27 @@ class PencairanController extends Controller
         return view('AdminSekolah.riwayat.riwayatPencairan', compact('data'));
     }
     
-        public function formKonfirmasi()
-    {
-        $siswa = Auth::user(); // diasumsikan siswa login via nisn
 
-        return view('Siswa.konfirmasi', [
+    public function formKonfirmasi()
+    {
+        $nisn = Session::get('nisn');
+    
+        if (!$nisn) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu');
+        }
+    
+        $siswa = \App\Models\Siswa::where('nisn', $nisn)->first();
+    
+        if (!$siswa) {
+            return redirect('/login')->with('error', 'Data siswa tidak ditemukan');
+        }
+    
+        return view('Siswa.konfirmasi.konfirmasiPencairan', [
             'siswa' => $siswa,
-            'tanggal' => Carbon::now()->format('Y-m-d'),
+            'tanggal' => \Carbon\Carbon::now()->format('Y-m-d'),
         ]);
     }
+    
 
     public function submitKonfirmasi(Request $request)
     {
@@ -114,24 +127,38 @@ class PencairanController extends Controller
             'jumlah' => 'required|numeric|min:1',
             'bukti' => 'required|image|max:2048',
         ]);
-
-        $siswa = Auth::user();
-
+    
+        $nisn = session('nisn');
+        $siswa = Siswa::where('nisn', $nisn)->first();
+    
+        // Cari data pencairan yang sudah dibuat sebelumnya dan masih menunggu konfirmasi
+        $pencairan = Pencairan::where('siswa_id', $siswa->id)
+            ->where('status', 'Menunggu')
+            ->latest()
+            ->first();
+    
+        // Kalau tidak ditemukan, tampilkan error
+        if (!$pencairan) {
+            return redirect()->back()->with('error', 'Data pencairan tidak ditemukan atau sudah dikonfirmasi.');
+        }
+    
         // Simpan file bukti
-        $buktiPath = $request->file('bukti')->store('bukti_pencairan', 'public');
-
-        // Simpan ke DB
-        Pencairan::create([
-            'siswa_id' => $siswa->id,
+        $buktiPath = $request->file('bukti')->store('bukti', 'public');
+    
+        // Update data pencairan yang sudah ada
+        $pencairan->update([
             'jumlah' => $request->jumlah,
             'bukti' => $buktiPath,
-            'status' => 'Menunggu',
-            'created_at' => Carbon::now(),
+            'tanggal_cair' => Carbon::now()->format('Y-m-d'),
+            'keterangan' => 'Konfirmasi pencairan oleh siswa',
+            // status tetap "Menunggu" untuk diverifikasi admin
         ]);
-
+    
         return redirect()->back()->with('success', 'Konfirmasi berhasil dikirim.');
     }
-
+    
+    
+    
     /**
      * Mengonfirmasi pencairan dan memberikan simulasi TX ID blockchain
      */

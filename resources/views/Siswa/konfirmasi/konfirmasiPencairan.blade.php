@@ -10,7 +10,7 @@
     <div class="alert alert-success">{{ session('success') }}</div>
   @endif
 
-  <form action="{{ url('/konfirmasi') }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('/siswa/konfirmasi') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <label>Nama Siswa</label>

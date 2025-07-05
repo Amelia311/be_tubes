@@ -15,13 +15,7 @@
             </form>
         </div>
 
-        <!-- <form method="GET" action="{{ route('riwayat.sekolah') }}" class="filter-form">
-          <input type="text" name="search" placeholder="Cari nama siswa..." value="{{ request('search') }}" />
-          <input type="date" name="tanggal_awal" value="{{ request('tanggal_awal') }}" />
-          <input type="date" name="tanggal_akhir" value="{{ request('tanggal_akhir') }}" />
-          <button type="submit">Filter</button>
-          <a href="{{ route('riwayat.sekolah') }}" class="reset-btn">Reset</a>
-        </form> -->
+
         <table class="table-riwayat">
           <thead>
             <tr>
@@ -46,14 +40,14 @@
                 </td>
                 <td>
                   @if ($item->bukti)
-                    <a href="{{ asset('storage/bukti/' . $item->bukti) }}" target="_blank" class="link">Lihat</a>
+                    <a href="{{ asset('storage/' . $item->bukti) }}" target="_blank" class="link">Bukti Pencairan</a>
                   @else
                     -
                   @endif
                 </td>
                 <td>
                   @if ($item->blockchain_tx)
-                    <a href="https://sepolia.etherscan.io/tx/{{ $item->blockchain_tx }}" target="_blank" class="link">Link</a>
+                    <a href="https://sepolia.etherscan.io/tx/{{ $item->blockchain_tx }}" target="_blank" class="link">Pencairan</a>
                   @else
                     -
                   @endif
