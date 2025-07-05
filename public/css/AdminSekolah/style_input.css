@@ -3,7 +3,7 @@
   margin : 2rem auto;
   border: 1px solid var(--section-border);
   border-radius: 12px;
-  box-shadow: #665c00;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 .form-container h2 {
   color: #003366;
