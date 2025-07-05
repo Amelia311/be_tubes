@@ -9,16 +9,13 @@
 @section('content')
 
       <section class="content-box">
-        <div class="header-table">
-          <h3>Daftar Siswa</h3>
+          <div class="header-table">
+            <h3>Daftar Siswa</h3>
           <div class="actions">
-            <form method="GET" action="{{ route('siswa.index') }}" class="actions">
-              <input type="text" name="cari" placeholder="Cari nama siswa..." value="{{ request('cari') }}">
-              <button type="submit" class="btn-tambah"><i class="fas fa-search"></i> Cari</button>
-            </form>
-            <a href="{{ route('siswa.create') }}" class="btn-tambah"><i class="fas fa-plus"></i> Tambah Siswa</a>
-          </div>
+           <input type="text" placeholder="Cari siswa...">
+           <button class="btn-tambah">+ Tambah Siswa</button>
         </div>
+    </div>
 
         @if(session('success'))
           <div style="background-color: #22c55e; color: white; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
