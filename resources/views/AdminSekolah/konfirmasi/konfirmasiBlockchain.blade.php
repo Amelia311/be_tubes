@@ -3,9 +3,13 @@
 @section('title', 'Konfirmasi Pencairan')
 
 @push('styles')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Meta untuk CSRF Token -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+@endpush
+
 <style>
 :root {
   --primary-color: #4361ee;
@@ -592,220 +596,181 @@ h3::after {
   }
 }
 </style>
-@endpush
+
 
 @section('content')
-<div class="particles" id="particles"></div>
+<div class="container py-5">
+  <h3 class="mb-4"><i class="fas fa-check-circle"></i> Konfirmasi ke Blockchain</h3>
 
-<div class="loading-overlay" id="loadingOverlay">
-  <div class="loading-spinner"></div>
+  @if(session('success'))
+    <div class="alert alert-success"><i class="fas fa-check-circle"></i> {{ session('success') }}</div>
+  @endif
+
+  <table class="table table-bordered align-middle">
+    <thead class="table-primary">
+      <tr>
+        <th>Nama Siswa</th>
+        <th>Asal Sekolah</th>
+        <th>Tanggal</th>
+        <th>Jumlah</th>
+        <th>Status</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($data as $item)
+      <tr>
+        <td>{{ $item->siswa->nama }}</td>
+        <td>{{ $item->siswa->asal_sekolah }}</td>
+        <td>{{ optional($item->created_at)->format('Y-m-d') }}</td>
+        <td>Rp {{ number_format($item->jumlah, 0, ',', '.') }}</td>
+        <td>
+          @if($item->status === 'Sudah Cair')
+            <span class="badge bg-success">Sudah Cair</span><br>
+            <small>TX: <a href="https://sepolia.etherscan.io/tx/{{ $item->blockchain_tx }}" target="_blank">{{ Str::limit($item->blockchain_tx, 12) }}</a></small>
+          @else
+            <span class="badge bg-warning text-dark">Menunggu</span>
+          @endif
+        </td>
+        <td>
+          @if($item->status === 'Menunggu')
+          <button class="btn btn-primary btn-sm" 
+            data-id="{{ $item->id }}"
+            data-nama="{{ $item->siswa->nama }}"
+            data-jumlah="{{ $item->jumlah }}"
+            onclick="showConfirmationModal(this)">
+            <i class="fas fa-link"></i> Konfirmasi
+          </button>
+          @else
+          <button class="btn btn-secondary btn-sm" disabled><i class="fas fa-check"></i> Terkonfirmasi</button>
+          @endif
+        </td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
 </div>
 
-<div class="main-content animate__animated animate__fadeIn">
-  <div class="content-box">
-    <h3><i class="fas fa-check-circle"></i> Konfirmasi dan Catat Blockchain</h3>
-
-    @if(session('success'))
-      <div class="alert-box success animate__animated animate__slideInDown">
-        <i class="fas fa-check-circle"></i> {{ session('success') }}
+<!-- Modal -->
+<div class="modal fade" id="modalKonfirmasi" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-link"></i> Konfirmasi ke Blockchain</h5>
+        <button type="button" class="btn-close" onclick="closeModal()"></button>
       </div>
-    @endif
-
-    <table class="table-konfirmasi mt-3">
-        <thead>
-            <tr>
-                <th>Nama Siswa</th>
-                <th>Asal Sekolah</th>
-                <th>Tanggal</th>
-                <th>Jumlah</th>
-                <th>Status</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($data as $index => $item)
-            <tr class="animate__animated animate__fadeInUp" style="animation-delay: {{ $index * 0.1 }}s">
-                <td data-label="Nama Siswa">{{ $item->siswa->nama }}</td>
-                <td data-label="Asal Sekolah">{{ $item->siswa->asal_sekolah }}</td>
-                <td data-label="Tanggal">{{ optional($item->created_at)->format('Y-m-d') ?? '-' }}</td>
-                <td data-label="Jumlah">Rp {{ number_format($item->jumlah, 0, ',', '.') }}</td>
-                <td data-label="Status">
-                    @if($item->status == 'Sudah Cair')
-                        <span class="status sudah"><i class="fas fa-check-circle"></i> Sudah Cair</span><br>
-                        <small class="tx">
-                          TX: <a href="https://sepolia.etherscan.io/tx/{{ $item->blockchain_tx }}" target="_blank" class="tx-link">{{ Str::limit($item->blockchain_tx, 10) }}</a>
-                        </small>
-                    @else
-                        <span class="status belum"><i class="fas fa-clock"></i> Belum Cair</span>
-                    @endif
-                </td>
-                <td data-label="Aksi">
-                    @if($item->status == 'Menunggu')
-                    <button 
-                        class="btn-konfirmasi"
-                        data-id="{{ $item->id }}"
-                        data-nama="{{ $item->siswa->nama }}"
-                        data-jumlah="{{ $item->jumlah }}"
-                        onclick="showConfirmationModal(this)">
-                        <i class="fas fa-link"></i> Konfirmasi ke Blockchain
-                    </button>
-                    @else
-                    <button class="btn-terkonfirmasi" disabled><i class="fas fa-check"></i> Terkonfirmasi</button>
-                    @endif
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- Confirmation Modal -->
-<div class="modal-confirm" id="confirmationModal">
-  <div class="modal-content animate__animated animate__slideInUp">
-    <div class="modal-header">
-      <h4 class="modal-title"><i class="fas fa-link"></i> Konfirmasi ke Blockchain</h4>
-      <button class="modal-close" onclick="closeModal()">&times;</button>
-    </div>
-    <div class="modal-body">
-      <p>Anda akan mencatat pencairan ini ke blockchain Sepolia:</p>
-      <div class="confirmation-details">
-        <p><strong>Nama Siswa:</strong> <span id="modalNama"></span></p>
+      <div class="modal-body">
+        <p><strong>Nama:</strong> <span id="modalNama"></span></p>
         <p><strong>Jumlah:</strong> Rp <span id="modalJumlah"></span></p>
+        <p id="txStatus" class="fw-bold text-success d-none">✅ Transaksi berhasil!</p>
       </div>
-      
-      <div class="blockchain-animation" id="blockchainAnimation">
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+        <button class="btn btn-success" id="btnConfirm" onclick="confirmTransaction()">Konfirmasi</button>
       </div>
-      
-      <div class="success-animation" id="successAnimation" style="display: none;">
-        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-          <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-          <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-        </svg>
-      </div>
-      
-      <p id="transactionMessage" style="text-align: center; margin-top: 15px; font-weight: 500;"></p>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-modal btn-cancel" onclick="closeModal()">Batal</button>
-      <button class="btn-modal btn-confirm" id="confirmButton" onclick="confirmTransaction()">Konfirmasi</button>
     </div>
   </div>
 </div>
 
+<!-- Script -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
 <script>
-  function handleClick(button) {
-    const id = button.getAttribute('data-id');
-    const nama = button.getAttribute('data-nama');
-    const jumlah = button.getAttribute('data-jumlah');
-    konfirmasiKeBlockchain(id, nama, jumlah);
+let selectedId = null;
+let selectedNama = '';
+let selectedJumlah = '';
+
+function showConfirmationModal(button) {
+  selectedId = button.getAttribute('data-id');
+  selectedNama = button.getAttribute('data-nama');
+  selectedJumlah = button.getAttribute('data-jumlah');
+
+  document.getElementById('modalNama').innerText = selectedNama;
+  document.getElementById('modalJumlah').innerText = selectedJumlah;
+  document.getElementById('txStatus').classList.add('d-none');
+
+  const modal = new bootstrap.Modal(document.getElementById('modalKonfirmasi'));
+  modal.show();
+}
+
+function closeModal() {
+  const modalElement = document.getElementById('modalKonfirmasi');
+  const modalInstance = bootstrap.Modal.getInstance(modalElement);
+  modalInstance.hide();
+}
+
+async function confirmTransaction() {
+  if (typeof window.ethereum === 'undefined') {
+    alert('🦊 MetaMask tidak ditemukan!');
+    return;
   }
 
-  const konfirmasiKeBlockchain = async (id, nama, jumlah) => {
-    if (typeof window.ethereum === 'undefined') {
-      alert("🦊 MetaMask tidak ditemukan!");
+  const SEPOLIA_CHAIN_ID = '0xaa36a7';
+  const currentChainId = await ethereum.request({ method: 'eth_chainId' });
+
+  if (currentChainId !== SEPOLIA_CHAIN_ID) {
+    try {
+      await ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: SEPOLIA_CHAIN_ID }]
+      });
+    } catch (err) {
+      alert('Gagal beralih ke jaringan Sepolia.');
       return;
     }
+  }
 
-    const SEPOLIA_CHAIN_ID = '0xaa36a7'; // = 11155111 (Sepolia Testnet)
-    const currentChainId = await ethereum.request({ method: 'eth_chainId' });
+  const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+  const from = accounts[0];
 
-    // Cek apakah user di jaringan Sepolia
-    if (currentChainId !== SEPOLIA_CHAIN_ID) {
-      try {
-        await ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: SEPOLIA_CHAIN_ID }]
-        });
-      } catch (err) {
-        // Kalau jaringan belum ditambahkan ke MetaMask
-        if (err.code === 4902) {
-          alert("Jaringan Sepolia belum ditambahkan di MetaMask kamu.");
-        } else {
-          alert("Gagal beralih ke jaringan Sepolia.");
-        }
-        return;
-      }
+  const contractAddress = '0x254384728adfbbbf3134af4f3e792fc44cc295c8'; // Ganti sesuai alamat kontrakmu
+  const contractABI = [
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "internalType": "uint256", "name": "id", "type": "uint256" },
+        { "indexed": true, "internalType": "address", "name": "konfirmasiOleh", "type": "address" },
+        { "indexed": false, "internalType": "uint256", "name": "waktuKonfirmasi", "type": "uint256" }
+      ],
+      "name": "PencairanDicatat",
+      "type": "event"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "_id", "type": "uint256" }],
+      "name": "catatPencairan",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     }
+  ];
 
-    // Request akses akun
-    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-    const from = accounts[0];
+  const web3 = new Web3(window.ethereum);
+  const contract = new web3.eth.Contract(contractABI, contractAddress);
 
-    // Kontrak yang sudah kamu deploy ke Sepolia
-    const contractAddress = '0x254384728adfbbbf3134af4f3e792fc44cc295c8'; // HARUS dari Sepolia
-    const contractABI = [
-      {
-        "anonymous": false,
-        "inputs": [
-          { "indexed": true, "internalType": "uint256", "name": "id", "type": "uint256" },
-          { "indexed": true, "internalType": "address", "name": "konfirmasiOleh", "type": "address" },
-          { "indexed": false, "internalType": "uint256", "name": "waktuKonfirmasi", "type": "uint256" }
-        ],
-        "name": "PencairanDicatat",
-        "type": "event"
+  try {
+    const tx = await contract.methods.catatPencairan(selectedId).send({ from });
+
+    // Kirim ke Laravel untuk simpan ke database
+    await fetch('/api/simpan-blockchain-tx', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
       },
-      {
-        "inputs": [{ "internalType": "uint256", "name": "_id", "type": "uint256" }],
-        "name": "catatPencairan",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [{ "internalType": "uint256", "name": "_id", "type": "uint256" }],
-        "name": "getPencairan",
-        "outputs": [
-          {
-            "components": [
-              { "internalType": "uint256", "name": "id", "type": "uint256" },
-              { "internalType": "address", "name": "konfirmasiOleh", "type": "address" },
-              { "internalType": "uint256", "name": "waktuKonfirmasi", "type": "uint256" }
-            ],
-            "internalType": "struct DanaPIP.Pencairan",
-            "name": "",
-            "type": "tuple"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      }
-    ];
+      body: JSON.stringify({
+        pencairan_id: selectedId,
+        blockchain_tx: tx.transactionHash
+      })
+    });
 
-    const web3 = new Web3(window.ethereum);
-    const contract = new web3.eth.Contract(contractABI, contractAddress);
+    document.getElementById('txStatus').classList.remove('d-none');
+    document.getElementById('btnConfirm').disabled = true;
+    setTimeout(() => location.reload(), 1500);
 
-    try {
-      const tx = await contract.methods.catatPencairan(id).send({ from });
-
-      // Simpan ke backend Laravel
-      await fetch('/api/simpan-blockchain-tx', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({
-          pencairan_id: id,
-          blockchain_tx: tx.transactionHash
-        })
-      });
-
-      alert('✅ Berhasil dicatat ke blockchain Sepolia & database!');
-      window.location.reload();
-
-    } catch (error) {
-      console.error(error);
-      alert('❌ Gagal mencatat ke blockchain.');
-    }
-  };
+  } catch (err) {
+    console.error(err);
+    alert('❌ Gagal mencatat ke blockchain.');
+  }
+}
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 @endsection
