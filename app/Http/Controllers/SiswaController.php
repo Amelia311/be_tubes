@@ -35,12 +35,12 @@ class SiswaController extends Controller
             'alamat' => 'required',
             'kelas' => 'required|in:X,XI,XII',
         ]);
-    
+
         Siswa::create($validated);
-    
+
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil disimpan!');
     }
-    
+
     
     public function akunSiswa()
 

@@ -63,7 +63,6 @@
     </table>
   </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
 <script>
   function handleClick(button) {
@@ -75,15 +74,38 @@
 
   const konfirmasiKeBlockchain = async (id, nama, jumlah) => {
     if (typeof window.ethereum === 'undefined') {
-      alert("MetaMask tidak ditemukan!");
+      alert("🦊 MetaMask tidak ditemukan!");
       return;
     }
 
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const SEPOLIA_CHAIN_ID = '0xaa36a7'; // = 11155111 (Sepolia Testnet)
+    const currentChainId = await ethereum.request({ method: 'eth_chainId' });
+
+    // Cek apakah user di jaringan Sepolia
+    if (currentChainId !== SEPOLIA_CHAIN_ID) {
+      try {
+        await ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: SEPOLIA_CHAIN_ID }]
+        });
+      } catch (err) {
+        // Kalau jaringan belum ditambahkan ke MetaMask
+        if (err.code === 4902) {
+          alert("Jaringan Sepolia belum ditambahkan di MetaMask kamu.");
+        } else {
+          alert("Gagal beralih ke jaringan Sepolia.");
+        }
+        return;
+      }
+    }
+
+    // Request akses akun
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
     const from = accounts[0];
 
-    const contractAddress = '0x254384728adfbbbf3134af4f3e792fc44cc295c8';
-    const contractABI = [ 
+    // Kontrak yang sudah kamu deploy ke Sepolia
+    const contractAddress = '0x254384728adfbbbf3134af4f3e792fc44cc295c8'; // HARUS dari Sepolia
+    const contractABI = [
       {
         "anonymous": false,
         "inputs": [
@@ -127,6 +149,7 @@
     try {
       const tx = await contract.methods.catatPencairan(id).send({ from });
 
+      // Simpan ke backend Laravel
       await fetch('/api/simpan-blockchain-tx', {
         method: 'POST',
         headers: {
@@ -139,7 +162,7 @@
         })
       });
 
-      alert('✅ Berhasil dicatat ke blockchain & database!');
+      alert('✅ Berhasil dicatat ke blockchain Sepolia & database!');
       window.location.reload();
 
     } catch (error) {
@@ -148,4 +171,5 @@
     }
   };
 </script>
+
 @endsection

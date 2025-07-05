@@ -16,7 +16,7 @@ class AuthController extends Controller
     private $users = [
         ['username' => 'pemerintah', 'password' => '123', 'role' => 'pemerintah'],
         ['username' => 'sekolah', 'password' => '123', 'role' => 'sekolah'],
-        ['username' => 'siswa', 'password' => '123', 'role' => 'siswa', 'nisn' => '1234567890']
+        ['nisn' => '', 'password' => '123', 'role' => 'siswa', 'nisn' => '1234567890']
     ];
 
     public function showLogin()
