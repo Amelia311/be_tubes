@@ -74,24 +74,28 @@ class PencairanController extends Controller
 
     public function riwayatSekolah(Request $request)
     {
-        $query = Pencairan::with('siswa');
-
-        // Filter berdasarkan nama siswa
+        $query = Pencairan::with('siswa')->orderBy('tanggal_cair', 'desc');
+    
+        // Filter opsional (bisa diaktifkan nanti)
         if ($request->filled('search')) {
-            $query->whereHas('siswa', function ($q) use ($request) {
+            $query->whereHas('siswa', function($q) use ($request) {
                 $q->where('nama', 'like', '%' . $request->search . '%');
             });
         }
-
-        // Filter berdasarkan tanggal dari - sampai
-        if ($request->filled('tanggal_awal') && $request->filled('tanggal_akhir')) {
-            $query->whereBetween('tanggal_cair', [$request->tanggal_awal, $request->tanggal_akhir]);
+    
+        if ($request->filled('tanggal_awal')) {
+            $query->whereDate('tanggal_cair', '>=', $request->tanggal_awal);
         }
-
-        $data = $query->orderBy('tanggal_cair', 'desc')->get();
-
+    
+        if ($request->filled('tanggal_akhir')) {
+            $query->whereDate('tanggal_cair', '<=', $request->tanggal_akhir);
+        }
+    
+        $data = $query->get();
+    
         return view('AdminSekolah.riwayat.riwayatPencairan', compact('data'));
     }
+    
 
 
     /**
