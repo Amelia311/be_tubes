@@ -9,7 +9,7 @@
 @section('content')
 <section class="content-box">
         <div class="header-table">
-            <h3>Riwayat Pencairan</h3>
+            <h3 style="color: white;">Riwayat Pencairan</h3>
             <form method="GET" action="{{ route('riwayat.sekolah') }}" class="filter-form">
                 <input type="text" name="search" placeholder="Search..." class="search-input" value="{{ request('search') }}"/>
             </form>

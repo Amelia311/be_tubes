@@ -9,16 +9,16 @@
   <div class="form-container">
     <h3>Input Pencairan</h3>
 
-    {{-- Pesan sukses --}}
+    {{-- Pesan sukses --}} 
     @if (session('success'))
-      <div style="background: #22c55e; padding: 10px; border-radius: 6px; margin-bottom: 10px; color: white;">
+      <div class="success-message">
         {{ session('success') }}
       </div>
     @endif
 
     {{-- Validasi error --}}
     @if ($errors->any())
-      <div style="background-color: #ef4444; padding: 10px; border-radius: 6px; margin-bottom: 10px; color: white;">
+      <div class="error-message">
         <ul style="margin: 0; padding-left: 20px;">
           @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>

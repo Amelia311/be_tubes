@@ -1,55 +1,116 @@
-body {
+/* Reset dasar */
+* {
   margin: 0;
   padding: 0;
-  background-color: #0f172a;
-  color: #ffffff;
-  font-family: 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Layout Utama */
+body {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4f7fa;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 230px;
+  background-color: #0d4d91;
+  color: white;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.sidebar h2 {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebar a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Konten */
+.content-wrapper {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  padding: 3rem;
 }
 
-.container {
-  background-color: #1e293b;
-  padding: 2rem;
+/* Form Container */
+.form-container {
+  background-color: #fff;
+  padding: 2rem 2.5rem;
   border-radius: 12px;
-  width: 90%;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   max-width: 600px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  text-align: left;
+  width: 100%;
 }
 
-h1 {
+/* Judul Form */
+.form-container h2 {
   font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  color: #ffffff;
   text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
 }
 
-.card {
-  background-color: #334155;
-  padding: 1rem;
+/* Label dan Input */
+.form-container label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.form-container input,
+.form-container select,
+.form-container textarea {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  margin-bottom: 1.5rem;
-}
-
-.card p {
-  margin: 0.5rem 0;
   font-size: 1rem;
+  transition: border 0.2s ease;
 }
 
-.btn-kembali {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #3b82f6;
-  color: #ffffff;
-  text-decoration: none;
-  border-radius: 6px;
-  text-align: center;
+.form-container input:focus,
+.form-container select:focus,
+.form-container textarea:focus {
+  outline: none;
+  border-color: #0d6efd;
+}
+
+/* Tombol Simpan */
+.form-container button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #28a745;
+  border: none;
+  color: white;
+  font-size: 1.05rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.btn-kembali:hover {
-  background-color: #2563eb;
+.form-container button:hover {
+  background-color: #218838;
 }

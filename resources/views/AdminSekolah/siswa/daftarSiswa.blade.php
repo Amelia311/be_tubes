@@ -10,7 +10,7 @@
 
       <section class="content-box">
           <div class="header-table">
-            <h3>Daftar Siswa</h3>
+            <h3 style="color: white;">Daftar Siswa</h3>
           <div class="actions">
            <input type="text" placeholder="Cari siswa...">
            <button class="btn-tambah">+ Tambah Siswa</button>

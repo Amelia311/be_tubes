@@ -4,46 +4,39 @@
 
 @push('styles')
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_create.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_dashboard.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-@endpush
+
+  @endpush
 
 @section('content')
-<div class="form-wrapper">
-  <div class="card shadow-sm border-0">
-    <div class="card-header bg-primary text-white">
+<section class="content-box">
+  <div class="form-container">
       <h5 class="mb-0">{{ isset($siswa) ? 'Edit Siswa' : 'Tambah Siswa' }}</h5>
-    </div>
     <div class="card-body">
       <form method="POST" action="{{ isset($siswa) ? route('siswa.update', $siswa->id) : route('siswa.store') }}">
         @csrf
         @if(isset($siswa))
           @method('PUT')
         @endif
-
-        <div class="row g-4">
-          <div class="col-md-6">
+           <a href="{{ route('siswa.index') }}"
+            style="position: absolute; top: 45px; right: 170px; background: transparent; color: #163450FF; font-size: 1.3rem; text-decoration: none; padding: 6px; border-radius: 6px;"
+            title="Kembali ke daftar siswa"
+            onmouseover="this.style.color='#410F0FFF'"
+            onmouseout="this.style.color='#151F2AFF'">
+            <i class="fas fa-times"></i>
+          </a>
             <label for="nama" class="form-label">Nama Siswa</label>
             <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $siswa->nama ?? '') }}" required>
-          </div>
-
-          <div class="col-md-6">
+          
+          
             <label for="nisn" class="form-label">NISN</label>
             <input type="text" class="form-control" id="nisn" name="nisn" value="{{ old('nisn', $siswa->nisn ?? '') }}" required>
-          </div>
-
-          <div class="col-md-6">
-            <label for="asal_sekolah" class="form-label">Asal Sekolah</label>
-            <input type="text" class="form-control" id="asal_sekolah" name="asal_sekolah" value="{{ old('asal_sekolah', $siswa->asal_sekolah ?? '') }}" required>
-          </div>
-
-          <div class="col-md-6">
-            <label for="alamat" class="form-label">Alamat</label>
+         
+           <label for="asal_sekolah" class="form-label">Asal Sekolah</label>
+           <input type="text" class="form-control" id="asal_sekolah" name="asal_sekolah" value="{{ old('asal_sekolah', $siswa->asal_sekolah ?? '') }}" required>
+          
+           <label for="alamat" class="form-label">Alamat</label>
             <input type="text" class="form-control" id="alamat" name="alamat" value="{{ old('alamat', $siswa->alamat ?? '') }}">
-          </div>
-
-          <div class="col-md-4">
+       
             <label for="kelas" class="form-label">Kelas</label>
             <select class="form-select" id="kelas" name="kelas" required>
               <option value="" disabled selected>-- Pilih Kelas --</option>
@@ -51,13 +44,10 @@
               <option value="XI" {{ old('kelas', $siswa->kelas ?? '') == 'XI' ? 'selected' : '' }}>XI</option>
               <option value="XII" {{ old('kelas', $siswa->kelas ?? '') == 'XII' ? 'selected' : '' }}>XII</option>
             </select>
-          </div>
-        </div>
+          
 
-        <div class="mt-4 d-flex justify-content-between">
-          <a href="{{ route('siswa.index') }}" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Kembali
-          </a>
+       <div class="mt-4 d-flex justify-content-between gap-3 flex-wrap">
+         
           <button type="submit" class="btn btn-success">
             <i class="fas fa-save"></i> Simpan
           </button>

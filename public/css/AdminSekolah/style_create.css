@@ -1,45 +1,71 @@
-/* Style Tambahan Khusus Form */
-
-.form-wrapper {
-  margin-left: 270px; /* lebar sidebar */
-  padding: 40px 20px;
+.form-container {
   max-width: 800px;
-  margin-right: auto;
+  margin : 2rem auto;
+  border: 1px solid var(--section-border);
+  border-radius: 12px;
+  box-shadow: #665c00;
 }
-
-.box-title {
-  font-size: 28px;
-  font-weight: bold;
-  text-align: center;
-  color: #facc15;
-  margin-bottom: 30px;
+.form-container h2 {
+  color: #003366;
+  margin-bottom: 1.5rem;
 }
-
-/* Label custom warna kuning */
-label.form-label {
+.form-container label {
+  display: block;
   font-weight: 600;
-  color: #facc15;
+  margin-bottom: 0.3rem;
+}
+.form-container input,
+.form-container select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+}
+.form-container button {
+  background-color: #27ae60;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  font-size: 1.1rem;
+}
+.form-container button:hover {
+  background-color: #219150;
 }
 
-/* Custom input field background gelap */
-.form-control,
-.form-select {
-  background-color: #0f172a;
-  color: #fff;
-  border: 1px solid #334155;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 15px;
+/* Success and error messages */
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+.content-wrapper {
+  margin-left: 240px; /* tetap perlu ini karena sidebar lebarnya 240px */
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* atau center jika mau vertical tengah */
+  background-color: #f5f7fa;
+  min-height: 100vh;
 }
 
-/* Saat focus */
-.form-control:focus,
-.form-select:focus {
-  background-color: #1e293b;
-  border-color: #3b82f6;
-  color: #fff;
-  box-shadow: none;
-}
+
+
 
 /* Tombol Simpan */
 .btn-success {
@@ -58,6 +84,20 @@ label.form-label {
 /* Tombol Kembali */
 .btn-secondary {
   font-weight: 500;
+}
+/* Jarak antar tombol saat berdampingan */
+.form-wrapper .d-flex > * {
+  margin-left: 8px;
+}
+
+/* Hilangkan margin kiri tombol pertama */
+.form-wrapper .d-flex > *:first-child {
+  margin-left: 0;
+}
+
+/* Jarak atas tombol */
+.form-wrapper .mt-4 {
+  margin-top: 2rem !important;
 }
 
 /* Responsif */

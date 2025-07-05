@@ -16,7 +16,8 @@
     --purple: #9b59b6;
   
     --dark-bg: #ffffff;
-    --sidebar-bg: #105ca8;
+    --gradient-header: linear-gradient(90deg, #004e92, #000428);
+    --sidebar-bg: linear-gradient(90deg, #004e92, #000428);
     --table-head: #f1f1f1;
     --accent-yellow: #f59e0b;
     --accent-blue: #105ca8;
@@ -90,7 +91,7 @@
   }
   
   .logout-form {
-    margin-top: auto;
+    margin-top: 150px;
   }
   .logout-form button {
     background: none;
@@ -304,6 +305,162 @@
       margin-top: 10px;
     }
   }
-  
+  .sidebar nav ul li {
+  margin-bottom: 20px;
+  padding-bottom: 10px;          /* kasih jarak bawah supaya gak nempel garis */
+  border-bottom: 1px solid #334155; /* garis tipis bawah tiap item */
+}
+
+/* Kalau kamu gak mau garis di item terakhir supaya lebih rapi */
+.sidebar nav ul li:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+/* Agar form tidak mepet sidebar */
+.content-wrapper {
+    margin-left: 250px; /* sesuaikan dengan lebar sidebar kamu */
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    background-color: #f5f7fa;
+}
+
+/* Form agar tampil bersih dan elegan */
+.form-container {
+    background-color: #fff;
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 800px;
+}
+
+/* Judul form */
+.form-container h2 {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+/* Input & Select Style */
+.form-container label {
+    font-weight: 600;
+    margin-top: 1rem;
+    display: block;
+}
+
+.form-container input,
+.form-container select {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    margin-top: 0.25rem;
+    margin-bottom: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+/* Tombol Simpan */
+.form-container button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #28a745;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: #218838;
+}
+.logout-form button {
+  background-color: var(--danger); /* merah */
+  color: white;
+  cursor: pointer;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logout-form button:hover {
+  background-color: #c0392b; /* warna merah gelap saat hover */
+  box-shadow: 0 4px 12px rgba(192, 57, 43, 0.6);
+}
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #1e293b;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.content-box {
+  max-width: 800px;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+/* Tambahan styling form */
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  background-color: #1e293b;
+  color: white;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  background-color: #334155;
+}
+
+.btn-tambah {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+  width: 100%;
+}
+
+.btn-tambah:hover {
+  background-color: #1d4ed8;
+}
+
+
 
 

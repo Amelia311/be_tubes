@@ -1,54 +1,55 @@
-/* Tambahan dan perbaikan */
-.header-table {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap; /* Supaya responsif jika layar kecil */
-  gap: 10px;
-  margin-bottom: 15px;
+/* Sidebar */
+.sidebar {
+  background-color: rgba(255, 255, 255, 0.85); /* biru transparan */
+  color: white;
 }
 
-.header-table h3 {
-  font-size: 22px;
-  color: #fcd34d;
+/* Sidebar Active Text */
+.sidebar .active {
+  color: white !important; /* warna tulisan aktif, misal "Daftar Siswa" */
   font-weight: bold;
-  margin: 0;
 }
 
-/* Atur ulang .actions agar sejajar dan rapi di sebelah kanan */
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.actions input[type="text"] {
+/* Search Input */
+.search-box input[type="text"] {
+  background-color: rgba(255, 255, 255, 0.15); /* putih transparan */
+  border: 1px solid white;
+  color: white;
   padding: 8px 12px;
   border-radius: 6px;
-  border: none;
-  background-color: #0f172a;
+}
+
+/* Search Input Placeholder */
+.search-box input[type="text"]::placeholder {
+  color: #f1f5f9;
+}
+
+/* Main Content Background (yang biru full itu) */
+.main-content {
+  background-color: #6aa3dc; /* semi-transparan gelap */
+  border-radius: 15px;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+/* Table Area */
+.table-container {
+  background-color: rgba(255, 252, 252, 0.05); /* biar ngambang dikit */
+  border-radius: 15px;
+  padding: 10px;
+}
+
+/* Tabel Header */
+.table-container table thead th {
+  background-color: rgba(15, 23, 42, 0.6);
   color: white;
-  width: 200px;
-  font-size: 14px;
 }
 
-.actions input::placeholder {
-  color: #cbd5e1;
+/* Tabel Row */
+.table-container table tbody tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
-.btn-tambah {
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 14px;
-}
-
-.btn-tambah:hover {
-  background-color: #f2f6ff;
+.table-container table tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.06);
 }

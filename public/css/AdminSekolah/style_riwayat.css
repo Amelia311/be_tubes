@@ -1,6 +1,6 @@
 /* Tambahan khusus agar tabel riwayat memenuhi layar */
 .content-box {
-  background-color: #1e293b;
+  background-color: #1d73c9; /* semi-transparan gelap */
   padding: 20px;
   border-radius: 12px;
   width: 100%;
@@ -27,13 +27,13 @@
 }
 
 .table-riwayat thead th {
-  background-color: #334155;
+  background-color: #060e15;
   font-weight: 600;
 }
 
 .table-riwayat tbody tr:nth-child(odd),
 .table-riwayat tbody tr:nth-child(even) {
-  background-color: #1e293b;
+  background-color: #4b525d;
 }
 
 /* Status & Link */
