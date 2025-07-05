@@ -44,7 +44,7 @@
                     @endif
                 </td>
                 <td>
-                    @if($item->status == 'Belum Cair')
+                    @if($item->status == 'Menunggu')
                     <button 
                         class="btn-konfirmasi"
                         data-id="{{ $item->id }}"

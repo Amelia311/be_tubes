@@ -30,6 +30,10 @@
         <textarea name="alamat" required></textarea>
       </div>
       <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" required>
+      </div>
+      <div class="form-group">
         <label for="kelas">Kelas</label>
         <select name="kelas" required>
           <option value="">Pilih Kelas</option>

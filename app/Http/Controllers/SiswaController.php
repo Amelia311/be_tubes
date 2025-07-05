@@ -28,20 +28,21 @@ class SiswaController extends Controller
     
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama' => 'required',
-            'nisn' => 'required|unique:siswa',
-            'asal_sekolah' => 'required',
-            'alamat' => 'required',
-            'kelas' => 'required|in:X,XI,XII',
+        $request->validate([
+            'password' => 'required|min:6'
         ]);
-
-        Siswa::create($validated);
-
-        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil disimpan!');
+        Siswa::create([
+            'nama' => $request->nama,
+            'nisn' => $request->nisn,
+            'asal_sekolah' => $request->asal_sekolah,
+            'alamat' => $request->alamat,
+            'kelas' => $request->kelas,
+            'password' => Hash::make($request->password)
+        ]);
+        
+        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diperbarui!');
     }
 
-    
     public function akunSiswa()
 
     {
