@@ -16,15 +16,19 @@ class SiswaController extends Controller
     public function index(Request $request)
     {
         $query = Siswa::query();
-        if ($request->has('cari')) {
-            $query->where('nama', 'like', '%' . $request->cari . '%');
+    
+        if ($request->has('search')) {
+            $search = $request->search;
+    
+            $query->where('nama', 'like', "%$search%")
+                  ->orWhere('nisn', 'like', "%$search%")
+                  ->orWhere('asal_sekolah', 'like', "%$search%");
         }
     
-        $data = $query->get();
+        $siswa = $query->paginate(10); // atau get() kalau tidak ingin pakai pagination
     
-        return view('AdminSekolah.siswa.daftarSiswa', ['siswa' => $data]);
+        return view('AdminSekolah.siswa.daftarSiswa', compact('siswa'));
     }
-
     
     public function store(Request $request)
     {
