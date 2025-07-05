@@ -16,6 +16,12 @@ use App\Http\Controllers\AdminSekolahController;
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/siswa/konfirmasi', [PencairanController::class, 'formKonfirmasi'])->name('konfirmasi.form');
+    Route::post('/siswa/konfirmasi', [PencairanController::class, 'submitKonfirmasi'])->name('submitKonfirmasi');
+});
+
+
 
 // Dashboard Admin Sekolah
 Route::get('/dashboard/sekolah', function () {
@@ -103,7 +109,4 @@ Route::post('/api/simpan-blockchain-tx', [PencairanController::class, 'simpanTx'
 Route::post('/siswa/lapor', [LaporanController::class, 'store'])->name('siswa.laporStore');
 
 
-//route untuk konfirmasi pencairan
-Route::get('/pencairan/konfirmasi', [PencairanController::class, 'showForm'])->name('pencairan.konfirmasi');
-Route::post('/pencairan/konfirmasi/submit', [PencairanController::class, 'submitForm'])->name('pencairan.konfirmasi.submit');
 
