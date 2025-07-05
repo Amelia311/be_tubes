@@ -3,7 +3,8 @@
 @section('title', 'Daftar Siswa')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('..css/AdminSekolah/style_dashboard.css') }}">
+<link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_daftar_siswa.css') }}">
+<link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_dashboard.css') }}">
 @endpush
 
 @section('content')
