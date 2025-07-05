@@ -18,7 +18,6 @@
           <li><a href="{{ route('pencairan.create') }}"><i class="fas fa-money-bill-wave"></i> Input Pencairan</a></li>
           <li><a href="{{ url('/dashboard/sekolah/konfirmasi') }}"><i class="fas fa-check-circle"></i> Konfirmasi</a></li>
           <li><a href="{{ url('/dashboard/sekolah/riwayat') }}"><i class="fas fa-history"></i> Riwayat Pencairan</a></li>
-          <li><a href="{{ route('laporan.kendala') }}"><i class="fas fa-exclamation-triangle"></i> Laporan</a></li>
           <li><a href="{{ route('akun.siswa') }}"><i class="fas fa-user-cog"></i> Akun Siswa</a></li>
           <li><a href="{{ route('siswa.transparansi') }}"><i class="fas fa-chart-pie"></i>Transparansi</a></li>
         </ul>
