@@ -6,7 +6,15 @@
 
 @section('content')
 <div class="page-wrapper">
-    <h3>Daftar Akun Siswa</h3>
+    <h3 style="color: #FFD700; margin-bottom: 20px;">Akun Siswa</h3>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div style="flex-grow: 1;">
+            <input type="text" class="form-control" placeholder="Cari nama siswa..." style="padding: 8px 12px; border-radius: 5px; border: none; background-color: #1E293B; color: #fff; width: 250px;">
+            <button class="btn-cari" style="background-color: #3B82F6; color: white; border: none; padding: 8px 16px; border-radius: 5px; margin-left: 8px;">🔍 Cari</button>
+        </div>
+        <a href="{{ route('siswa.create') }}" class="btn-tambah" style="background-color: #2563EB; color: white; padding: 8px 16px; border-radius: 5px; text-decoration: none;">+ Tambah Akun</a>
+    </div>
 
     <div class="table-container">
         <table class="table-akun">

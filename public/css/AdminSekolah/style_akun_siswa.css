@@ -15,6 +15,11 @@ h3 {
     overflow-x: auto;
 }
 
+.h3 {
+    text-align: center;
+    background-color: #334155;
+}
+
 .table-akun {
     width: 100%;
     border-collapse: separate;

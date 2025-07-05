@@ -26,7 +26,7 @@ class SiswaController extends Controller
     }
 
     
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'nama' => 'required',
@@ -34,14 +34,13 @@ class SiswaController extends Controller
             'asal_sekolah' => 'required',
             'alamat' => 'required',
             'kelas' => 'required|in:X,XI,XII',
-            'password' => 'required|min:6',
         ]);
-
-        $validated['password'] = Hash::make($request->password);
     
         Siswa::create($validated);
-        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil ditambahkan!');
+    
+        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil disimpan!');
     }
+    
     
     public function akunSiswa()
 
@@ -85,7 +84,7 @@ class SiswaController extends Controller
     public function destroy($id)
     {
         Siswa::destroy($id);
-        return response()->json(['message' => 'Deleted successfully']);
+        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil dihapus!');
     }
 
     public function adminFull(Request $request)

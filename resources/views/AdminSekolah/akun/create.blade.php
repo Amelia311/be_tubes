@@ -7,7 +7,16 @@
 @section('content')
 <div class="container">
     <h3>Tambah Akun Siswa</h3>
-    
+    @if ($errors->any())
+  <div class="alert alert-danger">
+    <ul>
+      @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
+@endif
+
     <form method="POST" action="{{ route('siswa.store') }}">
         @csrf
 
