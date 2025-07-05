@@ -2,11 +2,10 @@
 
 @section('title', 'konfirmasi pencairan')
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_konfirmasi.css') }}">
-@endpush
+
 
 @section('content')
+<link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_konfirmasi.css') }}">
 <div class="container">
     <h4>Konfirmasi dan Catat Blockchain</h4>
     <table class="table table-bordered mt-3">

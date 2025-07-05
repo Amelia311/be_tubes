@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Laporan;
 use App\Models\Pencairan;
+use Illuminate\Support\Facades\Session;
+
 
 class SiswaController extends Controller
 {
@@ -19,7 +21,7 @@ class SiswaController extends Controller
     
         $data = $query->get();
     
-        return view('AdminSekolah.daftarSiswa', ['siswa' => $data]);
+        return view('AdminSekolah.siswa.daftarSiswa', ['siswa' => $data]);
     }
 
     
@@ -76,7 +78,7 @@ class SiswaController extends Controller
         }
 
         $siswa = $query->get();
-        return view('AdminSekolah.daftarSiswa', compact('siswa'));
+        return view('AdminSekolah.siswa.daftarSiswa', compact('siswa'));
     }
 
     public function riwayatSaya()
@@ -87,7 +89,7 @@ class SiswaController extends Controller
         $q->where('nisn', $nisn);
     })->orderBy('tanggal_cair', 'desc')->get();
 
-    return view('(Siswa).riwayatPencairanSiswa', compact('riwayat'));
+    return view('Siswa.riwayatPencairanSiswa', compact('riwayat'));
 }
 
 
@@ -145,11 +147,14 @@ public function laporStore(Request $request)
 
     public function dashboard()
     {
-        $nisn = auth()->user()->nisn;
+        // $nisn = auth()->user()->nisn;
+        $nisn = Session::get('nisn');
+
+
         $pencairan_riwayat = Pencairan::whereHas('siswa', function ($q) use ($nisn) {
             $q->where('nisn', $nisn);
         })->get();
 
-        return view('Siswa.dashboard', compact('pencairan_riwayat'));
+        return view('Siswa.dashboardSiswa', compact('pencairan_riwayat'));
     }
 }

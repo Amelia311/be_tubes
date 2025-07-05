@@ -17,10 +17,12 @@
       <a href="{{ route('siswa.dashboard') }}"><i class="fas fa-info-circle"></i>Detail</a>
       <a href="{{ route('siswa.riwayat') }}"><i class="fas fa-exclamation-triangle"></i>Laporan</a>
       <a href="#transparansi"><i class="fas fa-chart-pie"></i>Transparansi</a>
-      <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+
+      <form method="POST" action="{{ route('logout') }}">
         @csrf
-        <button type="submit" class="logout-btn">Logout</button>
+        <button type="submit">Logout</button>
       </form>
+
     </nav>
   </header>
 
@@ -60,7 +62,7 @@
           </tr>
         </thead>
         <tbody>
-@forelse($riwayat as $item)
+@forelse($pencairan_riwayat as $item)
 <tr>
     <td>{{ $item->periode }}</td>
     <td>{{ $item->status }}</td>
