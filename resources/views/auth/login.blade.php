@@ -4,225 +4,310 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login - PIPGuard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
-:root {
-  --pip-blue-dark: #004e92;
-  --accent-color: #ffb347;
-  --pip-yellow: #F9B233;
-  --green-pip: #1abc9c;
-  --pip-text-dark: #2b2b2b;
-  --pip-text-light: #555;
-}
-
-  * {
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
-  }
-  body {
-    margin: 0;
-    background-color: var(--pip-blue-dark);
-    color: #fff;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* 🎨 Lingkaran-lingkaran background */
-  body::before {
-    content: "";
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    top: -50%;
-    left: -50%;
-    background: radial-gradient(circle at 20% 30%, var(--pip-yellow) 10%, transparent 30%),
-                radial-gradient(circle at 80% 20%, #ffffff55 10%, transparent 30%),
-                radial-gradient(circle at 50% 70%, #00bcd48f 10%, transparent 30%);
-    z-index: 0;
-    animation: floatCircles 20s infinite linear;
-  }
-
-  @keyframes floatCircles {
-    0% { transform: translate(0, 0); }
-    50% { transform: translate(50px, 30px); }
-    100% { transform: translate(0, 0); }
-  }
-
-  .container {
-    background: white;
-    color: var(--pip-text-dark);
-    border-radius: 12px;
-    max-width: 400px;
-    width: 100%;
-    padding: 2rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    position: relative;
-    z-index: 1;
-  }
-    #login-section {
-      text-align: center;
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3f37c9;
+      --accent-color: #F9B233;
+      --bg-gradient: linear-gradient(135deg, #004e92, #000428);
+      --card-color: rgba(255, 255, 255, 0.95);
+      --text-color: #2b2b2b;
+      --text-light: #6c757d;
     }
-    .header-logo {
+    
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--bg-gradient);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      padding: 1rem;
+    }
+    
+    /* Background Animation */
+    .bg-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+    
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float 15s infinite linear;
+    }
+    
+    .particle-1 {
+      width: 300px;
+      height: 300px;
+      background: var(--accent-color);
+      top: -50px;
+      left: -100px;
+      animation-delay: 0s;
+    }
+    
+    .particle-2 {
+      width: 400px;
+      height: 400px;
+      background: var(--primary-color);
+      bottom: -150px;
+      right: -150px;
+      animation-delay: 2s;
+    }
+    
+    .particle-3 {
+      width: 200px;
+      height: 200px;
+      background: #00BCD4;
+      top: 60%;
+      left: 40%;
+      animation-delay: 4s;
+    }
+    
+    @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(50px, 30px) rotate(180deg); }
+      100% { transform: translate(0, 0) rotate(360deg); }
+    }
+    
+    /* Login Card */
+    .login-card {
+      background: var(--card-color);
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 450px;
+      position: relative;
+      z-index: 1;
+      transition: all 0.5s ease;
+      overflow: hidden;
+    }
+    
+    .login-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    }
+    
+    /* Header */
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .login-logo {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      margin-bottom: 1rem;
-    }
-    .header-logo img {
-      width: 50px;
-      height: 50px;
-      object-fit: contain;
-    }
-    .header-logo h2 {
-      margin: 0;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--pip-text-dark);
-    }
-    select, input[type="text"], input[type="password"] {
-      width: 100%;
-      padding: 0.7rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-    button {
-      background-color: var(--pip-yellow);
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border-radius: 50%;
       color: white;
+      font-size: 2rem;
+      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+    }
+    
+    .login-title {
+      color: var(--text-color);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .login-subtitle {
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+    
+    /* Form */
+    .form-floating label {
+      color: var(--text-light);
+    }
+    
+    .form-control {
+      border-radius: 10px;
+      padding: 1rem;
+      border: 2px solid #e9ecef;
+      transition: all 0.3s;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+    }
+    
+    .form-select {
+      border-radius: 10px;
+      padding: 1rem;
+      border: 2px solid #e9ecef;
+    }
+    
+    /* Button */
+    .btn-login {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       border: none;
+      border-radius: 10px;
+      padding: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.3s;
       width: 100%;
-      padding: 0.7rem;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
+      margin-top: 1rem;
     }
-    button:hover {
-      background-color: #d99725;
+    
+    .btn-login:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(67, 97, 238, 0.4);
     }
-    .error-msg, .alert {
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-      text-align: center;
-      padding: 0.5rem;
-      border-radius: 6px;
+    
+    /* Alert */
+    .alert {
+      border-radius: 10px;
+      border: none;
     }
+    
     .alert-success {
-      background-color: #d4edda;
-      color: #155724;
+      background-color: rgba(76, 201, 240, 0.1);
+      color: var(--text-color);
+      border-left: 4px solid #4cc9f0;
     }
+    
     .alert-danger {
-      background-color: #f8d7da;
-      color: #721c24;
+      background-color: rgba(247, 37, 133, 0.1);
+      color: var(--text-color);
+      border-left: 4px solid #f72585;
     }
-    .link {
-      margin-top: 0.75rem;
+    
+    /* Link */
+    .login-link {
       text-align: center;
+      margin-top: 1.5rem;
     }
-    .link a {
-      color: #0056b3;
+    
+    .login-link a {
+      color: var(--primary-color);
       text-decoration: none;
-      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s;
     }
-    .circle {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.5;
-  z-index: 0;
-}
-
-/* Kuning */
-.circle.accent {
-  background: var(--accent-color);
-  width: 400px;
-  height: 400px;
-  top: -100px;
-  left: -120px;
-}
-
-/* Biru Gelap */
-.circle.blue {
-  background: var(--pip-blue-dark);
-  width: 500px;
-  height: 500px;
-  bottom: -150px;
-  right: -150px;
-}
-
-/* Biru Muda */
-.circle.cyan {
-  background: #00BCD4;
-  width: 300px;
-  height: 300px;
-  top: 60%;
-  left: 40%;
-  transform: translate(-50%, -50%);
-}
-
-/* Hijau */
-.circle.green {
-  background: var(--green-pip);
-  width: 350px;
-  height: 350px;
-  top: 20%;
-  right: -100px;
-}
-
-
-
-
+    
+    .login-link a:hover {
+      color: var(--secondary-color);
+      text-decoration: underline;
+    }
+    
+    /* Animations */
+    .animate-delay-1 { animation-delay: 0.2s; }
+    .animate-delay-2 { animation-delay: 0.4s; }
   </style>
 </head>
 <body>
-<div class="circle accent"></div>
-<div class="circle blue"></div>
-<div class="circle cyan"></div>
-<div class="circle green"></div>
-<div class="circle yellow"></div>
-  <div class="container" id="login-section">
-    <div class="header-logo">
-      <img src="{{ asset('/storage/img/logo.png') }}" alt="PIPGuard Logo" />
-      <h2>PIPGuard Login</h2>
+  <!-- Background Particles -->
+  <div class="bg-particles">
+    <div class="particle particle-1 animate__animated animate__pulse animate__infinite"></div>
+    <div class="particle particle-2 animate__animated animate__pulse animate__infinite"></div>
+    <div class="particle particle-3 animate__animated animate__pulse animate__infinite"></div>
+  </div>
+
+  <!-- Login Card -->
+  <div class="login-card animate__animated animate__fadeIn">
+    <div class="login-header">
+      <div class="login-logo animate__animated animate__bounceIn">
+        <i class="fas fa-shield-alt"></i>
+      </div>
+      <h2 class="login-title animate__animated animate__fadeInDown">PIPGuard</h2>
+      <p class="login-subtitle animate__animated animate__fadeIn animate-delay-1">Masuk ke akun Anda</p>
     </div>
 
     @if(session('success'))
-      <div class="alert alert-success">
-        {{ session('success') }}
+      <div class="alert alert-success animate__animated animate__fadeIn animate-delay-1 mb-4">
+        <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
       </div>
     @endif
 
     @if($errors->any())
-      <div class="alert alert-danger">
-        {{ $errors->first() }}
+      <div class="alert alert-danger animate__animated animate__fadeIn animate-delay-1 mb-4">
+        <i class="fas fa-exclamation-circle me-2"></i> {{ $errors->first() }}
       </div>
     @endif
 
-    <form method="POST" action="{{ url('/login') }}">
+    <form method="POST" action="{{ url('/login') }}" class="animate__animated animate__fadeIn animate-delay-2">
       @csrf
 
-      <select name="role" required>
-        <option value="" disabled selected>-- Pilih Role --</option>
-        <option value="siswa" {{ old('role') === 'siswa' ? 'selected' : '' }}>Siswa</option>
-        <option value="sekolah" {{ old('role') === 'sekolah' ? 'selected' : '' }}>Sekolah</option>
-      </select>
+      <div class="mb-3">
+        <select class="form-select" name="role" required>
+          <option value="" disabled selected>-- Pilih Role --</option>
+          <option value="siswa" {{ old('role') === 'siswa' ? 'selected' : '' }}>Siswa</option>
+          <option value="sekolah" {{ old('role') === 'sekolah' ? 'selected' : '' }}>Sekolah</option>
+        </select>
+      </div>
 
-      <input type="text" name="username" value="{{ old('username') }}" placeholder="NISN / NPSN / Email" autocomplete="username" required />
-      <input type="password" name="password" placeholder="Password" autocomplete="current-password" required />
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" 
+               placeholder="NISN / NPSN / Email" autocomplete="username" required>
+        <label for="username"><i class="fas fa-user me-2"></i>NISN / NPSN / Email</label>
+      </div>
 
-      <button type="submit">Masuk</button>
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="password" name="password" 
+               placeholder="Password" autocomplete="current-password" required>
+        <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-login">
+        <i class="fas fa-sign-in-alt me-2"></i> Masuk
+      </button>
     </form>
 
-    <div class="link">
-      <a href="{{ route('transparansi.publik') }}">Transparansi Umum</a>
+    <div class="login-link animate__animated animate__fadeIn animate-delay-3">
+      <a href="{{ route('transparansi.publik') }}">
+        <i class="fas fa-external-link-alt me-2"></i> Transparansi Umum
+      </a>
     </div>
-
-
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+  <script>
+    // Animasi saat elemen muncul di viewport
+    document.addEventListener('DOMContentLoaded', function() {
+      const animateElements = document.querySelectorAll('.animate__animated');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const animation = entry.target.getAttribute('class').match(/animate__\w+/)[0];
+            entry.target.classList.add(animation);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      animateElements.forEach(el => observer.observe(el));
+    });
+  </script>
 </body>
 </html>
