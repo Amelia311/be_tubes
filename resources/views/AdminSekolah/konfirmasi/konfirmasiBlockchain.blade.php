@@ -166,8 +166,7 @@ h3::after {
 
 /* Button Styles */
 .btn-konfirmasi {
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: white;
+  background:  #4ad66d;
   border: none;
   padding: 8px 16px;
   border-radius: 8px;

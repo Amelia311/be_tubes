@@ -6,6 +6,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{{ asset('css/AdminSekolah/style_dashboard.css') }}">
 <style>
     :root {
         --primary-color: #4e73df;
@@ -94,7 +95,7 @@
     
     .table {
         width: 100%;
-        margin-bottom: 1rem;
+        margin-bottom: 18rem;
         color: var(--text-color);
         border-collapse: separate;
         border-spacing: 0;
@@ -134,11 +135,11 @@
     }
     
     .fa-pen {
-        color: #4e73df;
+        color:#ffb347;
     }
     
     .fa-pen:hover {
-        color: #2e59d9;
+        color:rgb(251, 161, 35);
         transform: scale(1.2);
     }
     
