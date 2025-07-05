@@ -103,7 +103,7 @@
     
     .logout-form button {
       width: 100%;
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: rgba(10, 51, 232, 0.39);
       color: white;
       border: none;
       padding: 0.75rem 1rem;

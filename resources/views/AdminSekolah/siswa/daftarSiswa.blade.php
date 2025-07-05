@@ -12,6 +12,7 @@
         --secondary-color: #f8f9fc;
         --accent-color: #2e59d9;
         --text-color: #5a5c69;
+        --danger-color: #e74a3b;
     }
     
     .content-box {
@@ -55,6 +56,7 @@
     
     .search-box input:focus {
         box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+        outline: none;
     }
     
     .search-box i {
@@ -143,7 +145,7 @@
     }
     
     .fa-trash {
-        color: #e74a3b;
+        color: var(--danger-color);
     }
     
     .fa-trash:hover {
@@ -166,9 +168,81 @@
         border: none;
     }
     
+    /* Delete Confirmation Modal */
+    .modal-delete {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1050;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .modal-content-delete {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+        animation: fadeInUp 0.3s;
+    }
+    
+    .delete-icon {
+        font-size: 4rem;
+        color: var(--danger-color);
+        margin-bottom: 1rem;
+        animation: bounceIn 0.5s;
+    }
+    
+    .btn-confirm-delete {
+        background-color: var(--danger-color);
+        color: white;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        margin: 0 0.5rem;
+        transition: all 0.3s;
+    }
+    
+    .btn-confirm-delete:hover {
+        background-color: #be2617;
+        transform: translateY(-2px);
+    }
+    
+    .btn-cancel-delete {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        margin: 0 0.5rem;
+        transition: all 0.3s;
+    }
+    
+    .btn-cancel-delete:hover {
+        background-color: #5a6268;
+        transform: translateY(-2px);
+    }
+    
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(50px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes bounceIn {
+        0% { transform: scale(0.5); opacity: 0; }
+        50% { transform: scale(1.2); opacity: 1; }
+        100% { transform: scale(1); }
     }
     
     @media (max-width: 768px) {
@@ -191,10 +265,10 @@
         <div class="header-table">
             <h3><i class="fas fa-users me-2"></i>Daftar Siswa</h3>
             <div class="d-flex align-items-center gap-3">
-                <div class="search-box">
+                <form method="GET" action="{{ route('siswa.index') }}" class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" class="form-control" placeholder="Cari siswa...">
-                </div>
+                    <input type="text" name="search" class="form-control" placeholder="Cari siswa..." value="{{ request('search') }}">
+                </form>
                 <a href="{{ route('siswa.create') }}" class="btn-tambah">
                     <i class="fas fa-plus"></i> Tambah Siswa
                 </a>
@@ -236,13 +310,11 @@
                                     <a href="{{ route('siswa.edit', $item->id) }}" class="text-primary me-2">
                                         <i class="fas fa-pen action-icon"></i>
                                     </a>
-                                    <form action="{{ route('siswa.destroy', $item->id) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" onclick="return confirm('Yakin ingin menghapus siswa ini?')" style="background: none; border: none;">
-                                            <i class="fas fa-trash action-icon"></i>
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn-delete" style="background: none; border: none;" 
+                                        data-id="{{ $item->id }}" 
+                                        data-name="{{ $item->nama }}">
+                                        <i class="fas fa-trash action-icon"></i>
+                                    </button>
                                 </td>
                             </tr>
                         @empty
@@ -260,6 +332,25 @@
     </div>
 </div>
 
+<!-- Delete Confirmation Modal -->
+<div class="modal-delete" id="modalDelete">
+    <div class="modal-content-delete">
+        <div class="delete-icon">
+            <i class="fas fa-trash"></i>
+        </div>
+        <h4>Konfirmasi Hapus</h4>
+        <p>Anda yakin ingin menghapus siswa <strong id="deleteStudentName"></strong>?</p>
+        <div class="mt-4">
+            <button type="button" class="btn-cancel-delete" id="btnCancelDelete">Batal</button>
+            <form id="deleteForm" method="POST" style="display: inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn-confirm-delete">Hapus</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 <script>
     // Animasi saat halaman dimuat
@@ -267,6 +358,46 @@
         const rows = document.querySelectorAll('tbody tr');
         rows.forEach((row, index) => {
             row.style.animationDelay = `${index * 0.05}s`;
+        });
+
+        // Delete confirmation modal
+        const modalDelete = document.getElementById('modalDelete');
+        const deleteButtons = document.querySelectorAll('.btn-delete');
+        const deleteForm = document.getElementById('deleteForm');
+        const deleteStudentName = document.getElementById('deleteStudentName');
+        const btnCancelDelete = document.getElementById('btnCancelDelete');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const studentId = this.getAttribute('data-id');
+                const studentName = this.getAttribute('data-name');
+                
+                deleteStudentName.textContent = studentName;
+                deleteForm.action = `/siswa/${studentId}`;
+                
+                modalDelete.style.display = 'flex';
+            });
+        });
+
+        btnCancelDelete.addEventListener('click', function() {
+            modalDelete.style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === modalDelete) {
+                modalDelete.style.display = 'none';
+            }
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('input[name="search"]');
+        const searchForm = document.querySelector('.search-box form');
+        
+        searchInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                searchForm.submit();
+            }
         });
     });
 </script>
