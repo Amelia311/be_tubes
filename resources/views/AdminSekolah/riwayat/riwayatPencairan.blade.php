@@ -8,12 +8,13 @@
 
 @section('content')
 <section class="content-box">
-  <div class="header-table">
-    <h3>Riwayat Pencairan</h3>
-    <form method="GET" action="{{ route('riwayat.sekolah') }}" class="filter-form">
-        <input type="text" placeholder="Search..." class="search-input" value="{{ request('search') }}"/>
-        </form>
+        <div class="header-table">
+            <h3>Riwayat Pencairan</h3>
+            <form method="GET" action="{{ route('riwayat.sekolah') }}" class="filter-form">
+                <input type="text" name="search" placeholder="Search..." class="search-input" value="{{ request('search') }}"/>
+            </form>
         </div>
+
         <!-- <form method="GET" action="{{ route('riwayat.sekolah') }}" class="filter-form">
           <input type="text" name="search" placeholder="Cari nama siswa..." value="{{ request('search') }}" />
           <input type="date" name="tanggal_awal" value="{{ request('tanggal_awal') }}" />
