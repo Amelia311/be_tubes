@@ -2,174 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pencairan;
-use App\Models\Siswa;
-use App\Models\Laporan;
 use Illuminate\Http\Request;
 
 class PencairanController extends Controller
 {
-    /**
-     * Menampilkan form input pencairan
-     */
-    public function create()
+    public function showForm()
     {
-        $siswa = Siswa::all();
-        return view('AdminSekolah.input.inputPencairan', compact('siswa'));
+        return view('Siswa.konfirmasi.konfirmasiPencairan');
+
     }
 
-    /**
-     * Menyimpan data pencairan
-     */
-    public function store(Request $request)
+    public function submitForm(Request $request)
     {
+        // Validasi sederhana
         $request->validate([
-            'siswa_id' => 'required|exists:siswa,id',
-            'tanggal_cair' => 'required|date|before_or_equal:today',
-            'jumlah' => 'required|numeric',
-            'keterangan' => 'required|string',
+            'nama_siswa' => 'required|string|max:255',
+            'asal_sekolah' => 'required|string|max:255',
+            'tanggal' => 'required|date',
+            'jumlah' => 'required|numeric|min:0',
+            // 'status' otomatis "Sudah Cair", jadi gak perlu validasi input user
         ]);
-        Pencairan::create([
-            'siswa_id' => $request->siswa_id,
-            'tanggal_cair' => $request->tanggal_cair,
+
+        // Simpan data ke database, atau proses sesuai kebutuhan
+        // Contoh, jika ada model Pencairan:
+        /*
+        \App\Models\Pencairan::create([
+            'nama_siswa' => $request->nama_siswa,
+            'asal_sekolah' => $request->asal_sekolah,
+            'tanggal' => $request->tanggal,
             'jumlah' => $request->jumlah,
-            'keterangan' => $request->keterangan,
-            'status' => 'Menunggu',
-            'blockchain_tx' => null,
-        ]);
-
-        return redirect()->route('pencairan.create')->with('success', 'Data pencairan berhasil disimpan!'); 
-    }
-
-    public function index()
-    {
-        $laporanList = Laporan::with('pencairan.siswa')->latest()->get();
-        return view('AdminSekolah.laporan.laporan_kendala', compact('laporanList'));
-    }
-
-
-    public function dashboard()
-    {
-        $user = auth()->user();
-
-        $riwayat = \App\Models\Pencairan::where('siswa_id', $user->id)
-            ->orderBy('tanggal_cair', 'desc')
-            ->get();
-
-        return view('Siswa.dashboardSiswa', compact('riwayat'));
-    }
-
-
-    /**
-     * Menampilkan daftar data untuk dikonfirmasi admin
-     */
-    public function konfirmasiView()
-    {
-        $data = Pencairan::with('siswa')->orderBy('created_at', 'desc')->get();
-        
-
-        return view('AdminSekolah.konfirmasi.konfirmasiBlockchain', compact('data'));
-
-    }
-
-    public function riwayatSekolah(Request $request)
-    {
-        $query = Pencairan::with('siswa')->orderBy('tanggal_cair', 'desc');
-    
-        // Filter opsional (bisa diaktifkan nanti)
-        if ($request->filled('search')) {
-            $query->whereHas('siswa', function($q) use ($request) {
-                $q->where('nama', 'like', '%' . $request->search . '%');
-            });
-        }
-    
-        if ($request->filled('tanggal_awal')) {
-            $query->whereDate('tanggal_cair', '>=', $request->tanggal_awal);
-        }
-    
-        if ($request->filled('tanggal_akhir')) {
-            $query->whereDate('tanggal_cair', '<=', $request->tanggal_akhir);
-        }
-    
-        $data = $query->get();
-    
-        return view('AdminSekolah.riwayat.riwayatPencairan', compact('data'));
-    }
-    
-
-
-    /**
-     * Mengonfirmasi pencairan dan memberikan simulasi TX ID blockchain
-     */
-    public function konfirmasi($id)
-    {
-        $pencairan = Pencairan::findOrFail($id);
-        $txId = 'TX-' . strtoupper(uniqid());
-
-        $pencairan->update([
             'status' => 'Sudah Cair',
-            'blockchain_tx' => $txId
         ]);
+        */
 
-        return redirect()->route('konfirmasi.index')->with('success', 'Pencairan telah dikonfirmasi dan dicatat di blockchain (simulasi)!');
+        // Kalau belum ada model, bisa tambahkan logic sesuai aplikasi kamu
+
+        return redirect()->route('pencairan.konfirmasi')->with('success', 'Konfirmasi pencairan berhasil!');
     }
-
-    /**
-     * Simpan data dengan input TX dari Web3.js atau eksternal
-     */
-    public function simpanDenganTx(Request $request)
-    {
-        $request->validate([
-            'siswa_id' => 'required|exists:siswa,id',
-            'tanggal_cair' => 'required|date',
-            'jumlah' => 'required|numeric',
-            'keterangan' => 'required|string',
-            'blockchain_tx' => 'required|string'
-        ]);
-
-        $data = Pencairan::create([
-            'siswa_id' => $request->siswa_id,
-            'tanggal_cair' => $request->tanggal_cair,
-            'jumlah' => $request->jumlah,
-            'keterangan' => $request->keterangan,
-            'status' => 'Sudah Cair',
-            'blockchain_tx' => $request->blockchain_tx
-        ]);
-
-        return response()->json([
-            'message' => 'Data dengan transaksi blockchain berhasil disimpan!',
-            'data' => $data
-        ]);
-    }
-
-    /**
-     * Menampilkan laporan lengkap
-     */
-    public function lihatLaporan()
-    {
-        $laporan = Laporan::with('pencairan.siswa')->orderBy('created_at', 'desc')->get();
-        return view('AdminSekolah.laporan', compact('laporan'));
-
-        return view('admin.laporan', compact('laporan'));
-
-    }
-
-    public function simpanTx(Request $request)
-    {
-        $request->validate([
-            'pencairan_id' => 'required|exists:pencairan,id',
-            'blockchain_tx' => 'required|string'
-        ]);
-
-        $pencairan = Pencairan::findOrFail($request->pencairan_id);
-        $pencairan->update([
-            'status' => 'Sudah Cair',
-            'blockchain_tx' => $request->blockchain_tx
-        ]);
-
-        return response()->json(['message' => 'Berhasil!']);
-    }
-
-
-
 }

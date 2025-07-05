@@ -10,6 +10,8 @@ use App\Http\Controllers\AdminSekolahController;
 
 
 
+
+
 // Login dan logout
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -101,4 +103,7 @@ Route::post('/api/simpan-blockchain-tx', [PencairanController::class, 'simpanTx'
 Route::post('/siswa/lapor', [LaporanController::class, 'store'])->name('siswa.laporStore');
 
 
+//route untuk konfirmasi pencairan
+Route::get('/pencairan/konfirmasi', [PencairanController::class, 'showForm'])->name('pencairan.konfirmasi');
+Route::post('/pencairan/konfirmasi/submit', [PencairanController::class, 'submitForm'])->name('pencairan.konfirmasi.submit');
 
