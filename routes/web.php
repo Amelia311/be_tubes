@@ -56,39 +56,13 @@ Route::get('/dashboard/sekolah/riwayat', [PencairanController::class, 'riwayatSe
 Route::get('/dashboard/sekolah/transparansi', [SiswaController::class, 'transparansi'])->name('sekolah.transparansi');
 
 
-// Route::get('/dashboard/sekolah/data-input', function () {
-//     return view('AdminSekolah.input.dataInputPencairan');
-// })->name('data.input');
-
-
-
-
-
-
-
-
-
-// Route halaman daftar siswa
-// Route::get('/dashboard/sekolah/daftar-siswa', function () {
-    //     return view('AdminSekolah.siswa.daftarSiswa');
-    // });
-    // Route::get('/dashboard/sekolah/input', function () {
-        //     return view('AdminSekolah.input.inputPencairan');
-        // });      
-// Route::get('/dashboard/sekolah/konfirmasi', function () {
-//     return view('AdminSekolah.konfirmasiBlockchain');
-// });
-
-// Route::get('/dashboard/sekolah/riwayat', function () {
-//     return view('AdminSekolah.riwayat.riwayatPencairan');
-// });
-
 // Konfirmasi
 Route::get('/konfirmasi', [PencairanController::class, 'konfirmasiView'])->name('konfirmasi.index');
 Route::post('/konfirmasi/{id}', [PencairanController::class, 'konfirmasi'])->name('konfirmasi.update');
+Route::get('/siswa/konfirmasi', [PencairanController::class, 'formKonfirmasi'])->name('konfirmasi.form');
+Route::post('/siswa/konfirmasi', [PencairanController::class, 'submitKonfirmasi'])->name('submitKonfirmasi');
 
 
-// ... (lanjutkan route lain kamu seperti sebelumnya)
 Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
 Route::get('/siswa/create', [SiswaController::class, 'create'])->name('siswa.create');
 Route::get('/siswa/{id}/edit', [SiswaController::class, 'edit'])->name('siswa.edit');
@@ -103,12 +77,7 @@ Route::put('/siswa/{id}', [SiswaController::class, 'update'])->name('siswa.updat
 Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
 
 Route::post('/api/simpan-blockchain-tx', [PencairanController::class, 'simpanTx'])->name('pencairan.simpanTx');
-
 Route::post('/siswa/lapor', [LaporanController::class, 'store'])->name('siswa.laporStore');
-
-Route::get('/siswa/konfirmasi', [PencairanController::class, 'formKonfirmasi'])->name('konfirmasi.form');
-Route::post('/siswa/konfirmasi', [PencairanController::class, 'submitKonfirmasi'])->name('submitKonfirmasi');
-
 Route::get('/transparansi-publik', [PencairanController::class, 'transparansiPublik'])->name('transparansi.publik');
 
 
