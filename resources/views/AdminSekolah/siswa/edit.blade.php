@@ -22,6 +22,10 @@
       <label for="alamat">Alamat</label>
       <textarea id="alamat" name="alamat" rows="3" required>{{ $siswa->alamat }}</textarea>
     </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" required>
+    </div>
     <div>
       <label>Kelas:</label>
       <select name="kelas" required>
