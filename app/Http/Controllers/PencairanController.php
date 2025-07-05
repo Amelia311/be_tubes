@@ -131,19 +131,33 @@ class PencairanController extends Controller
         $nisn = session('nisn');
         $siswa = Siswa::where('nisn', $nisn)->first();
     
+        // Cari data pencairan yang sudah dibuat sebelumnya dan masih menunggu konfirmasi
+        $pencairan = Pencairan::where('siswa_id', $siswa->id)
+            ->where('status', 'Menunggu')
+            ->latest()
+            ->first();
+    
+        // Kalau tidak ditemukan, tampilkan error
+        if (!$pencairan) {
+            return redirect()->back()->with('error', 'Data pencairan tidak ditemukan atau sudah dikonfirmasi.');
+        }
+    
+        // Simpan file bukti
         $buktiPath = $request->file('bukti')->store('bukti', 'public');
     
-        Pencairan::create([
-            'siswa_id' => $siswa->id,
+        // Update data pencairan yang sudah ada
+        $pencairan->update([
             'jumlah' => $request->jumlah,
             'bukti' => $buktiPath,
-            'status' => 'Menunggu',
             'tanggal_cair' => Carbon::now()->format('Y-m-d'),
             'keterangan' => 'Konfirmasi pencairan oleh siswa',
+            // status tetap "Menunggu" untuk diverifikasi admin
         ]);
     
         return redirect()->back()->with('success', 'Konfirmasi berhasil dikirim.');
     }
+    
+    
     
     /**
      * Mengonfirmasi pencairan dan memberikan simulasi TX ID blockchain

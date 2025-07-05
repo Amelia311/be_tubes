@@ -39,7 +39,7 @@
       <h3 class="section-title">🔔 Info Terbaru Pencairan Dana</h3>
       <div class="notification-box">
         @forelse($infoTerbaru as $info)
-          <p><strong>{{ $info->siswa->asal_sekolah ?? 'N/A' }}</strong> telah berhasil mencairkan dana PIP pada {{ \Carbon\Carbon::parse($info->tanggal_cair)->format('d M Y') }}.</p>
+          <p><strong>{{ $info->siswa->nama ?? 'N/A' }}</strong> telah berhasil mencairkan dana PIP pada {{ \Carbon\Carbon::parse($info->tanggal_cair)->format('d M Y') }}.</p>
         @empty
           <p>Belum ada pencairan terbaru.</p>
         @endforelse

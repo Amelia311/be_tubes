@@ -40,14 +40,14 @@
                 </td>
                 <td>
                   @if ($item->bukti)
-                    <a href="{{ asset('storage/bukti/' . $item->bukti) }}" target="_blank" class="link">Lihat</a>
+                    <a href="{{ asset('storage/' . $item->bukti) }}" target="_blank" class="link">Bukti Pencairan</a>
                   @else
                     -
                   @endif
                 </td>
                 <td>
                   @if ($item->blockchain_tx)
-                    <a href="https://sepolia.etherscan.io/tx/{{ $item->blockchain_tx }}" target="_blank" class="link">Link</a>
+                    <a href="https://sepolia.etherscan.io/tx/{{ $item->blockchain_tx }}" target="_blank" class="link">Pencairan</a>
                   @else
                     -
                   @endif
