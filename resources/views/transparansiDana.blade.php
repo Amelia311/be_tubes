@@ -53,9 +53,12 @@
         <h3 class="section-title">📢 Laporan Ketidaksesuaian Dana dari Siswa</h3>
         <ul class="report-list">
           @forelse($laporan as $lapor)
-            <li><strong>Anonim - {{ $lapor->pencairan->siswa->asal_sekolah ?? 'Tidak diketahui' }}:</strong> “{{ $lapor->pesan }}”</li>
+          <li>
+          <strong>{{ $lapor->pencairan->siswa->nama ?? 'Tidak diketahui' }}:</strong>
+          “{{ $lapor->pesan }}” <br>
           @empty
-            <li>Belum ada laporan dari siswa.</li>
+          <small style="color:lightgray">TX: {{ $lapor->blockchain_tx }}</small>
+          </li>
           @endforelse
         </ul>
       </div>

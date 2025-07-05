@@ -16,6 +16,7 @@ class Laporan extends Model
         'pesan',
         'bukti',
         'status',
+        'blockchain_tx',
     ];
 
     public function pencairan()
@@ -24,3 +25,4 @@ class Laporan extends Model
     }
 
 }
+

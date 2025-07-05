@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Laporan;
+use Illuminate\Support\Facades\Http;
+
 
 class LaporanController extends Controller
 {
@@ -25,6 +27,8 @@ class LaporanController extends Controller
             'pesan' => $request->pesan,
             'bukti' => $path,
             'status' => 'belum dibaca',
+            // simpan tx kalau dikirim dari MetaMask
+            'blockchain_tx' => $request->blockchain_tx ?? null,
         ]);
 
         return back()->with('success', 'Laporan berhasil dikirim!');

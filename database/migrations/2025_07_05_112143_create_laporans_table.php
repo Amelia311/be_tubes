@@ -6,22 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('laporan', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('pencairan_id');
+            $table->text('pesan');
+            $table->string('bukti')->nullable();
+            $table->string('status')->default('belum dibaca');
+            $table->string('blockchain_tx')->nullable(); // tambahkan kolom ini!
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('laporan');
+        Schema::dropIfExists('laporan'); // HARUS 'laporan'
     }
 };
