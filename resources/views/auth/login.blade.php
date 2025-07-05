@@ -218,6 +218,10 @@
       <button type="submit">Masuk</button>
     </form>
 
+    <div class="link">
+      <a href="{{ route('transparansi.publik') }}">Transparansi Umum</a>
+    </div>
+
 
   </div>
 </body>
