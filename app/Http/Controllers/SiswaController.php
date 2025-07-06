@@ -124,7 +124,7 @@ class SiswaController extends Controller
             $q->where('nisn', $nisn);
         })->orderBy('tanggal_cair', 'desc')->get();
 
-        return view('Siswa.riwayatPencairanSiswa', compact('riwayat'));
+        return view('Siswa.riwayat.riwayatPencairanSiswa', compact('riwayat'));
     }
 
 

@@ -21,10 +21,12 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
-// Dashboard Admin Sekolah
-Route::get('/dashboard/sekolah', function () {
-    return view('AdminSekolah.layouts.admin');
-});
+// // Dashboard Admin Sekolah
+// Route::get('/dashboard/sekolah', function () {
+//     return view('AdminSekolah.siswa.daftarSiswa');
+
+Route::get('/dashboard/sekolah', [SiswaController::class, 'index'])->name('dashboard.sekolah');
+
 Route::get('/dashboard/siswa', function () {
     return view('Siswa.dashboardSiswa');
 });
