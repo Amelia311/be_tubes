@@ -862,7 +862,7 @@ async function confirmTransaction() {
 
   } catch (error) {
     console.error(error);
-    document.getElementById('transactionMessage').textContent = ❌ Error: ${error.message};
+    document.getElementById('transactionMessage').textContent = `❌ Error: ${error.message}`;
     document.getElementById('blockchainAnimation').style.display = 'none';
     confirmButton.disabled = false;
     confirmButton.innerHTML = 'Coba Lagi';
