@@ -202,7 +202,7 @@
                 </div>
             </div>
             <div class="col-md-6 hero-image d-none d-md-block">
-                <img src="{{ asset('storage/img/pip.jpg') }}" alt="Ilustrasi Dashboard PIPGuard" class="floating">
+                <img src="{{ asset('img/pip.jpg') }}" alt="Ilustrasi Dashboard PIPGuard" class="floating">
             </div>
         </div>
     </section>
@@ -212,21 +212,21 @@
         <div id="announcementCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="{{ asset('storage/img/gambar1.webp') }}" alt="Pencairan Dana Semester 2-2025">
+                    <img src="{{ asset('img/gambar1.webp') }}" alt="Pencairan Dana Semester 2-2025">
                     <div class="carousel-caption">
                         <h5 class="animate__animated animate__fadeInDown">Pengumuman Penting</h5>
                         <p class="lead animate__animated animate__fadeIn animate__delay-1s">Pencairan dana semester 2-2025 sudah dimulai</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="{{ asset('storage/img/gambar2.jpg') }}" alt="Tips Penggunaan Dana">
+                    <img src="{{ asset('img/gambar2.jpg') }}" alt="Tips Penggunaan Dana">
                     <div class="carousel-caption">
                         <h5>Tips & Panduan</h5>
                         <p class="lead">Penggunaan dana bantuan dengan bijak</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="{{ asset('storage/img/gambar3.jpg') }}" alt="Laporan Ketidaksesuaian">
+                    <img src="{{ asset('img/gambar3.jpg') }}" alt="Laporan Ketidaksesuaian">
                     <div class="carousel-caption">
                         <h5>Layanan Pengaduan</h5>
                         <p class="lead">Laporkan jika ada ketidaksesuaian dana anda</p>
