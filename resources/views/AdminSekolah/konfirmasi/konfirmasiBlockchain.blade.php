@@ -731,6 +731,7 @@ function createParticles() {
 let currentTransaction = null;
 
 function showConfirmationModal(button) {
+  console.log('Modal dibuka', button);
   currentTransaction = {
     id: button.getAttribute('data-id'),
     nama: button.getAttribute('data-nama'),
@@ -855,17 +856,21 @@ async function confirmTransaction() {
       setTimeout(() => {
         closeModal();
         window.location.reload();
-      }, 2000);
+      }, 1500);
     } else {
       throw new Error(result.message || 'Gagal menyimpan ke database');
     }
 
   } catch (error) {
-    console.error(error);
-    document.getElementById('transactionMessage').textContent = ❌ Error: ${error.message};
-    document.getElementById('blockchainAnimation').style.display = 'none';
-    confirmButton.disabled = false;
-    confirmButton.innerHTML = 'Coba Lagi';
+  console.error('Terjadi kesalahan:', error);
+  
+  const errorMsg = (error && error.message) ? error.message : 'Terjadi kesalahan tidak diketahui.';
+  
+  document.getElementById('transactionMessage').textContent = '❌ Error: ' + errorMsg;
+
+  document.getElementById('blockchainAnimation').style.display = 'none';
+  confirmButton.disabled = false;
+  confirmButton.innerHTML = 'Coba Lagi';
   }
 }
 </script>

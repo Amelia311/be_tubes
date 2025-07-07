@@ -159,6 +159,7 @@ class PencairanController extends Controller
 
 public function submitKonfirmasi(Request $request)
 {
+    dd('masuk');
     $request->validate([
         'jumlah' => 'required|numeric|min:1',
         'bukti' => 'required|image|max:2048',
@@ -292,10 +293,7 @@ public function submitKonfirmasi(Request $request)
             'infoTerbaru',
             'laporan'
         ));
-
     return view('transparansiDana', compact('riwayat', 'statusTerakhir', 'infoTerbaru'))
     ->with('status', $statusTerakhir);
     }
-
-
 }
