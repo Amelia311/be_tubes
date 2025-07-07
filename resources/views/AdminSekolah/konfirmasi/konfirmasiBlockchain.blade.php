@@ -862,15 +862,13 @@ async function confirmTransaction() {
     }
 
   } catch (error) {
-  console.error('Terjadi kesalahan:', error);
-  
-  const errorMsg = (error && error.message) ? error.message : 'Terjadi kesalahan tidak diketahui.';
-  
-  document.getElementById('transactionMessage').textContent = '❌ Error: ' + errorMsg;
 
-  document.getElementById('blockchainAnimation').style.display = 'none';
-  confirmButton.disabled = false;
-  confirmButton.innerHTML = 'Coba Lagi';
+    console.error(error);
+    document.getElementById('transactionMessage').textContent = `❌ Error: ${error.message}`;
+    document.getElementById('blockchainAnimation').style.display = 'none';
+    confirmButton.disabled = false;
+    confirmButton.innerHTML = 'Coba Lagi';
+
   }
 }
 </script>
