@@ -22,7 +22,7 @@ Aplikasi ini dibuat untuk membantu proses pencairan dan pelaporan dana PIP secar
 
 ### 2. Setup Laravel
 1. composer install
-2. cp .env.example .env
+2. cp .env.example .env (jangan lupa membuat database di MySQL dengan nama db_pip)
 3. php artisan key:generate
 4. php artisan migrate --seed
 5. php artisan storage:link
