@@ -22,7 +22,7 @@ Aplikasi ini dibuat untuk membantu proses pencairan dan pelaporan dana PIP secar
 
 ### 2. Setup Laravel
 1. composer install
-2. cp .env.example .env (jangan lupa membuat database di MySQL dengan nama db_pip)
+2. cp .env.example .env 
 3. php artisan key:generate
 4. php artisan migrate --seed
 5. php artisan storage:link
@@ -47,4 +47,8 @@ https://cloud.google.com/application/web3/faucet/ethereum/sepolia
 - NPSN : 34566543
 - Password : 12345678
 
-2. Siswa (Untuk siswa diharapkan admin menambahkan daftar siswa dulu dan mengisi NISN beserta password. Jika sudah baru bisa login sebagai siswa)
+2. Siswa 
+Untuk login sebagai siswa, admin harus terlebih dahulu :
+- Menambahkan data siswa dari dashboard admin
+- Mengisi NISN dan password siswa
+Setelah itu, siswa bisa login menggunakan NISN dan password yang telah diatur.
