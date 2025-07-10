@@ -159,7 +159,6 @@ class PencairanController extends Controller
 
 public function submitKonfirmasi(Request $request)
 {
-    dd('masuk');
     $request->validate([
         'jumlah' => 'required|numeric|min:1',
         'bukti' => 'required|image|max:2048',
