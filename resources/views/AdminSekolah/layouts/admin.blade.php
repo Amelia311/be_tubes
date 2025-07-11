@@ -294,7 +294,7 @@
     
     <form method="POST" action="{{ route('logout') }}" class="logout-form animate__animated animate__fadeInLeft" style="animation-delay: 0.6s;">
       @csrf
-      <button type="submit">
+      <button type="submit" class="logout-btn">
         <i class="fas fa-sign-out-alt"></i> Logout
       </button>
     </form>
