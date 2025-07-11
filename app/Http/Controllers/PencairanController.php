@@ -292,7 +292,5 @@ public function submitKonfirmasi(Request $request)
             'infoTerbaru',
             'laporan'
         ));
-    return view('transparansiDana', compact('riwayat', 'statusTerakhir', 'infoTerbaru'))
-    ->with('status', $statusTerakhir);
     }
 }
