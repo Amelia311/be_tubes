@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AdminSekolahController;
 
 
-
+Route::get('/', function () {
+    return redirect()->route('login');
+});
 
 
 // Login dan logout
