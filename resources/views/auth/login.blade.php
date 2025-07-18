@@ -267,16 +267,23 @@
     </div>
 
     <div class="form-floating mb-3">
-      <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" 
-             placeholder="NISN / NPSN / Email" autocomplete="username" required>
-      <label for="username"><i class="fas fa-user me-2"></i>NISN / NPSN / Email</label>
-    </div>
+  <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" 
+         placeholder="NISN (10 digit angka)" autocomplete="username" required
+         maxlength="10"
+         pattern="\d{10}"
+         title="Masukkan NISN berupa 10 digit angka saja"
+         inputmode="numeric"
+         oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,10);">
+  <label for="username"><i class="fas fa-user me-2"></i>NISN / NPSN / Email</label>
+</div>
 
-    <div class="form-floating mb-3">
-      <input type="password" class="form-control" id="password" name="password" 
-             placeholder="Password" autocomplete="current-password" required>
-      <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
-    </div>
+<div class="form-floating mb-3">
+  <input type="password" class="form-control" id="password" name="password" 
+         placeholder="Password (maks 8 karakter)" autocomplete="current-password" required
+         maxlength="8"
+         oninput="if(this.value.length > 8) this.value = this.value.slice(0,8);">
+  <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
+</div>
 
     <div class="text-end mb-3">
       <a href="{{ route('password.forgot') }}" class="text-decoration-none" style="font-size: 0.9rem; color: var(--text-light);">
