@@ -192,6 +192,23 @@
                            min="2000-01-01" required />
                 </div>
                 
+               <div class="form-group">
+    <label for="nomor_rekening" class="form-label">
+        <i class="fas fa-credit-card"></i> Nomor Rekening
+    </label>
+    <input type="text"
+           class="form-control"
+           id="nomor_rekening"
+           name="nomor_rekening"
+           value="{{ old('nomor_rekening') }}"
+           placeholder="Masukkan 15 digit nomor rekening BRI"
+           required
+           maxlength="19"  {{-- karena 15 digit + 3 spasi = 18 karakter max, aman pakai 19 --}}
+           inputmode="numeric"
+           oninput="formatRekening(this)" />
+</div>
+
+
                 <div class="form-group">
                     <label for="jumlah" class="form-label">
                         <i class="fas fa-money-bill"></i> Jumlah yang Diterima
@@ -249,5 +266,10 @@
             document.getElementById('tanggal_cair').valueAsDate = new Date();
         }
     });
+     function formatRekening(input) {
+        let value = input.value.replace(/\D/g, '').substring(0, 15); // ambil hanya angka, max 15 digit
+        let formatted = value.replace(/(.{4})/g, '$1 ').trim(); // beri spasi tiap 4 digit
+        input.value = formatted;
+    }
 </script>
 @endsection
