@@ -208,7 +208,10 @@
                     <label for="nisn" class="form-label">
                         <i class="fas fa-id-card"></i> NISN
                     </label>
-                    <input type="text" name="nisn" id="nisn" class="form-control" value="{{ old('nisn', $siswa->nisn) }}" required>
+                    <input type="text" name="nisn" id="nisn" class="form-control" 
+                        required value="{{ old('nisn') }}" 
+                        inputmode="numeric" pattern="\d*" maxlength="10"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
                 
                 <div class="form-group">
