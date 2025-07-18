@@ -179,6 +179,25 @@
                         inputmode="numeric" pattern="\d*" maxlength="10"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
+
+                                <div class="form-group">
+                    <label for="kelas" class="form-label">
+                        <i class="fas fa-graduation-cap"></i> Kelas
+                    </label>
+                    <select name="kelas" id="kelas" class="form-select" required>
+                        <option value="">Pilih Kelas</option>
+                        <option value="X" {{ old('kelas') == 'X' ? 'selected' : '' }}>X</option>
+                        <option value="XI" {{ old('kelas') == 'XI' ? 'selected' : '' }}>XI</option>
+                        <option value="XII" {{ old('kelas') == 'XII' ? 'selected' : '' }}>XII</option>
+                    </select>
+                </div>
+
+                                <div class="form-group">
+                    <label for="password" class="form-label">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input type="password" name="password" id="password" class="form-control" required>
+                </div>
                 
                 <div class="form-group">
                     <label for="asal_sekolah" class="form-label">
@@ -194,24 +213,7 @@
                     <textarea name="alamat" id="alamat" class="form-control" required>{{ old('alamat') }}</textarea>
                 </div>
                 
-                <div class="form-group">
-                    <label for="password" class="form-label">
-                        <i class="fas fa-lock"></i> Password
-                    </label>
-                    <input type="password" name="password" id="password" class="form-control" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="kelas" class="form-label">
-                        <i class="fas fa-graduation-cap"></i> Kelas
-                    </label>
-                    <select name="kelas" id="kelas" class="form-select" required>
-                        <option value="">Pilih Kelas</option>
-                        <option value="X" {{ old('kelas') == 'X' ? 'selected' : '' }}>X</option>
-                        <option value="XI" {{ old('kelas') == 'XI' ? 'selected' : '' }}>XI</option>
-                        <option value="XII" {{ old('kelas') == 'XII' ? 'selected' : '' }}>XII</option>
-                    </select>
-                </div>
+            
                 
                 <div class="d-flex justify-content-end mt-4">
                     <button type="submit" class="btn btn-submit animate__animated animate__pulse animate__infinite animate__slower">

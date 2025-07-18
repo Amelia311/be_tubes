@@ -10,7 +10,7 @@
 <div class="container mt-5">
   <div class="card shadow-lg border-0">
     <div class="card-header bg-primary text-white">
-      <h4 class="mb-0">Form Konfirmasi Pencairan Dana</h4>
+      <h4 class="mb-0">Form Konfirmasi Penarikan Dana</h4>
     </div>
     <div class="card-body">
       @if(session('success'))
@@ -22,20 +22,20 @@
           <label class="form-label">Nama Siswa</label>
           <input type="text" name="nama" class="form-control" value="{{ $siswa->nama }}" readonly>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Asal Sekolah</label>
-          <input type="text" name="asal_sekolah" class="form-control" value="{{ $siswa->asal_sekolah }}" readonly>
+  <div class="mb-3">
+          <label class="form-label">Nomor Rekening</label>
+          <input type="text" name="nomor_rekening" class="form-control" value="{{ $siswa->nomor_rekening }}" readonly>
         </div>
         <div class="mb-3">
           <label class="form-label">Tanggal Konfirmasi</label>
           <input type="date" name="tanggal" class="form-control" value="{{ $tanggal }}" readonly>
         </div>
         <div class="mb-3">
-          <label class="form-label">Jumlah</label>
-          <input type="number" name="jumlah" class="form-control" required>
+          <label class="form-label">Dana yang diterima</label>
+          <input type="number" name="jumlah" class="form-control" value="{{ $siswa->jumlah }}" readonly>
         </div>
         <div class="mb-3">
-          <label class="form-label">Bukti Transfer</label>
+          <label class="form-label">Bukti Penarikan</label>
           <input type="file" name="bukti" class="form-control" accept="image/*" required>
         </div>
         <button type="submit" class="btn btn-success w-100">Kirim Konfirmasi</button>
