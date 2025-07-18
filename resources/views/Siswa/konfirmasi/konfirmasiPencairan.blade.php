@@ -28,7 +28,7 @@
         </div>
         <div class="mb-3">
           <label class="form-label">Tanggal Konfirmasi</label>
-          <input type="date" name="tanggal" class="form-control" value="{{ $tanggal }}" readonly>
+          <input type="date" name="tanggal" class="form-control" value="{{ $tanggal }}" required>
         </div>
         <div class="mb-3">
           <label class="form-label">Dana yang diterima</label>
