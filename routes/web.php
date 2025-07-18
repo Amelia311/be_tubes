@@ -85,3 +85,6 @@ Route::post('/siswa/lapor', [LaporanController::class, 'store'])->name('siswa.la
 Route::get('/transparansi-publik', [PencairanController::class, 'transparansiPublik'])->name('transparansi.publik');
 
 
+Route::get('/forgot-password', [ForgotPasswordController::class, 'show'])->name('password.forgot');
+Route::post('/change-password', [AuthController::class, 'changePassword'])->name('password.change');
+

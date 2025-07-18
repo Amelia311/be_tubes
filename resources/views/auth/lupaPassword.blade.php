@@ -3,165 +3,150 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ganti Password - PIPGuard</title>
+  <title>Lupa Password - PIPGuard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
     :root {
-      --pip-blue-dark: #003366;
-      --pip-yellow: #F9B233;
-      --pip-text-dark: #2b2b2b;
-      --pip-text-light: #555;
+      --primary-color: #4361ee;
+      --secondary-color: #3f37c9;
+      --accent-color: #F9B233;
+      --bg-gradient: linear-gradient(135deg, #004e92, #000428);
+      --card-color: rgba(255, 255, 255, 0.95);
+      --text-color: #2b2b2b;
+      --text-light: #6c757d;
     }
-    * {
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }
+
     body {
       margin: 0;
-      background-color: var(--pip-blue-dark);
-      color: #fff;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      background: var(--bg-gradient);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
       padding: 1rem;
     }
-    .container {
-      background: white;
-      color: var(--pip-text-dark);
-      border-radius: 12px;
-      max-width: 400px;
+
+    .forgot-card {
+      background: var(--card-color);
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      padding: 2.5rem;
       width: 100%;
-      padding: 2rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      max-width: 450px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .forgot-header {
       text-align: center;
+      margin-bottom: 2rem;
     }
-    .header-logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 1rem;
-    }
-    .header-logo img {
-      width: 50px;
-      height: 50px;
-      object-fit: contain;
-    }
-    .header-logo h2 {
-      margin: 0;
-      font-size: 1.5rem;
+
+    .forgot-header h2 {
+      color: var(--text-color);
       font-weight: 700;
-      color: var(--pip-text-dark);
     }
-    input[type="text"], input[type="password"] {
-      width: 100%;
-      padding: 0.7rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
+
+    .form-floating label {
+      color: var(--text-light);
     }
-    button {
-      background-color: var(--pip-yellow);
-      color: white;
+
+    .form-control {
+      border-radius: 10px;
+      padding: 1rem;
+      border: 2px solid #e9ecef;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+    }
+
+    .btn-reset {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       border: none;
+      border-radius: 10px;
+      padding: 1rem;
+      font-weight: 600;
       width: 100%;
-      padding: 0.7rem;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #d99725;
-    }
-    .error-msg {
-      color: red;
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
-      text-align: left;
-    }
-    .success-msg {
-      color: green;
-      margin-bottom: 1rem;
-      font-size: 0.95rem;
-      text-align: center;
-    }
-    .back-link {
       margin-top: 1rem;
-      font-size: 0.9rem;
+      color: white;
     }
+
+    .btn-reset:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(67, 97, 238, 0.4);
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
     .back-link a {
-      color: var(--pip-yellow);
+      color: var(--primary-color);
       text-decoration: none;
-      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .alert {
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header-logo">
-      <h2>Ganti Password</h2>
+  <div class="forgot-card animate__animated animate__fadeIn">
+    <div class="forgot-header">
+      <h2><i class="fas fa-unlock-alt me-2"></i>Lupa Password</h2>
+      <p class="text-muted">Masukkan identitas Anda untuk mengganti password.</p>
     </div>
 
-    <form id="change-password-form" method="POST" action="{{ route('password.change') }}">
-  <input type="text" name="user_identifier" placeholder="Masukkan Email / NISN / NPSN" required />
-  <input type="password" name="new_password" placeholder="Password Baru" required />
-  <input type="password" name="new_password_confirmation" placeholder="Konfirmasi Password Baru" required />
-  <button type="submit">Ganti Password</button>
-</form>
+    @if(session('success'))
+      <div class="alert alert-success">
+        <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
+      </div>
+    @endif
 
+    @if($errors->any())
+      <div class="alert alert-danger">
+        <i class="fas fa-exclamation-circle me-2"></i> {{ $errors->first() }}
+      </div>
+    @endif
+
+    <form method="POST" action="{{ route('password.change') }}">
+      @csrf
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="user_identifier" name="user_identifier"
+               placeholder="Email / NISN / NPSN" required>
+        <label for="user_identifier"><i class="fas fa-user me-2"></i>Email / NISN / NPSN</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="new_password" name="new_password"
+               placeholder="Password Baru" required>
+        <label for="new_password"><i class="fas fa-lock me-2"></i>Password Baru</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation"
+               placeholder="Konfirmasi Password Baru" required>
+        <label for="new_password_confirmation"><i class="fas fa-lock me-2"></i>Konfirmasi Password</label>
+      </div>
+
+      <button type="submit" class="btn btn-reset">
+        <i class="fas fa-sync-alt me-2"></i> Ganti Password
+      </button>
+    </form>
 
     <div class="back-link">
-      <a href="index.html">&larr; Kembali ke Login</a>
+      <a href="{{ url('/login') }}"><i class="fas fa-arrow-left me-1"></i> Kembali ke Login</a>
     </div>
   </div>
 
-  <script>
-    const form = document.getElementById('change-password-form');
-    const userId = document.getElementById('user-identifier');
-    const newPass = document.getElementById('new-password');
-    const confirmPass = document.getElementById('confirm-password');
-    const errorMsg = document.getElementById('error-msg');
-    const successMsg = document.getElementById('success-msg');
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      errorMsg.style.display = 'none';
-      successMsg.style.display = 'none';
-
-      const userVal = userId.value.trim();
-      const newPassVal = newPass.value.trim();
-      const confirmPassVal = confirmPass.value.trim();
-
-      if (!userVal) {
-        showError('Mohon isi Email / NISN / NPSN.');
-        return;
-      }
-      if (!newPassVal) {
-        showError('Password baru harus diisi.');
-        return;
-      }
-      if (newPassVal.length < 6) {
-        showError('Password baru minimal 6 karakter.');
-        return;
-      }
-      if (newPassVal !== confirmPassVal) {
-        showError('Konfirmasi password tidak cocok.');
-        return;
-      }
-
-      // Simulasi proses ganti password
-      // Gantilah dengan proses backend sesungguhnya lewat fetch/ajax kalau ada
-      successMsg.textContent = `Password berhasil diganti untuk akun: ${userVal}`;
-      successMsg.style.display = 'block';
-      form.reset();
-    });
-
-    function showError(message) {
-      errorMsg.textContent = message;
-      errorMsg.style.display = 'block';
-    }
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -234,61 +234,67 @@
   </div>
 
   <!-- Login Card -->
-  <div class="login-card animate__animated animate__fadeIn">
-    <div class="login-header">
-      <div class="login-logo animate__animated animate__bounceIn">
-        <i class="fas fa-shield-alt"></i>
-      </div>
-      <h2 class="login-title animate__animated animate__fadeInDown">PIPGuard</h2>
-      <p class="login-subtitle animate__animated animate__fadeIn animate-delay-1">Masuk ke akun Anda</p>
+<div class="login-card animate__animated animate__fadeIn">
+  <div class="login-header">
+    <div class="login-logo animate__animated animate__bounceIn">
+      <i class="fas fa-shield-alt"></i>
+    </div>
+    <h2 class="login-title animate__animated animate__fadeInDown">PIPGuard</h2>
+    <p class="login-subtitle animate__animated animate__fadeIn animate-delay-1">Masuk ke akun Anda</p>
+  </div>
+
+  @if(session('success'))
+    <div class="alert alert-success animate__animated animate__fadeIn animate-delay-1 mb-4">
+      <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
+    </div>
+  @endif
+
+  @if($errors->any())
+    <div class="alert alert-danger animate__animated animate__fadeIn animate-delay-1 mb-4">
+      <i class="fas fa-exclamation-circle me-2"></i> {{ $errors->first() }}
+    </div>
+  @endif
+
+  <form method="POST" action="{{ url('/login') }}" class="animate__animated animate__fadeIn animate-delay-2">
+    @csrf
+
+    <div class="mb-3">
+      <select class="form-select" name="role" required>
+        <option value="" disabled selected>-- Pilih Role --</option>
+        <option value="siswa" {{ old('role') === 'siswa' ? 'selected' : '' }}>Siswa</option>
+        <option value="sekolah" {{ old('role') === 'sekolah' ? 'selected' : '' }}>Sekolah</option>
+      </select>
     </div>
 
-    @if(session('success'))
-      <div class="alert alert-success animate__animated animate__fadeIn animate-delay-1 mb-4">
-        <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
-      </div>
-    @endif
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" 
+             placeholder="NISN / NPSN / Email" autocomplete="username" required>
+      <label for="username"><i class="fas fa-user me-2"></i>NISN / NPSN / Email</label>
+    </div>
 
-    @if($errors->any())
-      <div class="alert alert-danger animate__animated animate__fadeIn animate-delay-1 mb-4">
-        <i class="fas fa-exclamation-circle me-2"></i> {{ $errors->first() }}
-      </div>
-    @endif
+    <div class="form-floating mb-3">
+      <input type="password" class="form-control" id="password" name="password" 
+             placeholder="Password" autocomplete="current-password" required>
+      <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
+    </div>
 
-    <form method="POST" action="{{ url('/login') }}" class="animate__animated animate__fadeIn animate-delay-2">
-      @csrf
-
-      <div class="mb-3">
-        <select class="form-select" name="role" required>
-          <option value="" disabled selected>-- Pilih Role --</option>
-          <option value="siswa" {{ old('role') === 'siswa' ? 'selected' : '' }}>Siswa</option>
-          <option value="sekolah" {{ old('role') === 'sekolah' ? 'selected' : '' }}>Sekolah</option>
-        </select>
-      </div>
-
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" 
-               placeholder="NISN / NPSN / Email" autocomplete="username" required>
-        <label for="username"><i class="fas fa-user me-2"></i>NISN / NPSN / Email</label>
-      </div>
-
-      <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="password" name="password" 
-               placeholder="Password" autocomplete="current-password" required>
-        <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
-      </div>
-
-      <button type="submit" class="btn btn-primary btn-login">
-        <i class="fas fa-sign-in-alt me-2"></i> Masuk
-      </button>
-    </form>
-
-    <div class="login-link animate__animated animate__fadeIn animate-delay-3">
-      <a href="{{ route('transparansi.publik') }}">
-        <i class="fas fa-external-link-alt me-2"></i> Transparansi Umum
+    <div class="text-end mb-3">
+      <a href="{{ route('password.forgot') }}" class="text-decoration-none" style="font-size: 0.9rem; color: var(--text-light);">
+        <i class="fas fa-unlock-alt me-1"></i> Lupa Password?
       </a>
     </div>
+
+    <button type="submit" class="btn btn-primary btn-login">
+      <i class="fas fa-sign-in-alt me-2"></i> Masuk
+    </button>
+  </form>
+
+  <div class="login-link animate__animated animate__fadeIn animate-delay-3">
+    <a href="{{ route('transparansi.publik') }}">
+      <i class="fas fa-external-link-alt me-2"></i> Transparansi Umum
+    </a>
   </div>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
   <script>
