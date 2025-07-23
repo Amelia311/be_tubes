@@ -192,18 +192,11 @@
                     </select>
                 </div>
 
-                                <div class="form-group">
+                <div class="form-group">
                     <label for="password" class="form-label">
                         <i class="fas fa-lock"></i> Password
                     </label>
                     <input type="password" name="password" id="password" class="form-control" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="asal_sekolah" class="form-label">
-                        <i class="fas fa-school"></i> Asal Sekolah
-                    </label>
-                    <input type="text" name="asal_sekolah" id="asal_sekolah" class="form-control" required value="{{ old('asal_sekolah') }}">
                 </div>
                 
                 <div class="form-group">
@@ -213,7 +206,20 @@
                     <textarea name="alamat" id="alamat" class="form-control" required>{{ old('alamat') }}</textarea>
                 </div>
                 
-            
+            <div class="form-group">
+    <label for="sk_pemerintah" class="form-label">
+        <i class="fas fa-file-pdf"></i> Surat Keputusan Pemerintah <small class="text-muted">(PDF: Maksimal 2MB)</small>
+    </label>
+    <input type="file" name="sk_pemerintah" id="sk_pemerintah" class="form-control" accept=".pdf" required>
+</div>
+
+<div class="form-group">
+    <label for="sk_nominasi" class="form-label">
+        <i class="fas fa-file-pdf"></i> Surat Keputusan Nominasi <small class="text-muted">(PDF: Maksimal 2MB)</small>
+    </label>
+    <input type="file" name="sk_nominasi" id="sk_nominasi" class="form-control" accept=".pdf" required>
+</div>
+
                 
                 <div class="d-flex justify-content-end mt-4">
                     <button type="submit" class="btn btn-submit animate__animated animate__pulse animate__infinite animate__slower">
