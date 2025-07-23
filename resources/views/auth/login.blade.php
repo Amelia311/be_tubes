@@ -228,80 +228,73 @@
 <body>
   <!-- Background Particles -->
   <div class="bg-particles">
-    <div class="particle particle-1 animate__animated animate__pulse animate__infinite"></div>
-    <div class="particle particle-2 animate__animated animate__pulse animate__infinite"></div>
-    <div class="particle particle-3 animate__animated animate__pulse animate__infinite"></div>
+    <div class="particle particle-1 animate_animated animatepulse animate_infinite"></div>
+    <div class="particle particle-2 animate_animated animatepulse animate_infinite"></div>
+    <div class="particle particle-3 animate_animated animatepulse animate_infinite"></div>
   </div>
 
   <!-- Login Card -->
-<div class="login-card animate__animated animate__fadeIn">
-  <div class="login-header">
-    <div class="login-logo animate__animated animate__bounceIn">
-      <i class="fas fa-shield-alt"></i>
-    </div>
-    <h2 class="login-title animate__animated animate__fadeInDown">PIPGuard</h2>
-    <p class="login-subtitle animate__animated animate__fadeIn animate-delay-1">Masuk ke akun Anda</p>
-  </div>
-
-  @if(session('success'))
-    <div class="alert alert-success animate__animated animate__fadeIn animate-delay-1 mb-4">
-      <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
-    </div>
-  @endif
-
-  @if($errors->any())
-    <div class="alert alert-danger animate__animated animate__fadeIn animate-delay-1 mb-4">
-      <i class="fas fa-exclamation-circle me-2"></i> {{ $errors->first() }}
-    </div>
-  @endif
-
-  <form method="POST" action="{{ url('/login') }}" class="animate__animated animate__fadeIn animate-delay-2">
-    @csrf
-
-    <div class="mb-3">
-      <select class="form-select" name="role" required>
-        <option value="" disabled selected>-- Pilih Role --</option>
-        <option value="sekolah" {{ old('role') === 'sekolah' ? 'selected' : '' }}>Sekolah</option>
-        <option value="siswa" {{ old('role') === 'siswa' ? 'selected' : '' }}>Siswa</option>
-      </select>
+  <div class="login-card animate_animated animate_fadeIn">
+    <div class="login-header">
+      <div class="login-logo animate_animated animate_bounceIn">
+        <i class="fas fa-shield-alt"></i>
+      </div>
+      <h2 class="login-title animate_animated animate_fadeInDown">PIPGuard</h2>
+      <p class="login-subtitle animate_animated animate_fadeIn animate-delay-1">Masuk ke akun Anda</p>
     </div>
 
-    <div class="form-floating mb-3">
-  <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" 
-         placeholder="NISN (10 digit angka)" autocomplete="username" required
-         maxlength="10"
-         pattern="\d{10}"
-         title="Masukkan NISN berupa 10 digit angka saja"
-         inputmode="numeric"
-         oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,10);">
-  <label for="username"><i class="fas fa-user me-2"></i>NISN / NPSN / Email</label>
+    @if(session('success'))
+      <div class="alert alert-success animate_animated animate_fadeIn animate-delay-1 mb-4">
+        <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
+      </div>
+    @endif
+
+    @if($errors->any())
+      <div class="alert alert-danger animate_animated animate_fadeIn animate-delay-1 mb-4">
+        <i class="fas fa-exclamation-circle me-2"></i> {{ $errors->first() }}
+      </div>
+    @endif
+
+    <form method="POST" action="{{ url('/login') }}" class="animate_animated animate_fadeIn animate-delay-2">
+      @csrf
+
+      <div class="mb-3">
+        <select class="form-select" name="role" required>
+          <option value="" disabled selected>-- Pilih Role --</option>
+          <option value="siswa" {{ old('role') === 'siswa' ? 'selected' : '' }}>Siswa</option>
+          <option value="sekolah" {{ old('role') === 'sekolah' ? 'selected' : '' }}>Sekolah</option>
+        </select>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="number" class="form-control" id="username" name="username" value="{{ old('username') }}" 
+               placeholder="NISN / NPSN / Email" autocomplete="username" required>
+        <label for="username"><i class="fas fa-user me-2"></i>NISN / NPSN</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="password" name="password" 
+               placeholder="Password" autocomplete="current-password" required>
+        <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
+      </div>
+
+      <div class="text-end mb-2">
+  <a href="{{ url('/forgot-password') }}" class="text-decoration-none fw-semibold" style="color: var(--primary-color);">
+    <i class="fas fa-unlock-alt me-1"></i> Lupa Password?
+  </a>
 </div>
 
-<div class="form-floating mb-3">
-  <input type="password" class="form-control" id="password" name="password" 
-         placeholder="Password (maks 8 karakter)" autocomplete="current-password" required
-         maxlength="8"
-         oninput="if(this.value.length > 8) this.value = this.value.slice(0,8);">
-  <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
-</div>
+      <button type="submit" class="btn btn-primary btn-login">
+        <i class="fas fa-sign-in-alt me-2"></i> Masuk
+      </button>
+    </form>
 
-    <div class="text-end mb-3">
-      <a href="{{ route('password.forgot') }}" class="text-decoration-none" style="font-size: 0.9rem; color: var(--text-light);">
-        <i class="fas fa-unlock-alt me-1"></i> Lupa Password?
+    <div class="login-link animate_animated animate_fadeIn animate-delay-3">
+      <a href="{{ route('transparansi.publik') }}">
+        <i class="fas fa-external-link-alt me-2"></i> Transparansi Umum
       </a>
     </div>
-
-    <button type="submit" class="btn btn-primary btn-login">
-      <i class="fas fa-sign-in-alt me-2"></i> Masuk
-    </button>
-  </form>
-
-  <div class="login-link animate__animated animate__fadeIn animate-delay-3">
-    <a href="{{ route('transparansi.publik') }}">
-      <i class="fas fa-external-link-alt me-2"></i> Transparansi Umum
-    </a>
   </div>
-</div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
   <script>

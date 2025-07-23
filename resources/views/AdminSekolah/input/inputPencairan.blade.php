@@ -184,7 +184,7 @@
                 
                 <div class="form-group">
                     <label for="tanggal_cair" class="form-label">
-                        <i class="fas fa-calendar-alt"></i> Tanggal Cair
+                        <i class="fas fa-calendar-alt"></i> Tanggal Pencairan
                     </label>
                     <input type="date" class="form-control" id="tanggal_cair" name="tanggal_cair" 
                            value="{{ old('tanggal_cair') }}" 
@@ -201,13 +201,11 @@
            id="nomor_rekening"
            name="nomor_rekening"
            value="{{ old('nomor_rekening') }}"
-           placeholder="Masukkan 15 digit nomor rekening BRI"
+           placeholder="Masukkan 10 digit nomor rekening BNI"
            required
-           maxlength="19"  {{-- karena 15 digit + 3 spasi = 18 karakter max, aman pakai 19 --}}
-           inputmode="numeric"
-           oninput="formatRekening(this)" />
+           maxlength="10"
+           inputmode="numeric"/>
 </div>
-
 
                 <div class="form-group">
                     <label for="jumlah" class="form-label">
@@ -221,15 +219,6 @@
                                required 
                                oninput="formatCurrency(this)" />
                     </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="keterangan" class="form-label">
-                        <i class="fas fa-info-circle"></i> Keterangan
-                    </label>
-                    <input type="text" class="form-control" id="keterangan" name="keterangan" 
-                           value="{{ old('keterangan') }}" 
-                           placeholder="Contoh: Tahap 1" required />
                 </div>
                 
                 <button type="submit" class="btn btn-submit animate__animated animate__pulse animate__infinite animate__slower">

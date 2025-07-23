@@ -195,10 +195,10 @@
             <div class="report-card animate__animated animate__fadeIn">
                 <div class="report-header">
                     <h2 class="animate__animated animate__fadeInDown">
-                        <i class="fas fa-exclamation-triangle"></i> Laporkan Ketidaksesuaian Dana
+                        <i class="fas fa-exclamation-triangle"></i> Form Laporan Masalah
                     </h2>
                     <p class="text-muted animate__animated animate__fadeIn animate-delay-1">
-                        Laporkan jika terdapat perbedaan antara dana yang seharusnya diterima dengan yang Anda terima.
+                        Silakan isi formulir ini untuk melaporkan masalah atau kendala terkait Program Indonesia Pintar (PIP). Laporan Anda akan membantu kami untuk menindaklanjuti agar lebih baik ke depannya
                     </p>
                 </div>
 
@@ -226,7 +226,7 @@
                         <label for="pesan" class="form-label">
                             <i class="fas fa-edit"></i> Tuliskan Laporan
                         </label>
-                        <textarea id="pesan" name="pesan" class="form-control form-textarea" placeholder="Tuliskan perbedaan dana yang Anda terima..." required></textarea>
+                        <textarea id="pesan" name="pesan" class="form-control form-textarea" placeholder="Jelaskan Masalah Anda..." required></textarea>
                     </div>
 
                     <div class="mb-4">
