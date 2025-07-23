@@ -13,7 +13,7 @@ class AuthController extends Controller
     // Akun statis untuk pemerintah dan sekolah
     private $users = [
         ['username' => 'pemerintah', 'password' => '123', 'role' => 'pemerintah'],
-        ['username' => '34566543', 'password' => '12345678', 'role' => 'sekolah'],
+        ['username' => '3456654321', 'password' => '12345678', 'role' => 'sekolah'],
     ];
 
     public function showLogin()

@@ -693,7 +693,7 @@ h3::after {
 </div>
 @endsection
 
-<script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/web 3@1.10.0/dist/web3.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   createParticles();

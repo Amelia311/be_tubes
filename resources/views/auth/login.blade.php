@@ -261,8 +261,8 @@
     <div class="mb-3">
       <select class="form-select" name="role" required>
         <option value="" disabled selected>-- Pilih Role --</option>
-        <option value="siswa" {{ old('role') === 'siswa' ? 'selected' : '' }}>Siswa</option>
         <option value="sekolah" {{ old('role') === 'sekolah' ? 'selected' : '' }}>Sekolah</option>
+        <option value="siswa" {{ old('role') === 'siswa' ? 'selected' : '' }}>Siswa</option>
       </select>
     </div>
 
