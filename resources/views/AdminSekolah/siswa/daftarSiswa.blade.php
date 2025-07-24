@@ -293,6 +293,7 @@
                             <th>NISN</th>
                             <th>NO REKENING</th>
                             <th>SK PIP</th>
+                            <th>Nominasi</th>
                             <th>ALAMAT</th>
                             <th>KELAS</th>
                             <th>AKSI</th>
@@ -305,7 +306,8 @@
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->nisn }}</td>
                                 <td>{{ $item->no_rekening }}</td>
-                                <td>{{ $item->SP_PIP }}</td>
+                                <td>{{ $item->SK_PIP }}</td>
+                                <td>{{ $item->Nominasi }}</td>
                                 <td>{{ $item->alamat }}</td>
                                 <td>{{ $item->kelas ?? '-' }}</td>
                                 <td>

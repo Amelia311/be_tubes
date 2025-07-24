@@ -29,8 +29,8 @@
       <div class="card">
         <i class="fas fa-calendar-alt"></i>
         <div class="content">
-          <div class="label">Periode Terbaru</div>
-          <div class="value">{{ $periodeTerbaru ?? 'Belum ada' }}</div>
+          <div class="label">Semester </div>
+          <div class="value">{{ $SemesterTerbaru ?? 'Belum ada' }}</div>
         </div>
       </div>
     </div>

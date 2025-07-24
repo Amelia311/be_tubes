@@ -188,6 +188,7 @@
                     <tr>
                         <th>NO</th>
                         <th>NAMA</th>
+                        <th>No Rekening</th>
                         <th>JUMLAH</th>
                         <th>STATUS</th>
                         <th>BUKTI</th>
@@ -199,7 +200,9 @@
                         <tr class="animate__animated animate__fadeIn">
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->siswa->nama ?? '-' }}</td>
-                            <td>Rp {{ number_format($item->jumlah, 0, ',', '.') }}</td>
+                            <td>{{ $item->siswa->no_rekening ?? '-' }}</td> <!-- Tambahkan baris ini -->
+                            <td>Rp {{ number_format($item->jumlah, 0, ',', '.') }}</td> <!-- Pindahkan ke kolom JUMLAH -->
+
                             <td>
                                 <span class="status {{ strtolower($item->status) == 'sudah cair' ? 'sudah' : 'menunggu' }}">
                                     <i class="fas {{ strtolower($item->status) == 'sudah cair' ? 'fa-check-circle' : 'fa-clock' }} me-1"></i>

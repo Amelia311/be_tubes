@@ -221,20 +221,34 @@
                     <textarea name="alamat" id="alamat" class="form-control" required>{{ old('alamat', $siswa->alamat) }}</textarea>
                 </div>
                 
-                <div class="form-group">
-                 <label for="no_rekening" class="form-label">
-                 <i class="fas fa-credit-card"></i> No Rekening
-                </label>
-             <input type="text" name="no_rekening" id="no_rekening" class="form-control">
-            </div>
-
-            <div class="form-group">
-    <label for="sk_pip" class="form-label">
-        <i class="fas fa-file-contract"></i> SK PIP
+               <div class="form-group">
+    <label for="no_rekening" class="form-label">
+        <i class="fas fa-credit-card"></i> No Rekening
     </label>
-    <input type="file" name="sk_pip" id="sk_pip" class="form-control" accept=".pdf,.doc,.docx">
-    <small class="text-muted">Format: PDF/DOC, maks 2MB</small>
-        </div>
+    <input type="text" 
+           name="no_rekening" 
+           id="no_rekening" 
+           class="form-control" 
+           maxlength="15" 
+           pattern="\d{15}" 
+           title="No rekening harus berupa 15 digit angka" 
+           required 
+           oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15)">
+</div>
+
+<div class="form-group">
+    <label for="sk_pemerintah" class="form-label">
+        <i class="fas fa-file-pdf"></i> SK PIP <small class="text-muted">(PDF: Maksimal 2MB)</small>
+    </label>
+    <input type="file" name="sk_pemerintah" id="sk_pemerintah" class="form-control" accept=".pdf" required>
+</div>
+
+<div class="form-group">
+    <label for="sk_nominasi" class="form-label">
+        <i class="fas fa-file-pdf"></i> Nominasi <small class="text-muted">(PDF: Maksimal 2MB)</small>
+    </label>
+    <input type="file" name="sk_nominasi" id="sk_nominasi" class="form-control" accept=".pdf" required>
+</div>
 
                 
                 <div class="form-group">

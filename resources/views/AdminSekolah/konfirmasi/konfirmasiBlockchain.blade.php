@@ -597,7 +597,7 @@ h3::after {
 
 <div class="main-content animate_animated animate_fadeIn">
   <div class="content-box">
-    <h3><i class="fas fa-check-circle"></i> Konfirmasi dan Catat Blockchain</h3>
+    <h3><i class="fas fa-check-circle"></i> Konfirmasi Penarikan Dana</h3>
 
     @if(session('success'))
       <div class="alert-box success animate_animated animate_slideInDown">
@@ -630,7 +630,7 @@ h3::after {
                           TX: <a href="https://sepolia.etherscan.io/tx/{{ $item->blockchain_tx }}" target="_blank" class="tx-link">{{ Str::limit($item->blockchain_tx, 10) }}</a>
                         </small>
                     @else
-                        <span class="status belum"><i class="fas fa-clock"></i> Belum Cair</span>
+                        <span class="status belum"><i class="fas fa-clock"></i> Belum Penarikan</span>
                     @endif
                 </td>
                 <td data-label="Aksi">

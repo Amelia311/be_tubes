@@ -201,7 +201,7 @@
            id="nomor_rekening"
            name="nomor_rekening"
            value="{{ old('nomor_rekening') }}"
-           placeholder="Masukkan 15 digit nomor rekening BRI"
+           placeholder="Masukkan 15 digit nomor rekening "
            required
            maxlength="10"
            inputmode="numeric"/>
@@ -220,7 +220,21 @@
                                oninput="formatCurrency(this)" />
                     </div>
                 </div>
-                
+                <div class="form-group">
+    <label for="sk_pemerintah" class="form-label">
+        <i class="fas fa-file-pdf"></i> SK PIP <small class="text-muted">(PDF: Maksimal 2MB)</small>
+    </label>
+    <input type="file" name="sk_pemerintah" id="sk_pemerintah" class="form-control" accept=".pdf" required>
+</div>
+
+<div class="form-group">
+    <label for="sk_nominasi" class="form-label">
+        <i class="fas fa-file-pdf"></i> Nominasi <small class="text-muted">(PDF: Maksimal 2MB)</small>
+    </label>
+    <input type="file" name="sk_nominasi" id="sk_nominasi" class="form-control" accept=".pdf" required>
+</div>
+
+
                 <div class="form-group">
                     <label for="keterangan" class="form-label">
                         <i class="fas fa-info-circle"></i> Keterangan

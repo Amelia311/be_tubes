@@ -483,9 +483,9 @@
           <i class="fas fa-calendar-alt animate-float"></i>
         </div>
         <div>
-          <div class="stat-label">Periode Terbaru</div>
-          <div class="stat-value animate__animated animate__fadeIn animate-delay-4">{{ $periodeTerbaru ?? 'Belum ada' }}</div>
-          <div class="stat-desc">Periode pencairan terakhir</div>
+          <div class="stat-label">Semester</div>
+          <div class="stat-value animate__animated animate__fadeIn animate-delay-4">{{ $SemesterTerbaru ?? 'Belum ada' }}</div>
+          <div class="stat-desc">Semester pencairan terakhir</div>
         </div>
       </div>
     </div>

@@ -271,7 +271,7 @@
         </li>
         <li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.2s;">
           <a href="{{ route('pencairan.create') }}" class="{{ request()->routeIs('pencairan.create') ? 'active' : '' }}">
-            <i class="fas fa-money-bill-wave"></i> Input Pencairan
+            <i class="fas fa-money-bill-wave"></i> Input Penarikan Dana
           </a>
         </li>
         <li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.3s;">
@@ -281,7 +281,7 @@
         </li>
         <li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.4s;">
           <a href="{{ url('/dashboard/sekolah/riwayat') }}" class="{{ request()->is('dashboard/sekolah/riwayat') ? 'active' : '' }}">
-            <i class="fas fa-history"></i> Riwayat Pencairan
+            <i class="fas fa-history"></i> Riwayat Penarikan Dana
           </a>
         </li>
         <li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.5s;">
