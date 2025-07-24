@@ -291,7 +291,8 @@
                             <th>NO</th>
                             <th>NAMA SISWA</th>
                             <th>NISN</th>
-                            <th>ASAL SEKOLAH</th>
+                            <th>NO REKENING</th>
+                            <th>SK PIP</th>
                             <th>ALAMAT</th>
                             <th>KELAS</th>
                             <th>AKSI</th>
@@ -303,7 +304,8 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->nisn }}</td>
-                                <td>{{ $item->asal_sekolah }}</td>
+                                <td>{{ $item->no_rekening }}</td>
+                                <td>{{ $item->SP_PIP }}</td>
                                 <td>{{ $item->alamat }}</td>
                                 <td>{{ $item->kelas ?? '-' }}</td>
                                 <td>

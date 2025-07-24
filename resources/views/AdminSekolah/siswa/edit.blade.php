@@ -215,13 +215,6 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="asal_sekolah" class="form-label">
-                        <i class="fas fa-school"></i> Asal Sekolah
-                    </label>
-                    <input type="text" name="asal_sekolah" id="asal_sekolah" class="form-control" value="{{ old('asal_sekolah', $siswa->asal_sekolah) }}" required>
-                </div>
-                
-                <div class="form-group">
                     <label for="alamat" class="form-label">
                         <i class="fas fa-map-marker-alt"></i> Alamat
                     </label>
@@ -229,12 +222,20 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="password" class="form-label">
-                        <i class="fas fa-lock"></i> Password
-                    </label>
-                    <input type="password" name="password" id="password" class="form-control">
-                    <p class="password-note">Kosongkan jika tidak ingin mengubah password</p>
-                </div>
+                 <label for="no_rekening" class="form-label">
+                 <i class="fas fa-credit-card"></i> No Rekening
+                </label>
+             <input type="text" name="no_rekening" id="no_rekening" class="form-control">
+            </div>
+
+            <div class="form-group">
+    <label for="sk_pip" class="form-label">
+        <i class="fas fa-file-contract"></i> SK PIP
+    </label>
+    <input type="file" name="sk_pip" id="sk_pip" class="form-control" accept=".pdf,.doc,.docx">
+    <small class="text-muted">Format: PDF/DOC, maks 2MB</small>
+        </div>
+
                 
                 <div class="form-group">
                     <label for="kelas" class="form-label">
@@ -257,9 +258,9 @@
                     </button>
                 </div>
             </form>
+         </div>
+         </div>
         </div>
-    </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 <script>

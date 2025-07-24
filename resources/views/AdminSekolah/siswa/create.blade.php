@@ -200,12 +200,28 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="asal_sekolah" class="form-label">
-                        <i class="fas fa-school"></i> Asal Sekolah
-                    </label>
-                    <input type="text" name="asal_sekolah" id="asal_sekolah" class="form-control" required value="{{ old('asal_sekolah') }}">
-                </div>
-                
+    <label for="no_rekening" class="form-label">
+        <i class="fas fa-credit-card"></i> No Rekening
+    </label>
+    <input 
+        type="number" 
+        name="no_rekening" 
+        id="no_rekening" 
+        class="form-control" 
+        required 
+        value="{{ old('no_rekening') }}"
+        inputmode="numeric"
+        pattern="[0-9]*"
+            >
+            </div>
+            <div class="form-group">
+    <label for="sk_pip" class="form-label">
+        <i class="fas fa-file-contract"></i> SK PIP
+    </label>
+    <input type="file" name="sk_pip" id="sk_pip" class="form-control" accept=".pdf,.doc,.docx">
+    <small class="text-muted">Format: PDF/DOC, maks 2MB</small>
+        </div>
+
                 <div class="form-group">
                     <label for="alamat" class="form-label">
                         <i class="fas fa-map-marker-alt"></i> Alamat

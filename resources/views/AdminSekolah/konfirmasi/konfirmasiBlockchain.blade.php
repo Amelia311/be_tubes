@@ -609,7 +609,7 @@ h3::after {
         <thead>
             <tr>
                 <th>Nama Siswa</th>
-                <th>Asal Sekolah</th>
+                <th>No Rekening</th>
                 <th>Tanggal</th>
                 <th>Jumlah</th>
                 <th>Status</th>
@@ -620,7 +620,7 @@ h3::after {
             @foreach($data as $index => $item)
             <tr class="animate_animated animate_fadeInUp" style="animation-delay: {{ $index * 0.1 }}s">
                 <td data-label="Nama Siswa">{{ $item->siswa->nama }}</td>
-                <td data-label="Asal Sekolah">{{ $item->siswa->asal_sekolah }}</td>
+                <td data-label="No Rekening">{{ $item->siswa->no_rekening }}</td>
                 <td data-label="Tanggal">{{ optional($item->created_at)->format('Y-m-d') ?? '-' }}</td>
                 <td data-label="Jumlah">Rp {{ number_format($item->jumlah, 0, ',', '.') }}</td>
                 <td data-label="Status">
