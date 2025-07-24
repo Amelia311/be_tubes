@@ -224,10 +224,6 @@
               <i class="fas fa-wallet"></i> Status Dana
             </a>
           </li>
-          <li class="nav-item animate__animated animate__fadeInDown" style="animation-delay: 0.3s;">
-            <a class="nav-link {{ request()->routeIs('siswa.detail') ? 'active' : '' }}" href="{{ route('siswa.detail') }}">
-              <i class="fas fa-info-circle"></i> Detail
-            </a>
           </li>
           <li class="nav-item animate__animated animate__fadeInDown" style="animation-delay: 0.4s;">
             <a class="nav-link {{ request()->routeIs('siswa.laporan') ? 'active' : '' }}" href="{{ route('siswa.laporan') }}">
