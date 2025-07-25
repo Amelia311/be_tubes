@@ -290,7 +290,7 @@
   </a>
 </li>
 <li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.45s;">
-  <a href="{{ route('pengaduan.index') }}" class="{{ request()->routeIs('pengaduan.index') ? 'active' : '' }}">
+  <a href="{{ url('AdminSekolah.laporanpengaduan.laporan_pengaduan') }}" class="{{ request()->is('AdminSekolah.laporanpengaduan.laporan_pengaduan') ? 'active' : '' }}">
     <i class="fas fa-bullhorn"></i> Laporan Pengaduan Siswa
   </a>
 </li>

@@ -42,12 +42,6 @@ Route::get('/laporan', [SiswaController::class, 'laporan'])->name('siswa.laporan
 Route::get('/transparansi', [SiswaController::class, 'transparansi'])->name('siswa.transparansi');
 Route::get('/admin/akun-siswa', [AdminSekolahController::class, 'akunSiswa'])->name('akun.siswa');
 Route::get('/admin/laporan-kendala', [AdminSekolahController::class, 'laporanKendala'])->name('laporan.kendala');
-Route::get('/dashboard/sekolah/pengaduan', function () {
-    return view('AdminSekolah.laporan_pengaduan.laporan_pengaduan');
-})->name('pengaduan.index');
-
-
-
 
 
 // // Daftar Siswa
@@ -90,3 +84,23 @@ Route::get('/transparansi-publik', [PencairanController::class, 'transparansiPub
 
 // Route::get('/forgot-password', [ForgotPasswordController::class, 'show'])->name('password.forgot');
 // Route::post('/change-password', [AuthController::class, 'changePassword'])->name('password.change');
+
+
+Route::get('/admin/laporan', function () {
+    $pengaduan = [
+        [
+            'nama' => 'Siti Nur Aisah',
+            'kelas' => '12 IPA 1',
+            'masalah' => 'Belum menerima dana PIP',
+            'bukti' => null,
+        ],
+        [
+            'nama' => 'Ahmad Rizki',
+            'kelas' => '11 IPS 2',
+            'masalah' => 'Nominal tidak sesuai',
+            'bukti' => 'bukti1.jpg',
+        ],
+    ];
+
+    return view('AdminSekolah.laporanpengaduan.laporan_pengaduan', compact('pengaduan'));
+});
