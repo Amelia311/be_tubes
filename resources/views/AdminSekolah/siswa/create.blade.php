@@ -180,43 +180,37 @@
                         oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
 
-                                <div class="form-group">
-                    <label for="kelas" class="form-label">
-                        <i class="fas fa-graduation-cap"></i> Kelas
-                    </label>
-                    <select name="kelas" id="kelas" class="form-select" required>
-                        <option value="">Pilih Kelas</option>
-                        <option value="X" {{ old('kelas') == 'X' ? 'selected' : '' }}>X</option>
-                        <option value="XI" {{ old('kelas') == 'XI' ? 'selected' : '' }}>XI</option>
-                        <option value="XII" {{ old('kelas') == 'XII' ? 'selected' : '' }}>XII</option>
-                    </select>
-                </div>
-        <div class="form-group">
-         <label for="nama" class="form-label">
-        <i class="fas fa-university"></i> Bank Penarikan Dana
-         </label>
-      <input type="text" name="nama" id="nama" class="form-control" required value="{{ old('nama') }}">
-        </div>
                 <div class="form-group">
-    <label for="no_rekening" class="form-label">
-        <i class="fas fa-credit-card"></i> No Rekening
-    </label>
-    <input type="text" 
-           name="no_rekening" 
-           id="no_rekening" 
-           class="form-control" 
-           maxlength="10" 
-           pattern="\d{10}" 
-           title="No rekening harus berupa 10 digit angka" 
-           required 
-           oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
-</div>
+                    <label for="nama" class="form-label">
+                        <i class="fas fa-university"></i> Bank Penarikan Dana
+                    </label>
+                    <input type="text" name="bank" id="bank" class="form-control" required value="{{ old('bank') }}">
+                </div>
+                <div class="form-group">
+                    <label for="no_rekening" class="form-label">
+                        <i class="fas fa-credit-card"></i> No Rekening
+                    </label>
+                    <input type="text" 
+                    name="no_rekening" 
+                    id="no_rekening" 
+                    class="form-control" 
+                    maxlength="10" 
+                    pattern="\d{10}" 
+                    title="No rekening harus berupa 10 digit angka" 
+                    required 
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
+                </div>
 
                 <div class="form-group">
-                    <label for="password" class="form-label">
-                        <i class="fas fa-lock"></i> Password
-                    </label>
-                    <input type="password" name="password" id="password" class="form-control" required>
+                <label for="kelas" class="form-label">
+                <i class="fas fa-graduation-cap"></i> Kelas
+                </label>
+                <select name="kelas" id="kelas" class="form-select" required>
+                <option value="">Pilih Kelas</option>
+                <option value="X" {{ old('kelas') == 'X' ? 'selected' : '' }}>X</option>
+                <option value="XI" {{ old('kelas') == 'XI' ? 'selected' : '' }}>XI</option>
+                <option value="XII" {{ old('kelas') == 'XII' ? 'selected' : '' }}>XII</option>
+                </select>
                 </div>
                 
                 <div class="d-flex justify-content-end mt-4">

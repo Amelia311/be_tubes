@@ -194,57 +194,62 @@
             @endif
             
             <form action="{{ route('siswa.update', $siswa->id) }}" method="POST" class="animate__animated animate__fadeIn">
-                @csrf
-                @method('PUT')
-                
+            @csrf
+            @method('PUT')
+                {{-- Nama --}}
                 <div class="form-group">
                     <label for="nama" class="form-label">
                         <i class="fas fa-user"></i> Nama Siswa
                     </label>
-                    <input type="text" name="nama" id="nama" class="form-control" value="{{ old('nama', $siswa->nama) }}" required>
+                    <input type="text" name="nama" id="nama" class="form-control" 
+                        value="{{ old('nama', $siswa->nama) }}" required>
                 </div>
-                
+
+                {{-- NISN --}}
                 <div class="form-group">
                     <label for="nisn" class="form-label">
                         <i class="fas fa-id-card"></i> NISN
                     </label>
                     <input type="text" name="nisn" id="nisn" class="form-control" 
-                        required value="{{ old('nisn') }}" 
+                        value="{{ old('nisn', $siswa->nisn) }}" required 
                         inputmode="numeric" pattern="\d*" maxlength="10"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
+
+                {{-- Bank Penarikan Dana --}}
                 <div class="form-group">
-         <label for="nama" class="form-label">
-        <i class="fas fa-university"></i> Bank Penarikan Dana
-         </label>
-      <input type="text" name="nama" id="nama" class="form-control" required value="{{ old('nama') }}">
-        </div>
-               <div class="form-group">
-    <label for="no_rekening" class="form-label">
-        <i class="fas fa-credit-card"></i> No Rekening
-    </label>
-    <input type="text" 
-           name="no_rekening" 
-           id="no_rekening" 
-           class="form-control" 
-           maxlength="10" 
-           pattern="\d{10}" 
-           title="No rekening harus berupa 10 digit angka" 
-           required 
-           oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
-</div>          
+                    <label for="bank" class="form-label">
+                        <i class="fas fa-university"></i> Bank Penarikan Dana
+                    </label>
+                    <input type="text" name="bank" id="bank" class="form-control" 
+                        value="{{ old('bank', $siswa->bank) }}" required>
+                </div>
+
+                {{-- No Rekening --}}
+                <div class="form-group">
+                    <label for="no_rekening" class="form-label">
+                        <i class="fas fa-credit-card"></i> No Rekening
+                    </label>
+                    <input type="text" name="no_rekening" id="no_rekening" class="form-control" 
+                        value="{{ old('no_rekening', $siswa->no_rekening) }}" required
+                        maxlength="10" pattern="\d{10}" 
+                        title="No rekening harus berupa 10 digit angka"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
+                </div>
+
+                {{-- Kelas --}}
                 <div class="form-group">
                     <label for="kelas" class="form-label">
                         <i class="fas fa-graduation-cap"></i> Kelas
                     </label>
                     <select name="kelas" id="kelas" class="form-select" required>
                         <option value="">Pilih Kelas</option>
-                        <option value="X" {{ (old('kelas', $siswa->kelas) == 'X') ? 'selected' : '' }}>X</option>
-                        <option value="XI" {{ (old('kelas', $siswa->kelas) == 'XI') ? 'selected' : '' }}>XI</option>
-                        <option value="XII" {{ (old('kelas', $siswa->kelas) == 'XII') ? 'selected' : '' }}>XII</option>
+                        <option value="X" {{ old('kelas', $siswa->kelas) == 'X' ? 'selected' : '' }}>X</option>
+                        <option value="XI" {{ old('kelas', $siswa->kelas) == 'XI' ? 'selected' : '' }}>XI</option>
+                        <option value="XII" {{ old('kelas', $siswa->kelas) == 'XII' ? 'selected' : '' }}>XII</option>
                     </select>
                 </div>
-                
+
                 <div class="d-flex justify-content-between mt-4 button-group">
                     <a href="{{ route('siswa.index') }}" class="btn btn-back">
                         <i class="fas fa-arrow-left"></i> Kembali

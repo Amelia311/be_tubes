@@ -30,13 +30,13 @@ class PencairanController extends Controller
             'siswa_id' => 'required|exists:siswa,id',
             'tanggal_cair' => 'required|date|before_or_equal:today',
             'jumlah' => 'required|numeric',
-            'keterangan' => 'required|string',
+            'semester' => 'required|string',
         ]);
         Pencairan::create([
             'siswa_id' => $request->siswa_id,
             'tanggal_cair' => $request->tanggal_cair,
             'jumlah' => $request->jumlah,
-            'keterangan' => $request->keterangan,
+            'semester' => $request->semester,
             'status' => 'Menunggu',
             'blockchain_tx' => null,
         ]);
@@ -287,7 +287,7 @@ class PencairanController extends Controller
     {
         $totalDana = Pencairan::where('status', 'Sudah Cair')->sum('jumlah');
         $jumlahPenerima = Pencairan::where('status', 'Sudah Cair')->distinct('siswa_id')->count('siswa_id');
-        $periodeTerbaru = Pencairan::where('status', 'Sudah Cair')->latest()->value('periode');
+        $semester = Pencairan::where('status', 'Sudah Cair')->latest()->value('semester');
 
         $infoTerbaru = Pencairan::with('siswa')
             ->where('status', 'Sudah Cair')
@@ -303,7 +303,7 @@ class PencairanController extends Controller
         return view('transparansiDana', compact(
             'totalDana',
             'jumlahPenerima',
-            'periodeTerbaru',
+            'semester',
             'infoTerbaru',
             'laporan'
         ));

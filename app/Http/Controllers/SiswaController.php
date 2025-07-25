@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\SiswaImport;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -9,39 +10,49 @@ use App\Models\Laporan;
 use App\Models\Pencairan;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class SiswaController extends Controller
 {
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'excel_file' => 'required|file|mimes:xlsx,xls'
+        ]);
+
+        Excel::import(new SiswaImport, $request->file('excel_file'));
+        
+        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diimpor dari Excel.');
+    }
+
     public function index(Request $request)
     {
         $query = Siswa::query();
     
         if ($request->has('search')) {
             $search = $request->search;
-    
             $query->where('nama', 'like', "%$search%")
                   ->orWhere('nisn', 'like', "%$search%")
-                  ->orWhere('asal_sekolah', 'like', "%$search%");
+                  ->orWhere('no_rekening', 'like', "%$search%")
+                  ->orWhere('bank', 'like', "%$search%")
+                  ->orWhere('kelas', 'like', "%$search%");
         }
     
-        $siswa = $query->paginate(10); // atau get() kalau tidak ingin pakai pagination
+        $siswa = $query->paginate(10);
     
         return view('AdminSekolah.siswa.daftarSiswa', compact('siswa'));
     }
     
+    
     public function store(Request $request)
     {
-        $request->validate([
-            'password' => 'required|min:6'
-        ]);
         Siswa::create([
             'nama' => $request->nama,
             'nisn' => $request->nisn,
-            'asal_sekolah' => $request->asal_sekolah,
-            'alamat' => $request->alamat,
+            'no_rekening' => $request->no_rekening,
+            'bank' => $request->bank,
             'kelas' => $request->kelas,
-            'password' => Hash::make($request->password)
         ]);
         
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diperbarui!');
@@ -92,29 +103,29 @@ class SiswaController extends Controller
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil dihapus!');
     }
 
-    public function adminFull(Request $request)
-    {
-        // Cari
-        $query = Siswa::query();
-        if ($request->has('cari')) {
-            $query->where('nama', 'like', '%' . $request->cari . '%');
-        }
+    // public function adminFull(Request $request)
+    // {
+    //     // Cari
+    //     $query = Siswa::query();
+    //     if ($request->has('cari')) {
+    //         $query->where('nama', 'like', '%' . $request->cari . '%');
+    //     }
 
-        // Tambah (jika POST)
-        if ($request->isMethod('post') && $request->has('nama')) {
-            $request->validate([
-                'nama' => 'required',
-                'nisn' => 'required|unique:siswa',
-                'asal_sekolah' => 'required',
-                'alamat' => 'required',
-            ]);
-            Siswa::create($request->only(['nama', 'nisn', 'asal_sekolah', 'alamat']));
-            return redirect()->back()->with('success', 'Data siswa ditambahkan!');
-        }
+    //     // Tambah (jika POST)
+    //     if ($request->isMethod('post') && $request->has('nama')) {
+    //         $request->validate([
+    //             'nama' => 'required',
+    //             'nisn' => 'required|unique:siswa',
+    //             'asal_sekolah' => 'required',
+    //             'alamat' => 'required',
+    //         ]);
+    //         Siswa::create($request->only(['nama', 'nisn', 'asal_sekolah', 'alamat']));
+    //         return redirect()->back()->with('success', 'Data siswa ditambahkan!');
+    //     }
 
-        $siswa = $query->get();
-        return view('AdminSekolah.siswa.daftarSiswa', compact('siswa'));
-    }
+    //     $siswa = $query->get();
+    //     return view('AdminSekolah.siswa.daftarSiswa', compact('siswa'));
+    // }
 
     public function riwayatSaya()
     {
@@ -293,8 +304,4 @@ public function laporStore(Request $request)
             'laporan'
         ));
     }
-    
-    
-
-
 }

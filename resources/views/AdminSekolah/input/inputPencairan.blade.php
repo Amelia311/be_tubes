@@ -142,7 +142,7 @@
             <h3 class="animate__animated animate__fadeInDown">
                 <i class="fas fa-money-bill-wave me-2"></i>Input Penarikan Dana
             </h3>
-            
+
             {{-- Pesan sukses --}}
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -156,7 +156,7 @@
             @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <i class="fas fa-exclamation-triangle me-2"></i>
-                    <ul class="mb-0" style="padding-left: 20px;">
+                    <ul class="mb-0 ps-3">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
@@ -164,10 +164,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            
+
             <form method="POST" action="{{ route('pencairan.store') }}" class="animate__animated animate__fadeIn">
                 @csrf
-                
+
                 <div class="form-group">
                     <label for="siswa_id" class="form-label">
                         <i class="fas fa-user-graduate"></i> Pilih Siswa
@@ -175,34 +175,41 @@
                     <select class="form-select" id="siswa_id" name="siswa_id" required>
                         <option value="">-- Pilih Siswa --</option>
                         @foreach ($siswa as $item)
-                            <option value="{{ $item->id }}" {{ old('siswa_id') == $item->id ? 'selected' : '' }}>
+                            <option value="{{ $item->id }}"
+                                data-norekening="{{ $item->no_rekening }}"
+                                {{ old('siswa_id') == $item->id ? 'selected' : '' }}>
                                 {{ $item->nama }}
                             </option>
                         @endforeach
                     </select>
                 </div>
+
                 <div class="form-group">
-    <label for="nomor_rekening" class="form-label">
-        <i class="fas fa-credit-card"></i> Nomor Rekening
-    </label>
-    <input type="text"
-           class="form-control"
-           id="nomor_rekening"
-           name="nomor_rekening"
-           value="{{ old('nomor_rekening') }}"
-           placeholder="Masukkan 10 digit nomor rekening "
-           required
-           maxlength="10"
-           inputmode="numeric"/>
-                
+                    <label for="nomor_rekening" class="form-label">
+                        <i class="fas fa-credit-card"></i> Nomor Rekening
+                    </label>
+                    <input type="text"
+                        class="form-control"
+                        id="nomor_rekening"
+                        name="nomor_rekening"
+                        value="{{ old('nomor_rekening') }}"
+                        placeholder="Masukkan 10 digit nomor rekening"
+                        required maxlength="10"
+                        inputmode="numeric"/>
+                </div>
+
                 <div class="form-group">
                     <label for="tanggal_cair" class="form-label">
                         <i class="fas fa-calendar-alt"></i> Tanggal Penarikan
                     </label>
-                    <input type="date" class="form-control" id="tanggal_cair" name="tanggal_cair" 
-                           value="{{ old('tanggal_cair') }}" 
-                           max="{{ date('Y-m-d') }}" 
-                           min="2000-01-01" required />
+                    <input type="date"
+                        class="form-control"
+                        id="tanggal_cair"
+                        name="tanggal_cair"
+                        value="{{ old('tanggal_cair') }}"
+                        max="{{ date('Y-m-d') }}"
+                        min="2000-01-01"
+                        required />
                 </div>
 
                 <div class="form-group">
@@ -211,25 +218,28 @@
                     </label>
                     <div class="input-group">
                         <span class="input-group-text">Rp</span>
-                        <input type="text" class="form-control currency-input" id="jumlah" name="jumlah" 
-                               value="{{ old('jumlah') }}" 
-                               placeholder="Contoh: 500000" 
-                               required 
-                               oninput="formatCurrency(this)" />
+                        <input type="text"
+                            class="form-control currency-input"
+                            id="jumlah"
+                            name="jumlah"
+                            value="{{ old('jumlah') }}"
+                            placeholder="Contoh: 500000"
+                            required
+                            oninput="formatCurrency(this)" />
                     </div>
                 </div>
 
-
                 <div class="form-group">
-                    <label for="keterangan" class="form-label">
-                        <i class="fas fa-info-circle"></i> Keterangan
+                    <label for="semester" class="form-label">
+                        <i class="fas fa-info-circle"></i> Semester
                     </label>
-                    <input type="text" class="form-control" id="keterangan" name="keterangan" 
-                           value="{{ old('keterangan') }}" 
-                           placeholder="Contoh: Semester 1" required />
+                    <select name="semester" id="semester" class="form-control" required>
+                        <option value="Ganjil" {{ old('semester') == 'Ganjil' ? 'selected' : '' }}>Ganjil</option>
+                        <option value="Genap" {{ old('semester') == 'Genap' ? 'selected' : '' }}>Genap</option>
+                    </select>
                 </div>
-                
-                <button type="submit" class="btn btn-submit animate__animated animate__pulse animate__infinite animate__slower">
+
+                <button type="submit" class="btn btn-submit animate__animated animate__pulse animate__infinite animate__slower mt-3">
                     <i class="fas fa-save"></i> Simpan 
                 </button>
             </form>
@@ -238,34 +248,45 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
-<script>
-    // Format input currency
-    function formatCurrency(input) {
-        // Hapus semua karakter non-digit
-        let value = input.value.replace(/\D/g, '');
-        
-        // Simpan nilai asli ke hidden field
-        input.value = value;
-        
-        // Tampilkan nilai yang sudah diformat (opsional)
-        // input.value = new Intl.NumberFormat('id-ID').format(value);
-    }
 
-    // Animasi saat halaman dimuat
-    document.addEventListener('DOMContentLoaded', function() {
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
         const formGroups = document.querySelectorAll('.form-group');
         formGroups.forEach((group, index) => {
             group.style.animationDelay = `${index * 0.1}s`;
         });
-        
-        // Set tanggal default ke hari ini
-        if (!document.getElementById('tanggal_cair').value) {
-            document.getElementById('tanggal_cair').valueAsDate = new Date();
+
+        const siswaSelect = document.getElementById('siswa_id');
+        const rekeningInput = document.getElementById('nomor_rekening');
+
+        // Ambil norek saat siswa dipilih
+        siswaSelect.addEventListener('change', function () {
+            const selectedOption = this.options[this.selectedIndex];
+            const norek = selectedOption.getAttribute('data-norekening') || '';
+            rekeningInput.value = norek;
+        });
+
+        // Isi norek otomatis saat page load jika old('siswa_id') ada
+        const selected = siswaSelect.options[siswaSelect.selectedIndex];
+        if (selected && selected.getAttribute('data-norekening')) {
+            rekeningInput.value = selected.getAttribute('data-norekening');
+        }
+
+        // Default tanggal hari ini kalau kosong
+        const tgl = document.getElementById('tanggal_cair');
+        if (!tgl.value) {
+            tgl.valueAsDate = new Date();
         }
     });
-     function formatRekening(input) {
-        let value = input.value.replace(/\D/g, '').substring(0, 15); // ambil hanya angka, max 15 digit
-        let formatted = value.replace(/(.{4})/g, '$1 ').trim(); // beri spasi tiap 4 digit
+
+    function formatCurrency(input) {
+        let value = input.value.replace(/\D/g, '');
+        input.value = value;
+    }
+
+    function formatRekening(input) {
+        let value = input.value.replace(/\D/g, '').substring(0, 15);
+        let formatted = value.replace(/(.{4})/g, '$1 ').trim();
         input.value = formatted;
     }
 </script>

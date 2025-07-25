@@ -15,6 +15,22 @@
         --danger-color: #e74a3b;
     }
     
+    .pagination .fa-chevron-left,
+    .pagination .fa-chevron-right {
+    font-size: 1rem !important;
+    }
+
+    .pagination svg {
+    width: 1rem !important;
+    height: 1rem !important;
+    }
+
+    /* .page-link svg {
+    width: 5px !important;
+    height: 5px !important;
+    vertical-align: middle;
+    } */
+
     .content-box {
         background: white;
         border-radius: 15px;
@@ -263,7 +279,7 @@
 <div class="container-fluid p-4">
     <div class="content-box animate__animated animate__fadeIn">
         <div class="header-table">
-            <h3><i class="fas fa-users me-2"></i>Daftar Siswa</h3>
+            <h3><i class="fas fa-users me-2"></i>Daftar Siswa Penerima PIP</h3>
             <div class="d-flex align-items-center gap-3">
                 <form method="GET" action="{{ route('siswa.index') }}" class="search-box">
                     <i class="fas fa-search"></i>
@@ -275,6 +291,7 @@
             </div>
         </div>
 
+        {{-- Pesan sukses --}}
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show m-3" role="alert">
                 <i class="fas fa-check-circle me-2"></i>
@@ -283,6 +300,18 @@
             </div>
         @endif
 
+        {{-- Form Import Excel --}}
+        <div class="px-4 pb-2">
+            <form action="{{ route('siswa.import') }}" method="POST" enctype="multipart/form-data" class="d-flex flex-wrap align-items-center gap-3">
+                @csrf
+                <input type="file" name="excel_file" accept=".xlsx, .xls" class="form-control" required>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-file-upload me-1"></i> Upload Data Siswa
+                </button>
+            </form>
+        </div>
+
+        {{-- Tabel Siswa --}}
         <div class="table-container">
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -291,19 +320,19 @@
                             <th>NO</th>
                             <th>NAMA SISWA</th>
                             <th>NISN</th>
-                            <th>BANK PENARIKAN DANA</th>
+                            <th>BANK</th>
                             <th>NO REKENING</th>
                             <th>KELAS</th>
                             <th>AKSI</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($siswa as $item)
+                        @forelse ($siswa as $index => $item)
                             <tr class="animate__animated animate__fadeIn">
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $index + $siswa->firstItem() }}</td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->nisn }}</td>
-                                <td>{{ $item->bank_penarikan_dana }}</td>
+                                <td>{{ $item->bank }}</td>
                                 <td>{{ $item->no_rekening }}</td>
                                 <td>{{ $item->kelas ?? '-' }}</td>
                                 <td>
@@ -328,6 +357,11 @@
                     </tbody>
                 </table>
             </div>
+
+            {{-- Pagination --}}
+            <div class="mt-3 px-3">
+            {{ $siswa->links('pagination::bootstrap-5') }}
+            </div>
         </div>
     </div>
 </div>
@@ -350,6 +384,7 @@
         </div>
     </div>
 </div>
+@endsection
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 <script>
@@ -401,4 +436,3 @@
         });
     });
 </script>
-@endsection
