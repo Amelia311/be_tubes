@@ -299,8 +299,4 @@ public function laporStore(Request $request)
             'laporan'
         ));
     }
-    
-    
-
-
 }

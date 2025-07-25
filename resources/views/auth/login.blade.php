@@ -268,7 +268,7 @@
 
       <div class="form-floating mb-3">
         <input type="number" class="form-control" id="username" name="username" value="{{ old('username') }}" 
-               placeholder="NISN / NPSN / Email" autocomplete="username" required>
+               placeholder="NISN / NPSN " autocomplete="username" required>
         <label for="username"><i class="fas fa-user me-2"></i>NISN / NPSN</label>
       </div>
 
@@ -277,12 +277,6 @@
                placeholder="Password" autocomplete="current-password" required>
         <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
       </div>
-
-      <div class="text-end mb-2">
-  <a href="{{ url('/forgot-password') }}" class="text-decoration-none fw-semibold" style="color: var(--primary-color);">
-    <i class="fas fa-unlock-alt me-1"></i> Lupa Password?
-  </a>
-</div>
 
       <button type="submit" class="btn btn-primary btn-login">
         <i class="fas fa-sign-in-alt me-2"></i> Masuk

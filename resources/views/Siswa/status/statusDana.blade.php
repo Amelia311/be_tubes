@@ -1,3 +1,5 @@
+@extends('Siswa.layouts.siswa')
+
 @section('title', 'Status Dana - PIPGuard')
 
 @push('styles')
