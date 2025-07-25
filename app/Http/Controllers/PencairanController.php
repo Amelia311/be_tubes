@@ -272,7 +272,7 @@ public function submitKonfirmasi(Request $request)
     {
         $totalDana = Pencairan::where('status', 'Sudah Cair')->sum('jumlah');
         $jumlahPenerima = Pencairan::where('status', 'Sudah Cair')->distinct('siswa_id')->count('siswa_id');
-        $periodeTerbaru = Pencairan::where('status', 'Sudah Cair')->latest()->value('periode');
+        $semester = Pencairan::where('status', 'Sudah Cair')->latest()->value('semester');
 
         $infoTerbaru = Pencairan::with('siswa')
             ->where('status', 'Sudah Cair')
@@ -288,7 +288,7 @@ public function submitKonfirmasi(Request $request)
         return view('transparansiDana', compact(
             'totalDana',
             'jumlahPenerima',
-            'periodeTerbaru',
+            'semester',
             'infoTerbaru',
             'laporan'
         ));
