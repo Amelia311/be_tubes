@@ -238,6 +238,15 @@
             flex-wrap: nowrap;
         }
     }
+    .modal.fade.show {
+    display: block !important;
+    z-index: 1050; /* z-index Bootstrap default untuk modal */
+    }
+
+    .modal-backdrop.show {
+    z-index: 1040 !important; /* pastikan backdrop di bawah modal */
+    }
+
 </style>
 @endpush
 
@@ -249,8 +258,8 @@
             <div class="content-box card-stat animate__animated animate__fadeInLeft">
                 <div class="card-body">
                     <h6 class="card-title">Total Penerima PIP</h6>
-                    <h2 class="card-value">142</h2>
-                    <p class="mb-0"><span class="text-success">+5%</span> dari semester lalu</p>
+                    <h2 class="card-value">{{ $totalPenerima }}</h2>
+                    <p class="mb-0"><span class="text-success">+{{ $persenSudah - 85 }}%</span> dari semester lalu</p> <!-- *contoh dummy -->
                 </div>
             </div>
         </div>
@@ -258,8 +267,8 @@
             <div class="content-box card-stat success animate__animated animate__fadeIn">
                 <div class="card-body">
                     <h6 class="card-title">Sudah Menerima Semester Ini</h6>
-                    <h2 class="card-value">128</h2>
-                    <p class="mb-0"><span class="text-success">90%</span> dari total penerima</p>
+                    <h2 class="card-value">{{ $sudahMenerima }}</h2>
+                    <p class="mb-0"><span class="text-success">{{ $persenSudah }}%</span> dari total penerima</p>
                 </div>
             </div>
         </div>
@@ -267,8 +276,8 @@
             <div class="content-box card-stat warning animate__animated animate__fadeInRight">
                 <div class="card-body">
                     <h6 class="card-title">Belum Menerima</h6>
-                    <h2 class="card-value">14</h2>
-                    <p class="mb-0"><span class="text-warning">10%</span> dari total penerima</p>
+                    <h2 class="card-value">{{ $belumMenerima }}</h2>
+                    <p class="mb-0"><span class="text-warning">{{ $persenBelum }}%</span> dari total penerima</p>
                 </div>
             </div>
         </div>
@@ -279,7 +288,7 @@
         <div class="col-lg-8">
             <div class="content-box animate__animated animate__fadeIn">
                 <div class="header-box">
-                    <h3><i class="fas fa-chart-bar"></i> Diagram Penarikan PIP</h3>
+                    <h3><i class="fas fa-chart-bar"></i> Diagram Penarikan Dana PIP</h3>
                 </div>
                 <div class="semester-tabs">
                     <div class="semester-tab active" data-tab="semester1">Semester 1</div>
@@ -324,7 +333,7 @@
                                     <a href="{{ Storage::url($sk->file_path) }}" target="_blank" title="Lihat">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="#" title="Download">
+                                    <a href="{{ Storage::url($sk->file_path) }}" download title="Download">
                                         <i class="fas fa-download"></i>
                                     </a>
                                 </div>
@@ -341,6 +350,7 @@
             </div>
         </div>
     </div>
+
 <!-- Modal Upload SK -->
 <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -349,8 +359,8 @@
                 <h5 class="modal-title" id="uploadModalLabel">Upload SK PIP Baru</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('sk-pip.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
+            <form action="{{ route('skpip.store') }}" method="POST" enctype="multipart/form-data">   
+            @csrf
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="nama_sk" class="form-label">Nama SK</label>
@@ -385,7 +395,10 @@
         </div>
     </div>
 </div>
+@endsection
 
+
+@section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <script>

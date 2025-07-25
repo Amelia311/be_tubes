@@ -15,7 +15,7 @@ class Pencairan extends Model
         'siswa_id',
         'tanggal_cair',
         'jumlah',
-        'keterangan',
+        'semester',
         'status',
         'blockchain_tx',
         'status_konfirmasi',
