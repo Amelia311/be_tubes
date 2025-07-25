@@ -1,5 +1,3 @@
-@extends('Siswa.layouts.siswa')
-
 @section('title', 'Status Dana - PIPGuard')
 
 @push('styles')
@@ -237,104 +235,114 @@
 @endpush
 
 @section('content')
-<div class="container py-4 animate__animated animate__fadeIn">
+<main class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card card-detail mb-4">
-                <div class="card-header animate__animated animate__fadeInDown">
-                    <h2 class="h4 mb-0">Status Dana Pencairan</h2>
+        <div class="col-lg-10">
+            <!-- Status Tracker Card -->
+            <div class="status-card animate__animated animate__fadeIn">
+                <h2 class="mb-4"><i class="fas fa-tasks me-2"></i> Status Terkini</h2>
+                
+                <div class="progress-tracker">
+                    <div class="status-step {{ $status === 'Belum Dicairkan' ? 'active' : '' }} animate__animated animate__fadeInLeft" id="step-belum">
+                        <div class="circle">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <p>Belum Dicairkan</p>
+                    </div>
+                    
+                    <div class="status-step {{ $status === 'Menunggu' ? 'active' : '' }} animate__animated animate__fadeIn animate-delay-1" id="step-proses">
+                        <div class="circle">
+                            <i class="fas fa-spinner"></i>
+                        </div>
+                        <p>Dalam Proses</p>
+                    </div>
+                    
+                    <div class="status-step {{ $status === 'Sudah Cair' ? 'active' : '' }} animate__animated animate__fadeInRight animate-delay-2" id="step-sudah">
+                        <div class="circle">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <p>Sudah Cair</p>
+                    </div>
                 </div>
                 
-                <div class="card-body p-3">
-                    @if($pencairan)
-                        <table class="table table-bordered table-striped align-middle">
-                            <tbody>
-                                <tr>
-                                    <th class="text-primary">Nominal Dana</th>
-                                    <td class="fw-bold">Rp {{ number_format($pencairan->jumlah, 0, ',', '.') }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Tanggal Pencairan</th>
-                                    <td>{{ $pencairan->tanggal_cair ? \Carbon\Carbon::parse($pencairan->tanggal_cair)->format('d M Y') : '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Tanggal Penarikan</th>
-                                    <td>{{ $pencairan->tanggal_penarikan ? \Carbon\Carbon::parse($pencairan->tanggal_penarikan)->format('d M Y') : '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Metode Penarikan</th>
-                                    <td>{{ $pencairan->metode_penarikan ?? 'Bank BRI' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Nomor Rekening</th>
-                                    <td>{{ $pencairan->nomor_rekening ?? '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Nomor Referensi Transaksi</th>
-                                    <td>
-                                        @if($pencairan->blockchain_tx)
-                                            <span class="font-monospace">{{ $pencairan->blockchain_tx }}</span>
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        
-                        <div class="mb-3">
-                            <strong>Status Terkini:</strong>
-                            @php
-                                $statusClass = '';
-                                switch(strtolower($pencairan->status)) {
-                                    case 'diproses':
-                                        $statusClass = 'bg-warning text-dark';
-                                        break;
-                                    case 'diterima':
-                                        $statusClass = 'bg-success text-white';
-                                        break;
-                                    case 'ditolak':
-                                        $statusClass = 'bg-danger text-white';
-                                        break;
-                                    default:
-                                        $statusClass = 'bg-secondary text-white';
-                                }
-                            @endphp
-                            <span class="status-badge {{ $statusClass }}">
-                                {{ ucfirst($pencairan->status) }}
-                            </span>
-                        </div>
-                        
-                        {{-- Button Konfirmasi Penarikan --}}
-                        @if(strtolower($pencairan->status) == 'diterima' && !$pencairan->tanggal_penarikan)
-                        <form action="{{ route('pencairan.konfirmasi', $pencairan->id) }}" method="POST" class="mb-0">
-                            @csrf
-                            <button type="submit" class="btn btn-primary">
-                                Konfirmasi Penarikan
-                            </button>
-                        </form>
-                        @endif
-                    @else
-                        <div class="no-data animate__animated animate__fadeIn text-center py-5">
-                            <i class="fas fa-inbox fa-3x mb-3 text-muted"></i>
-                            <h4 class="h5">Belum ada detail penarikan yang tersedia</h4>
-                            <p class="text-muted">Silakan isi form konfirmasi penarikan dana terlebih dahulu</p>
-                        </div>
-                    @endif
+                <style>
+                    .progress-tracker::after {
+                        width: {{ $status === 'Belum Dicairkan' ? '0%' : ($status === 'Menunggu' ? '50%' : '100%') }};
+                    }
+                </style>
+            </div>
+            
+            <!-- Periode Filter -->
+            <div class="periode-filter animate__animated animate__fadeIn animate-delay-1">
+                <h3 class="mb-3"><i class="fas fa-filter me-2"></i> Periode Pencairan</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="kelas-dropdown" class="form-label fw-medium">Pilih Kelas:</label>
+                        <select id="kelas-dropdown" class="form-select">
+                            @foreach(array_keys($riwayat) as $kelas)
+                                <option value="{{ $kelas }}" {{ $loop->first ? 'selected' : '' }}>Kelas {{ $kelas }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
             </div>
             
-            @if($pencairan)
-            <div class="alert alert-info animate__animated animate__fadeInUp">
-                <i class="fas fa-info-circle me-2"></i>
-                Jika ada pertanyaan atau masalah terkait pencairan dana, silakan hubungi admin sekolah.
+            <!-- Riwayat Table -->
+            <div class="animate__animated animate__fadeIn animate-delay-2">
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><i class="far fa-calendar me-2"></i> Periode</th>
+                                <th><i class="fas fa-info-circle me-2"></i> Status</th>
+                                <th><i class="fas fa-money-bill-wave me-2"></i> Nominal</th>
+                                <th><i class="far fa-clock me-2"></i> Tanggal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="riwayat-table">
+                            @php
+                                $firstKelas = !empty($riwayat) ? array_key_first($riwayat) : null;
+                            @endphp
+                            @if($firstKelas && isset($riwayat[$firstKelas]))
+                                @foreach($riwayat[$firstKelas] as $row)
+                                <tr>
+                                    <td>{{ $row['periode'] }}</td>
+                                    <td>
+                                        <span class="status-badge {{ strtolower(str_replace(' ', '-', $row['status'])) }}">
+                                            <i class="fas {{ $row['status'] === 'Belum Dicairkan' ? 'fa-clock' : ($row['status'] === 'Menunggu' ? 'fa-spinner' : 'fa-check-circle') }}"></i>
+                                            {{ $row['status'] }}
+                                        </span>
+                                    </td>
+                                    <td class="fw-medium">{{ $row['nominal'] }}</td>
+                                    <td>{{ $row['tanggal'] }}</td>
+                                </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="empty-state py-5">
+                                            <i class="far fa-folder-open"></i>
+                                            <h5>Belum ada data pencairan</h5>
+                                            <p>Riwayat pencairan akan muncul di sini</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            @endif
+            
+            <!-- Tombol Konfirmasi -->
+            <div class="text-center mt-4 animate__animated animate__fadeIn animate-delay-3">
+                <a href="{{ route('konfirmasi.form') }}" class="btn btn-konfirmasi">
+                    <i class="fas fa-paper-plane me-2"></i> Konfirmasi Pencairan
+                </a>
+            </div>
         </div>
     </div>
-</div>
+</main>
 @endsection
-
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
