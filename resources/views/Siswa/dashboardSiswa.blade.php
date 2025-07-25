@@ -7,17 +7,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 <style>
+    /* ... semua style sama seperti versi awal kamu, tidak diubah ... */
     :root {
         --primary-color: #3a7bd5;
         --secondary-color: #00d2ff;
         --accent-color: #4CAF50;
     }
-
     body {
         background-color: #f8fafc;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
     /* Hero Section */
     .hero-section {
         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -58,7 +57,7 @@
         object-fit: contain;
     }
 
-    /* Announcement Carousel */
+    /* Announcement Carousel (tidak diubah) */
     .announcement-carousel {
         border-radius: 15px;
         overflow: hidden;
@@ -146,29 +145,42 @@
         color: var(--secondary-color);
         text-decoration: none;
     }
+    .floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
 </style>
 @endpush
 
 @section('content')
 <div class="container py-4">
-    <!-- Hero Section -->
-    <section class="hero-section animate__animated animate__fadeIn">
-        <div class="row h-100">
-            <div class="col-md-6 d-flex align-items-center hero-content">
-                <div>
-                    <h1>Selamat datang di PIPGuard</h1>
-                    <p>
-                        Platform transparansi dan monitoring pencairan dana Bantuan Indonesia Pintar (PIP) yang dirancang untuk membantu siswa memantau status bantuan secara mudah dan aman.
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-6 hero-image d-none d-md-block">
-                <img src="{{ asset('img/pip.jpg') }}" alt="Ilustrasi PIPGuard Cartoon" class="floating">
+<!-- Hero Section -->
+<section class="hero-section animate__animated animate__fadeIn">
+    <div class="row h-100">
+        <div class="col-md-6 d-flex align-items-center hero-content">
+            <div>
+                <h1>Selamat datang di PIPGuard</h1>
+                <p>
+                    Platform transparansi dan monitoring pencairan dana Bantuan Indonesia Pintar (PIP) yang dirancang untuk membantu siswa memantau status bantuan secara mudah dan aman.
+                </p>
             </div>
         </div>
-    </section>
+        <div class="col-md-6 hero-image d-none d-md-block">
+            <img src="{{ asset('img/pip.jpg') }}" alt="Ilustrasi PIPGuard Cartoon" class="floating">
+        </div>
+    </div>
+</section>
 
-    <!-- Announcement Carousel -->
+    <!-- Announcement Carousel (disini aku ganti dengan versi carousel yang kamu mau) -->
     <section class="announcement-carousel animate__animated animate__fadeIn animate__delay-1s">
         <div id="announcementCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
             <div class="carousel-inner">
@@ -205,86 +217,85 @@
         </div>
     </section>
 
-<!-- Recent Activity (Tabel Estetik + Kosong State) -->
-<section class="activity-card animate__animated animate__fadeIn animate__delay-2s">
-    <h3 class="mb-4"><i class="fas fa-history me-2"></i> Aktivitas Terbaru</h3>
+    <!-- Recent Activity (pakai tabel dan filter validItems seperti versi pertama) -->
+    <section class="activity-card animate__animated animate__fadeIn animate__delay-2s">
+        <h3 class="mb-4"><i class="fas fa-history me-2"></i> Aktivitas Terbaru</h3>
 
-    @php
-        $validItems = $pencairan_riwayat->filter(function($item) {
-            $status = strtolower($item->status);
-            return in_array($status, ['ditarik', 'ditransfer', 'sk nominasi', 'sk pemerintah']);
-        });
-    @endphp
+        @php
+            $validItems = $pencairan_riwayat->filter(function($item) {
+                $status = strtolower($item->status);
+                return in_array($status, ['ditarik', 'ditransfer', 'sk nominasi', 'sk pemerintah']);
+            });
+        @endphp
 
-    @if($validItems->count() > 0)
-    <div class="table-responsive">
-        <table class="table table-borderless align-middle shadow-sm">
-            <thead class="table-light">
-                <tr>
-                    <th style="min-width: 140px;">Tanggal</th>
-                    <th>Judul</th>
-                    <th>Deskripsi</th>
-                    <th style="width: 150px;">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($validItems as $item)
-                @php
-                    $status = strtolower($item->status);
-                    $judul = match ($status) {
-                        'ditarik' => 'Dana Berhasil Ditarik',
-                        'ditransfer' => 'Dana Telah Ditransfer Pemerintah',
-                        'sk nominasi' => 'SK Nominasi Penerima Bantuan',
-                        'sk pemerintah' => 'SK Pemerintah Terbit',
-                    };
-                @endphp
-                <tr class="align-middle">
-                    <td>
-                        <i class="far fa-calendar-alt me-1 text-primary"></i>
-                        {{ \Carbon\Carbon::parse($item->tanggal_cair)->format('d M Y') }}
-                    </td>
-                    <td><strong>{{ $judul }}</strong></td>
-                    <td>
-                        @switch($status)
-                            @case('ditarik')
-                                Penarikan dana Anda telah berhasil dikonfirmasi dan pencairan selesai.
-                                @break
-                            @case('ditransfer')
-                                Dana telah ditransfer oleh pemerintah ke rekening Anda. Silakan tarik dana melalui bank.
-                                @break
-                            @case('sk nominasi')
-                                Anda masuk daftar nominasi penerima bantuan Indonesia Pintar.
-                                @break
-                            @case('sk pemerintah')
-                                Surat Keputusan penerima bantuan telah diterbitkan pusat.
-                                @break
-                        @endswitch
-                    </td>
-                    <td>
-                        @if(in_array($status, ['sk pemerintah', 'sk nominasi']))
-                            <a href="#" class="btn btn-sm btn-outline-primary">
-                                {{ $status == 'sk nominasi' ? 'Unduh Disini' : 'Lihat Detail' }}
-                            </a>
-                        @else
-                            <span class="badge bg-success text-capitalize">
-                                {{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}
-                            </span>
-                        @endif
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-    @else
-    <div class="text-center py-5 text-muted animate__animated animate__fadeIn">
-        <i class="far fa-folder-open fa-4x mb-3"></i>
-        <h5>Belum ada aktivitas terbaru</h5>
-        <p>Riwayat aktivitas akan tampil di sini setelah ada pencairan atau pembaruan data.</p>
-    </div>
-    @endif
-</section>
-
+        @if($validItems->count() > 0)
+        <div class="table-responsive">
+            <table class="table table-borderless align-middle shadow-sm">
+                <thead class="table-light">
+                    <tr>
+                        <th style="min-width: 140px;">Tanggal</th>
+                        <th>Judul</th>
+                        <th>Deskripsi</th>
+                        <th style="width: 150px;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($validItems as $item)
+                    @php
+                        $status = strtolower($item->status);
+                        $judul = match ($status) {
+                            'ditarik' => 'Dana Berhasil Ditarik',
+                            'ditransfer' => 'Dana Telah Ditransfer Pemerintah',
+                            'sk nominasi' => 'SK Nominasi Penerima Bantuan',
+                            'sk pemerintah' => 'SK Pemerintah Terbit',
+                        };
+                    @endphp
+                    <tr class="align-middle">
+                        <td>
+                            <i class="far fa-calendar-alt me-1 text-primary"></i>
+                            {{ \Carbon\Carbon::parse($item->tanggal_cair)->format('d M Y') }}
+                        </td>
+                        <td><strong>{{ $judul }}</strong></td>
+                        <td>
+                            @switch($status)
+                                @case('ditarik')
+                                    Penarikan dana Anda telah berhasil dikonfirmasi dan pencairan selesai.
+                                    @break
+                                @case('ditransfer')
+                                    Dana telah ditransfer oleh pemerintah ke rekening Anda. Silakan tarik dana melalui bank.
+                                    @break
+                                @case('sk nominasi')
+                                    Anda masuk daftar nominasi penerima bantuan Indonesia Pintar.
+                                    @break
+                                @case('sk pemerintah')
+                                    Surat Keputusan penerima bantuan telah diterbitkan pusat.
+                                    @break
+                            @endswitch
+                        </td>
+                        <td>
+                            @if(in_array($status, ['sk pemerintah', 'sk nominasi']))
+                                <a href="#" class="btn btn-sm btn-outline-primary">
+                                    {{ $status == 'sk nominasi' ? 'Unduh Disini' : 'Lihat Detail' }}
+                                </a>
+                            @else
+                                <span class="badge bg-success text-capitalize">
+                                    {{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}
+                                </span>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        @else
+        <div class="text-center py-5 text-muted animate__animated animate__fadeIn">
+            <i class="far fa-folder-open fa-4x mb-3"></i>
+            <h5>Belum ada aktivitas terbaru</h5>
+            <p>Riwayat aktivitas akan tampil di sini setelah ada pencairan atau pembaruan data.</p>
+        </div>
+        @endif
+    </section>
 
 </div>
 @endsection
