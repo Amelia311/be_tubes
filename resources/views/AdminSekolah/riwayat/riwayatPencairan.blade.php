@@ -1,6 +1,6 @@
 @extends('AdminSekolah.layouts.admin')
 
-@section('title', 'Riwayat Pencairan')
+@section('title', 'Riwayat Penarikan Dana')
 
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
@@ -174,7 +174,7 @@
     <div class="content-box animate__animated animate__fadeIn">
         <div class="header-table">
             <h3 class="animate__animated animate__fadeInDown">
-                <i class="fas fa-history me-2"></i>Riwayat Pencairan
+                <i class="fas fa-history me-2"></i>Riwayat Penarikan
             </h3>
             <form method="GET" action="{{ route('riwayat.sekolah') }}" class="search-box animate__animated animate__fadeIn">
                 <i class="fas fa-search"></i>
@@ -183,63 +183,65 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>NO</th>
-                        <th>NAMA</th>
-                        <th>No Rekening</th>
-                        <th>JUMLAH</th>
-                        <th>STATUS</th>
-                        <th>BUKTI</th>
-                        <th>BLOCKCHAIN TX</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($data as $item)
-                        <tr class="animate__animated animate__fadeIn">
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item->siswa->nama ?? '-' }}</td>
-                            <td>{{ $item->siswa->no_rekening ?? '-' }}</td> <!-- Tambahkan baris ini -->
-                            <td>Rp {{ number_format($item->jumlah, 0, ',', '.') }}</td> <!-- Pindahkan ke kolom JUMLAH -->
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>NO</th>
+                <th>NAMA</th>
+                <th>No Rekening</th>
+                <th>NOMINAL</th>
+                <th>STATUS</th>
+                <th>BUKTI</th>
+                <th>AKSI</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($data as $item)
+                <tr class="animate__animated animate__fadeIn">
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->siswa->nama ?? '-' }}</td>
+                    <td>{{ $item->siswa->no_rekening ?? '-' }}</td>
+                    <td>Rp {{ number_format($item->nominal, 0, ',', '.') }}</td>
 
-                            <td>
-                                <span class="status {{ strtolower($item->status) == 'sudah cair' ? 'sudah' : 'menunggu' }}">
-                                    <i class="fas {{ strtolower($item->status) == 'sudah cair' ? 'fa-check-circle' : 'fa-clock' }} me-1"></i>
-                                    {{ ucfirst($item->status) }}
-                                </span>
-                            </td>
-                            <td>
-                                @if ($item->bukti)
-                                    <a href="{{ asset('storage/' . $item->bukti) }}" target="_blank" class="link">
-                                        <i class="fas fa-file-image"></i> Lihat Bukti
-                                    </a>
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>
-                                @if ($item->blockchain_tx)
-                                    <a href="https://sepolia.etherscan.io/tx/{{ $item->blockchain_tx }}" target="_blank" class="link">
-                                        <i class="fas fa-link"></i> Lihat Transaksi
-                                    </a>
-                                @else
-                                    -
-                                @endif
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="empty-row">
-                                <i class="fas fa-info-circle fa-2x mb-3" style="color: var(--info-color);"></i>
-                                <p class="mb-0">Tidak ada riwayat pencairan</p>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
+                    <td>
+                        <span class="status {{ strtolower($item->status) == 'sudah cair' ? 'sudah' : 'menunggu' }}">
+                            <i class="fas {{ strtolower($item->status) == 'sudah cair' ? 'fa-check-circle' : 'fa-clock' }} me-1"></i>
+                            {{ ucfirst($item->status) }}
+                        </span>
+                    </td>
+                    <td>
+                        @if ($item->bukti)
+                            <a href="{{ asset('storage/' . $item->bukti) }}" target="_blank" class="link">
+                                <i class="fas fa-file-image"></i> Lihat Bukti
+                            </a>
+                        @else
+                            -
+                        @endif
+                    </td>
+                    <td>
+                        @if ($item->blockchain_tx)
+                            <a href="https://sepolia.etherscan.io/tx/{{ $item->blockchain_tx }}" target="_blank" class="link">
+                                <i class="fas fa-link"></i> Lihat Transaksi
+                            </a>
+                        @else
+                            <button 
+                                class="btn-konfirmasi"
+                                data-id="{{ $item->id }}"
+                                data-nama="{{ $item->siswa->nama }}"
+                                data-jumlah="{{ $item->nominal }}"
+                                onclick="showConfirmationModal(this)">
+                                <i class="fas fa-link"></i> Konfirmasi ke Blockchain
+                            </button>
+                        @endif
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="7" class="text-center">Tidak ada data</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>

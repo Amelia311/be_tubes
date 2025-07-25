@@ -1,6 +1,6 @@
 @extends('AdminSekolah.layouts.admin')
 
-@section('title', 'Daftar Siswa')
+@section('title', 'Daftar Penerima PIP')
 
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
@@ -291,10 +291,8 @@
                             <th>NO</th>
                             <th>NAMA SISWA</th>
                             <th>NISN</th>
+                            <th>BANK PENARIKAN DANA</th>
                             <th>NO REKENING</th>
-                            <th>SK PIP</th>
-                            <th>Nominasi</th>
-                            <th>ALAMAT</th>
                             <th>KELAS</th>
                             <th>AKSI</th>
                         </tr>
@@ -305,10 +303,8 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->nisn }}</td>
+                                <td>{{ $item->bank_penarikan_dana }}</td>
                                 <td>{{ $item->no_rekening }}</td>
-                                <td>{{ $item->SK_PIP }}</td>
-                                <td>{{ $item->Nominasi }}</td>
-                                <td>{{ $item->alamat }}</td>
                                 <td>{{ $item->kelas ?? '-' }}</td>
                                 <td>
                                     <a href="{{ route('siswa.edit', $item->id) }}" class="text-primary me-2">

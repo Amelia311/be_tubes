@@ -448,7 +448,7 @@
     <!-- Hero Section -->
     <div class="hero-section animate__animated animate__fadeIn">
       <div class="particles" id="particles"></div>
-      <h1 class="hero-title animate__animated animate__fadeInDown">Transparansi Dana PIP</h1>
+      <h1 class="hero-title animate__animated animate__fadeInDown">Transparansi Dana Program Indonesia Pintar SMK Mashalihul Murshalat</h1>
       <p class="hero-subtitle animate__animated animate__fadeIn animate-delay-1">
         Platform transparansi pencairan dana Bantuan Indonesia Pintar berbasis blockchain
       </p>
@@ -461,9 +461,9 @@
           <i class="fas fa-money-bill-wave animate-float"></i>
         </div>
         <div>
-          <div class="stat-label">Total Dana Cair</div>
+          <div class="stat-label">Total Dana</div>
           <div class="stat-value animate__animated animate__fadeIn animate-delay-2">Rp{{ number_format($totalDana, 0, ',', '.') }}</div>
-          <div class="stat-desc">Total dana yang telah dicairkan</div>
+          <div class="stat-desc">Total dana Diterima SIswa</div>
         </div>
       </div>
       
@@ -485,7 +485,7 @@
         <div>
           <div class="stat-label">Semester</div>
           <div class="stat-value animate__animated animate__fadeIn animate-delay-4">{{ $SemesterTerbaru ?? 'Belum ada' }}</div>
-          <div class="stat-desc">Semester pencairan terakhir</div>
+          <div class="stat-desc">Semester penarikan</div>
         </div>
       </div>
     </div>
@@ -522,7 +522,7 @@
     <!-- Laporan Ketidaksesuaian -->
     <div class="section-container animate__animated animate__fadeIn animate-delay-2">
       <h3 class="section-title">
-        <i class="fas fa-exclamation-triangle"></i> Laporan Ketidaksesuaian Dana
+        <i class="fas fa-exclamation-triangle"></i> Laporan Ketidaksesuaian
       </h3>
       
       @forelse($laporan as $lapor)

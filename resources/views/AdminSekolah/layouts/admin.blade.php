@@ -265,45 +265,50 @@
     <nav>
       <ul>
         <li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">
-          <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
-            <i class="fas fa-users"></i> Dashboard Admin
-          </a>
-        </li>
-        <li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">
-          <a href="{{ route('siswa.index') }}" class="{{ request()->routeIs('siswa.index') ? 'active' : '' }}">
-            <i class="fas fa-users"></i> Daftar Siswa
-          </a>
-        </li>
-        <li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.2s;">
-          <a href="{{ route('pencairan.create') }}" class="{{ request()->routeIs('pencairan.create') ? 'active' : '' }}">
-            <i class="fas fa-money-bill-wave"></i> Input Penarikan Dana
-          </a>
-        </li>
-        <li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.3s;">
-          <a href="{{ url('/dashboard/sekolah/konfirmasi') }}" class="{{ request()->is('dashboard/sekolah/konfirmasi') ? 'active' : '' }}">
-            <i class="fas fa-check-circle"></i> Konfirmasi
-          </a>
-        </li>
-        <li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.4s;">
-          <a href="{{ url('/dashboard/sekolah/riwayat') }}" class="{{ request()->is('dashboard/sekolah/riwayat') ? 'active' : '' }}">
-            <i class="fas fa-history"></i> Riwayat Penarikan Dana
-          </a>
-        </li>
-        <li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.5s;">
-          <a href="{{ route('transparansi.publik') }}" class="{{ request()->routeIs('transparansi.publik') ? 'active' : '' }}">
-            <i class="fas fa-chart-pie"></i> Transparansi
-          </a>
-        </li>
-      </ul>
-    </nav>
-    
-    <form method="POST" action="{{ route('logout') }}" class="logout-form animate__animated animate__fadeInLeft" style="animation-delay: 0.6s;">
-      @csrf
-      <button type="submit" class="logout-btn">
-        <i class="fas fa-sign-out-alt"></i> Logout
-      </button>
-    </form>
-  </aside>
+  <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+    <i class="fas fa-home"></i> Dashboard Admin
+  </a>
+</li>
+<li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">
+  <a href="{{ route('siswa.index') }}" class="{{ request()->routeIs('siswa.index') ? 'active' : '' }}">
+    <i class="fas fa-users"></i> Daftar Siswa
+  </a>
+</li>
+<li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.2s;">
+  <a href="{{ route('pencairan.create') }}" class="{{ request()->routeIs('pencairan.create') ? 'active' : '' }}">
+    <i class="fas fa-money-bill-wave"></i> Input Penarikan Dana
+  </a>
+</li>
+<li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.3s;">
+  <a href="{{ url('/dashboard/sekolah/konfirmasi') }}" class="{{ request()->is('dashboard/sekolah/konfirmasi') ? 'active' : '' }}">
+    <i class="fas fa-check-circle"></i> Konfirmasi
+  </a>
+</li>
+<li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.4s;">
+  <a href="{{ url('/dashboard/sekolah/riwayat') }}" class="{{ request()->is('dashboard/sekolah/riwayat') ? 'active' : '' }}">
+    <i class="fas fa-history"></i> Riwayat Penarikan Dana
+  </a>
+</li>
+<li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.45s;">
+  <a href="{{ route('pengaduan.index') }}" class="{{ request()->routeIs('pengaduan.*') ? 'active' : '' }}">
+    <i class="fas fa-bullhorn"></i> Laporan Pengaduan Siswa
+  </a>
+</li>
+<li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.6s;">
+  <a href="{{ route('transparansi.publik') }}" class="{{ request()->routeIs('transparansi.publik') ? 'active' : '' }}">
+    <i class="fas fa-chart-pie"></i> Transparansi
+  </a>
+</li>
+</ul>
+</nav>
+
+<form method="POST" action="{{ route('logout') }}" class="logout-form animate__animated animate__fadeInLeft" style="animation-delay: 0.7s;">
+  @csrf
+  <button type="submit" class="logout-btn">
+    <i class="fas fa-sign-out-alt"></i> Logout
+  </button>
+</form>
+</aside>
 
   <!-- Main Content -->
   <main class="animate__animated animate__fadeIn">

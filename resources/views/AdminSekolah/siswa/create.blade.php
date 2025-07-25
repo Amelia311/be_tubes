@@ -191,6 +191,12 @@
                         <option value="XII" {{ old('kelas') == 'XII' ? 'selected' : '' }}>XII</option>
                     </select>
                 </div>
+        <div class="form-group">
+         <label for="nama" class="form-label">
+        <i class="fas fa-university"></i> Bank Penarikan Dana
+         </label>
+      <input type="text" name="nama" id="nama" class="form-control" required value="{{ old('nama') }}">
+        </div>
                 <div class="form-group">
     <label for="no_rekening" class="form-label">
         <i class="fas fa-credit-card"></i> No Rekening
@@ -199,11 +205,11 @@
            name="no_rekening" 
            id="no_rekening" 
            class="form-control" 
-           maxlength="15" 
-           pattern="\d{15}" 
-           title="No rekening harus berupa 15 digit angka" 
+           maxlength="10" 
+           pattern="\d{10}" 
+           title="No rekening harus berupa 10 digit angka" 
            required 
-           oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15)">
+           oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
 </div>
 
                 <div class="form-group">
@@ -212,27 +218,6 @@
                     </label>
                     <input type="password" name="password" id="password" class="form-control" required>
                 </div>
-                <div class="form-group">
-                    <label for="alamat" class="form-label">
-                        <i class="fas fa-map-marker-alt"></i> Alamat
-                    </label>
-                    <textarea name="alamat" id="alamat" class="form-control" required>{{ old('alamat') }}</textarea>
-                </div>
-                
-            <div class="form-group">
-    <label for="sk_pemerintah" class="form-label">
-        <i class="fas fa-file-pdf"></i> SK PIP <small class="text-muted">(PDF: Maksimal 2MB)</small>
-    </label>
-    <input type="file" name="sk_pemerintah" id="sk_pemerintah" class="form-control" accept=".pdf" required>
-</div>
-
-<div class="form-group">
-    <label for="sk_nominasi" class="form-label">
-        <i class="fas fa-file-pdf"></i> Nominasi <small class="text-muted">(PDF: Maksimal 2MB)</small>
-    </label>
-    <input type="file" name="sk_nominasi" id="sk_nominasi" class="form-control" accept=".pdf" required>
-</div>
-
                 
                 <div class="d-flex justify-content-end mt-4">
                     <button type="submit" class="btn btn-submit animate__animated animate__pulse animate__infinite animate__slower">

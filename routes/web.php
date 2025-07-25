@@ -96,6 +96,9 @@ Route::get('/laporan', [SiswaController::class, 'laporan'])->name('siswa.laporan
 Route::get('/transparansi', [SiswaController::class, 'transparansi'])->name('siswa.transparansi');
 Route::get('/admin/akun-siswa', [AdminSekolahController::class, 'akunSiswa'])->name('akun.siswa');
 Route::get('/admin/laporan-kendala', [AdminSekolahController::class, 'laporanKendala'])->name('laporan.kendala');
+Route::get('/dashboard/sekolah/pengaduan', function () {
+    return view('AdminSekolah.laporan_pengaduan.laporan_pengaduan');
+})->name('pengaduan.index');
 
 
 

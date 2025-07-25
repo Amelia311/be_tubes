@@ -1,6 +1,6 @@
 @extends('AdminSekolah.layouts.admin')
 
-@section('title', 'Input Pencairan')
+@section('title', 'Input Penarikan Dana')
 
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
@@ -140,7 +140,7 @@
     <div class="content-box animate__animated animate__fadeIn">
         <div class="form-container">
             <h3 class="animate__animated animate__fadeInDown">
-                <i class="fas fa-money-bill-wave me-2"></i>Input Pencairan
+                <i class="fas fa-money-bill-wave me-2"></i>Input Penarikan Dana
             </h3>
             
             {{-- Pesan sukses --}}
@@ -181,18 +181,7 @@
                         @endforeach
                     </select>
                 </div>
-                
                 <div class="form-group">
-                    <label for="tanggal_cair" class="form-label">
-                        <i class="fas fa-calendar-alt"></i> Tanggal Pencairan
-                    </label>
-                    <input type="date" class="form-control" id="tanggal_cair" name="tanggal_cair" 
-                           value="{{ old('tanggal_cair') }}" 
-                           max="{{ date('Y-m-d') }}" 
-                           min="2000-01-01" required />
-                </div>
-                
-               <div class="form-group">
     <label for="nomor_rekening" class="form-label">
         <i class="fas fa-credit-card"></i> Nomor Rekening
     </label>
@@ -201,15 +190,24 @@
            id="nomor_rekening"
            name="nomor_rekening"
            value="{{ old('nomor_rekening') }}"
-           placeholder="Masukkan 15 digit nomor rekening "
+           placeholder="Masukkan 10 digit nomor rekening "
            required
            maxlength="10"
            inputmode="numeric"/>
-</div>
+                
+                <div class="form-group">
+                    <label for="tanggal_cair" class="form-label">
+                        <i class="fas fa-calendar-alt"></i> Tanggal Penarikan
+                    </label>
+                    <input type="date" class="form-control" id="tanggal_cair" name="tanggal_cair" 
+                           value="{{ old('tanggal_cair') }}" 
+                           max="{{ date('Y-m-d') }}" 
+                           min="2000-01-01" required />
+                </div>
 
                 <div class="form-group">
                     <label for="jumlah" class="form-label">
-                        <i class="fas fa-money-bill"></i> Jumlah yang Diterima
+                        <i class="fas fa-money-bill"></i> Nominal yang Diterima
                     </label>
                     <div class="input-group">
                         <span class="input-group-text">Rp</span>
@@ -220,19 +218,6 @@
                                oninput="formatCurrency(this)" />
                     </div>
                 </div>
-                <div class="form-group">
-    <label for="sk_pemerintah" class="form-label">
-        <i class="fas fa-file-pdf"></i> SK PIP <small class="text-muted">(PDF: Maksimal 2MB)</small>
-    </label>
-    <input type="file" name="sk_pemerintah" id="sk_pemerintah" class="form-control" accept=".pdf" required>
-</div>
-
-<div class="form-group">
-    <label for="sk_nominasi" class="form-label">
-        <i class="fas fa-file-pdf"></i> Nominasi <small class="text-muted">(PDF: Maksimal 2MB)</small>
-    </label>
-    <input type="file" name="sk_nominasi" id="sk_nominasi" class="form-control" accept=".pdf" required>
-</div>
 
 
                 <div class="form-group">
@@ -241,11 +226,11 @@
                     </label>
                     <input type="text" class="form-control" id="keterangan" name="keterangan" 
                            value="{{ old('keterangan') }}" 
-                           placeholder="Contoh: Tahap 1" required />
+                           placeholder="Contoh: Semester 1" required />
                 </div>
                 
                 <button type="submit" class="btn btn-submit animate__animated animate__pulse animate__infinite animate__slower">
-                    <i class="fas fa-save"></i> Simpan Pencairan
+                    <i class="fas fa-save"></i> Simpan 
                 </button>
             </form>
         </div>

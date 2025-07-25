@@ -15,7 +15,7 @@
       <div class="card">
         <i class="fas fa-money-bill-wave"></i>
         <div class="content">
-          <div class="label">Total Dana Cair</div>
+          <div class="label">Total Dana Diterima Siswa</div>
           <div class="value">{{ number_format($totalDana, 0, ',', '.') }}</div>
         </div>
       </div>
