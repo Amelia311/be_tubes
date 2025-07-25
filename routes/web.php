@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminSekolah\DashboardController;
+use App\Http\Controllers\AdminSekolah\SkPipController;
+use App\Http\Controllers\AdminSekolah\SiswaPipController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PencairanController;
 use App\Http\Controllers\SiswaController;
@@ -7,6 +10,41 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AdminSekolahController;
+
+
+Route::get('/admin/dashboard', function () {
+    // Data dummy untuk testing
+    $skPip = collect([
+        (object)[
+            'nama_sk' => 'SK PIP 2025',
+            'tahun' => 2025,
+            'semester' => 1,
+            'file_path' => 'sk/sk_pip_2025_sem1.pdf',
+        ]
+    ]);
+
+    $penerimaSemester1 = collect([
+        (object)[
+            'nama' => 'Amel',
+            'nisn' => '1234567890',
+            'kelas' => 'XII RPL 1',
+            'no_rekening' => '123456789',
+            'status_pencairan' => true
+        ],
+        (object)[
+            'nama' => 'Budi',
+            'nisn' => '0987654321',
+            'kelas' => 'XII RPL 2',
+            'no_rekening' => '987654321',
+            'status_pencairan' => false
+        ],
+    ]);
+
+    $penerimaSemester2 = collect([]); // kosong dulu buat test else
+
+    return view('adminsekolah.dashboard', compact('skPip', 'penerimaSemester1', 'penerimaSemester2'));
+});
+
 
 
 Route::get('/', function () {
@@ -20,7 +58,23 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     
 
-
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // SK PIP Routes
+    Route::prefix('sk-pip')->name('sk-pip.')->group(function () {
+        Route::get('/', [SkPipController::class, 'index'])->name('index');
+        Route::post('/', [SkPipController::class, 'store'])->name('store');
+        Route::get('/download/{id}', [SkPipController::class, 'download'])->name('download');
+        Route::delete('/{id}', [SkPipController::class, 'destroy'])->name('destroy');
+    });
+    
+    // Siswa PIP Routes
+    Route::prefix('siswa-pip')->name('siswa-pip.')->group(function () {
+        Route::get('/semester-1', [SiswaPipController::class, 'semester1'])->name('semester1');
+        Route::get('/semester-2', [SiswaPipController::class, 'semester2'])->name('semester2');
+        Route::get('/{id}', [SiswaPipController::class, 'show'])->name('show');
+    });
 
 
 // // Dashboard Admin Sekolah

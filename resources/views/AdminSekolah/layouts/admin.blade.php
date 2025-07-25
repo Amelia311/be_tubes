@@ -265,6 +265,11 @@
     <nav>
       <ul>
         <li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">
+          <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+            <i class="fas fa-users"></i> Dashboard Admin
+          </a>
+        </li>
+        <li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">
           <a href="{{ route('siswa.index') }}" class="{{ request()->routeIs('siswa.index') ? 'active' : '' }}">
             <i class="fas fa-users"></i> Daftar Siswa
           </a>
