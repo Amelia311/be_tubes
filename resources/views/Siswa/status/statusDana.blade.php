@@ -1,7 +1,9 @@
+@extends('Siswa.layouts.siswa')
+
 @section('title', 'Status Dana - PIPGuard')
 
 @push('styles')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 <style>
@@ -20,19 +22,35 @@
     body {
         background-color: var(--bg-color);
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: var(--text-color);
     }
     
-    .status-card {
-        background: var(--card-color);
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        padding: 2rem;
-        margin-bottom: 2rem;
-        transition: all 0.3s ease;
-        border: none;
+    /* Card Styles */
+    .card-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        padding: 24px;
+        margin-bottom: 24px;
     }
     
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Mengatur jarak ikon dan teks */
+}
+.section-header i {
+    font-size: 30px;
+    color: var(--primary-color);
+    /* margin-right dihapus jika menggunakan gap */
+}
+    
+    .section-header h2 {
+        font-size: 25px;
+        font-weight: 600;
+        margin: 0;
+    }
+    
+    /* Progress Tracker Styles */
     .progress-tracker {
         display: flex;
         justify-content: space-between;
@@ -64,6 +82,11 @@
         transition: all 0.5s ease;
     }
     
+    .status-step {
+        text-align: center;
+        z-index: 3;
+    }
+    
     .status-step .circle {
         width: 46px;
         height: 46px;
@@ -72,7 +95,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 0.5rem;
+        margin: 0 auto 0.5rem;
         position: relative;
         transition: all 0.3s ease;
         border: 3px solid white;
@@ -85,151 +108,92 @@
         transform: scale(1.1);
     }
     
-    .periode-filter {
-        background: linear-gradient(135deg, rgba(67, 97, 238, 0.05), rgba(63, 55, 201, 0.05));
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin-bottom: 2rem;
-        border-left: 4px solid var(--primary-color);
-    }
-    
-    /* Tabel yang Lebih Elegan */
-    .table-container {
-        background: var(--card-color);
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-        margin-bottom: 2rem;
-    }
-    
-    .table {
-        margin-bottom: 0;
-        border-collapse: separate;
-        border-spacing: 0;
-    }
-    
-    .table thead th {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        color: white;
-        padding: 1.1rem 1.5rem;
+    .status-step p {
         font-weight: 500;
-        border: none;
-        position: sticky;
-        top: 0;
+        color: var(--text-light);
+        margin-bottom: 0;
     }
     
-    .table th:first-child {
-        border-top-left-radius: 12px;
+    /* Empty State for Detail Penarikan */
+    .empty-detail {
+        text-align: center;
+        padding: 40px 0;
     }
     
-    .table th:last-child {
-        border-top-right-radius: 12px;
+    .empty-detail i {
+        font-size: 48px;
+        color: #e9ecef;
+        margin-bottom: 16px;
     }
     
-    .table tbody tr {
-        transition: all 0.2s;
+    .empty-detail p {
+        color: var(--text-light);
+        margin: 0;
     }
     
-    .table tbody tr:not(:last-child) td {
-        border-bottom: 1px solid #f0f0f0;
+    /* Riwayat Section */
+    .riwayat-container {
+        margin-top: 32px;
     }
     
-    .table tbody tr:hover {
-        background-color: rgba(67, 97, 238, 0.03);
+    .riwayat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
     }
     
-    .table tbody tr:last-child td:first-child {
-        border-bottom-left-radius: 12px;
-    }
-    
-    .table tbody tr:last-child td:last-child {
-        border-bottom-right-radius: 12px;
-    }
-    
-    .table td {
-        padding: 1.1rem 1.5rem;
-        vertical-align: middle;
-    }
-    
-    /* Status Badge */
-    .status-badge {
-        padding: 0.4rem 0.9rem;
-        border-radius: 50px;
-        font-size: 0.85rem;
-        font-weight: 600;
+    .btn-riwayat {
+        background: white;
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 500;
         display: inline-flex;
         align-items: center;
     }
     
-    .status-badge i {
-        margin-right: 0.4rem;
-        font-size: 0.8rem;
+    .btn-riwayat i {
+        margin-right: 8px;
     }
     
-    .status-badge.belum-dicairkan {
-        background-color: #f8f9fa;
-        color: var(--text-light);
-        border: 1px solid #e9ecef;
+    .empty-riwayat {
+        text-align: center;
+        padding: 40px 0;
+        background-color: rgba(233, 236, 239, 0.3);
+        border-radius: 12px;
     }
     
-    .status-badge.menunggu {
-        background-color: rgba(248, 150, 30, 0.1);
-        color: #f8961e;
-        border: 1px solid rgba(248, 150, 30, 0.2);
+    .empty-riwayat i {
+        font-size: 48px;
+        color: #e9ecef;
+        margin-bottom: 16px;
     }
     
-    .status-badge.sudah-cair {
-        background-color: rgba(76, 201, 240, 0.1);
-        color: #4cc9f0;
-        border: 1px solid rgba(76, 201, 240, 0.2);
-    }
-    
-    /* Tombol */
+    /* Confirmation Button */
     .btn-konfirmasi {
         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        border: none;
+        color: white !important;
         padding: 12px 28px;
         font-weight: 600;
         letter-spacing: 0.5px;
         border-radius: 8px;
-        transition: all 0.3s;
         box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-        color: white;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+        margin: 24px 0;
     }
     
-    .btn-konfirmasi:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 7px 20px rgba(67, 97, 238, 0.4);
-        color: white;
+    /* Animations */
+    .animate-delay-1 {
+        animation-delay: 0.1s;
     }
     
-    .btn-konfirmasi i {
-        margin-right: 0.7rem;
+    .animate-delay-2 {
+        animation-delay: 0.2s;
     }
     
-    /* Empty State */
-    .empty-state {
-        text-align: center;
-        padding: 3rem;
-    }
-    
-    .empty-state i {
-        font-size: 3.5rem;
-        margin-bottom: 1.5rem;
-        color: #e9ecef;
-    }
-    
-    .empty-state h5 {
-        color: var(--text-light);
-        margin-bottom: 0.5rem;
-    }
-    
-    .empty-state p {
-        color: var(--text-light);
-        font-size: 0.95rem;
+    .animate-delay-3 {
+        animation-delay: 0.3s;
     }
 </style>
 @endpush
@@ -239,105 +203,87 @@
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <!-- Status Tracker Card -->
-            <div class="status-card animate__animated animate__fadeIn">
-                <h2 class="mb-4"><i class="fas fa-tasks me-2"></i> Status Terkini</h2>
+            <div class="card-container animate__animated animate__fadeIn">
+                <div class="section-header">
+                    <i class="fas fa-tasks"></i>
+                    <h2>Status Terkini</h2>
+                </div>
                 
                 <div class="progress-tracker">
-                    <div class="status-step {{ $status === 'Belum Dicairkan' ? 'active' : '' }} animate__animated animate__fadeInLeft" id="step-belum">
+                    <div class="status-step {{ $status === 'Belum Ditarik' ? 'active' : '' }} animate__animated animate__fadeInLeft" id="step-belum">
                         <div class="circle">
                             <i class="fas fa-clock"></i>
                         </div>
-                        <p>Belum Dicairkan</p>
+                        <p>Belum Ditarik</p>
                     </div>
                     
-                    <div class="status-step {{ $status === 'Menunggu' ? 'active' : '' }} animate__animated animate__fadeIn animate-delay-1" id="step-proses">
+                    <div class="status-step {{ $status === 'Sedang Diproses' ? 'active' : '' }} animate__animated animate__fadeIn animate-delay-1" id="step-proses">
                         <div class="circle">
                             <i class="fas fa-spinner"></i>
                         </div>
-                        <p>Dalam Proses</p>
+                        <p>Sedang Diproses</p>
                     </div>
                     
-                    <div class="status-step {{ $status === 'Sudah Cair' ? 'active' : '' }} animate__animated animate__fadeInRight animate-delay-2" id="step-sudah">
+                    <div class="status-step {{ $status === 'Sudah Ditarik' ? 'active' : '' }} animate__animated animate__fadeInRight animate-delay-2" id="step-sudah">
                         <div class="circle">
                             <i class="fas fa-check-circle"></i>
                         </div>
-                        <p>Sudah Cair</p>
+                        <p>Sudah Ditarik</p>
                     </div>
                 </div>
                 
                 <style>
                     .progress-tracker::after {
-                        width: {{ $status === 'Belum Dicairkan' ? '0%' : ($status === 'Menunggu' ? '50%' : '100%') }};
+                        width: {{ $status === 'Belum Ditarik' ? '0%' : ($status === 'Sedang Diproses' ? '50%' : '100%') }};
                     }
                 </style>
             </div>
             
-            <!-- Periode Filter -->
-            <div class="periode-filter animate__animated animate__fadeIn animate-delay-1">
-                <h3 class="mb-3"><i class="fas fa-filter me-2"></i> Periode Pencairan</h3>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="kelas-dropdown" class="form-label fw-medium">Pilih Kelas:</label>
-                        <select id="kelas-dropdown" class="form-select">
-                            @foreach(array_keys($riwayat) as $kelas)
-                                <option value="{{ $kelas }}" {{ $loop->first ? 'selected' : '' }}>Kelas {{ $kelas }}</option>
-                            @endforeach
-                        </select>
+            <!-- Detail Penarikan Card - Empty State -->
+            <div class="card-container animate__animated animate__fadeIn animate-delay-1">
+                <div class="section-header">
+                    <i class="fas fa-info-circle"></i>
+                    <h2>Detail Penarikan Dana</h2>
+                </div>
+                
+                <div class="empty-detail">
+                    <i class="fas fa-wallet"></i>
+                    <p>Anda belum melakukan penarikan dana</p>
+                </div>
+            </div>
+            
+            <!-- Confirmation Button - With Proper Spacing -->
+            <div class="text-center animate__animated animate__fadeIn animate-delay-2">
+                <a href="{{ route('konfirmasi.form') }}" class="btn btn-konfirmasi">
+                    <i class="fas fa-paper-plane me-2"></i> Konfirmasi Penarikan
+                </a>
+            </div>
+            
+            <!-- Riwayat Penarikan Card - With Proper Spacing -->
+            <div class="card-container animate__animated animate__fadeIn animate-delay-3" style="margin-top: 24px;">
+                <div class="section-header">
+                    <i class="fas fa-history"></i>
+                    <h2>Riwayat Penarikan</h2>
+                </div>
+                
+                <div class="riwayat-container">
+                    <div class="riwayat-header">
+                        <div></div> <!-- Empty div for alignment -->
+                        <div>
+                            <button class="btn btn-riwayat me-2">
+                                <i class="fas fa-filter"></i> Pilih Kelas
+                            </button>
+                            <button class="btn btn-riwayat">
+                                <i class="fas fa-eye"></i> Lihat Detail
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="empty-riwayat">
+                        <i class="fas fa-inbox"></i>
+                        <p>Belum ada riwayat penarikan</p>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Riwayat Table -->
-            <div class="animate__animated animate__fadeIn animate-delay-2">
-                <div class="table-container">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th><i class="far fa-calendar me-2"></i> Periode</th>
-                                <th><i class="fas fa-info-circle me-2"></i> Status</th>
-                                <th><i class="fas fa-money-bill-wave me-2"></i> Nominal</th>
-                                <th><i class="far fa-clock me-2"></i> Tanggal</th>
-                            </tr>
-                        </thead>
-                        <tbody id="riwayat-table">
-                            @php
-                                $firstKelas = !empty($riwayat) ? array_key_first($riwayat) : null;
-                            @endphp
-                            @if($firstKelas && isset($riwayat[$firstKelas]))
-                                @foreach($riwayat[$firstKelas] as $row)
-                                <tr>
-                                    <td>{{ $row['periode'] }}</td>
-                                    <td>
-                                        <span class="status-badge {{ strtolower(str_replace(' ', '-', $row['status'])) }}">
-                                            <i class="fas {{ $row['status'] === 'Belum Dicairkan' ? 'fa-clock' : ($row['status'] === 'Menunggu' ? 'fa-spinner' : 'fa-check-circle') }}"></i>
-                                            {{ $row['status'] }}
-                                        </span>
-                                    </td>
-                                    <td class="fw-medium">{{ $row['nominal'] }}</td>
-                                    <td>{{ $row['tanggal'] }}</td>
-                                </tr>
-                                @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="4">
-                                        <div class="empty-state py-5">
-                                            <i class="far fa-folder-open"></i>
-                                            <h5>Belum ada data pencairan</h5>
-                                            <p>Riwayat pencairan akan muncul di sini</p>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
-            <!-- Tombol Konfirmasi -->
-            <div class="text-center mt-4 animate__animated animate__fadeIn animate-delay-3">
-                <a href="{{ route('konfirmasi.form') }}" class="btn btn-konfirmasi">
-                    <i class="fas fa-paper-plane me-2"></i> Konfirmasi Pencairan
-                </a>
             </div>
         </div>
     </div>
@@ -345,52 +291,9 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    const riwayatData = {!! json_encode($riwayat ?? []) !!};
-
     document.addEventListener('DOMContentLoaded', function() {
-        const kelasDropdown = document.getElementById('kelas-dropdown');
-        const riwayatTable = document.getElementById('riwayat-table');
-
-        function updateRiwayat(kelas) {
-            if (!riwayatData[kelas]) {
-                riwayatTable.innerHTML = `
-                    <tr>
-                        <td colspan="4">
-                            <div class="empty-state py-5">
-                                <i class="far fa-folder-open"></i>
-                                <h5>Belum ada data pencairan</h5>
-                                <p>Riwayat pencairan akan muncul di sini</p>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            const rows = riwayatData[kelas].map(row => `
-                <tr>
-                    <td>${row.periode}</td>
-                    <td>
-                        <span class="status-badge ${row.status.toLowerCase().replace(' ', '-')}">
-                            <i class="fas ${row.status === 'Belum Dicairkan' ? 'fa-clock' : (row.status === 'Menunggu' ? 'fa-spinner' : 'fa-check-circle')}"></i>
-                            ${row.status}
-                        </span>
-                    </td>
-                    <td class="fw-medium">${row.nominal}</td>
-                    <td>${row.tanggal}</td>
-                </tr>
-            `).join('');
-            
-            riwayatTable.innerHTML = rows;
-        }
-
-        kelasDropdown.addEventListener('change', () => {
-            updateRiwayat(kelasDropdown.value);
-        });
-
-        // Animasi saat elemen muncul di viewport
         const animateElements = document.querySelectorAll('.animate__animated');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {

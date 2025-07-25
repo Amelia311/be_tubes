@@ -135,7 +135,6 @@ class PencairanController extends Controller
         return view('AdminSekolah.riwayat.riwayatPencairan', compact('data'));
     }
     
-
     public function formKonfirmasi()
     {
         $nisn = Session::get('nisn');
@@ -144,56 +143,72 @@ class PencairanController extends Controller
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu');
         }
     
-        $siswa = \App\Models\Siswa::where('nisn', $nisn)->first();
+        $siswa = Siswa::where('nisn', $nisn)->first();
     
         if (!$siswa) {
             return redirect('/login')->with('error', 'Data siswa tidak ditemukan');
         }
-    
+
+        // Find existing pending withdrawal
+        $pencairan = Pencairan::where('siswa_id', $siswa->id)
+            ->where('status', 'Menunggu')
+            ->latest()
+            ->first();
+
+        if (!$pencairan) {
+            return redirect()->route('Siswa.status.status-dana')
+                ->with('error', 'Tidak ada pencairan yang perlu dikonfirmasi');
+        }
+
         return view('Siswa.konfirmasi.konfirmasiPencairan', [
             'siswa' => $siswa,
-            'tanggal' => \Carbon\Carbon::now()->format('Y-m-d'),
+            'tanggal' => Carbon::now()->format('Y-m-d'),
+            'jumlah' => $pencairan->jumlah
         ]);
     }
-    
 
-public function submitKonfirmasi(Request $request)
-{
-    $request->validate([
-        'jumlah' => 'required|numeric|min:1',
-        'bukti' => 'required|image|max:2048',
-    ]);
+    /**
+     * Process konfirmasi form submission
+     */
+    public function submitKonfirmasi(Request $request)
+    {
+        $request->validate([
+            'tanggal' => 'required|date',
+            'bukti' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
-    $nisn = session('nisn');
-    $siswa = Siswa::where('nisn', $nisn)->first();
+        $nisn = Session::get('nisn');
+        $siswa = Siswa::where('nisn', $nisn)->first();
 
-    // Cari data pencairan yang sudah dibuat sebelumnya dan masih menunggu konfirmasi
-    $pencairan = Pencairan::where('siswa_id', $siswa->id)
-        ->where('status', 'Menunggu')
-        ->latest()
-        ->first();
+        if (!$siswa) {
+            return redirect('/login')->with('error', 'Data siswa tidak ditemukan');
+        }
 
-    // Kalau tidak ditemukan, tampilkan error
-    if (!$pencairan) {
-        return redirect()->back()->with('error', 'Data pencairan tidak ditemukan atau sudah dikonfirmasi.');
+        // Find existing pending withdrawal
+        $pencairan = Pencairan::where('siswa_id', $siswa->id)
+            ->where('status', 'Menunggu')
+            ->latest()
+            ->first();
+
+        if (!$pencairan) {
+            return redirect()->route('Siswa.status.status-dana')
+                ->with('error', 'Tidak ada pencairan yang perlu dikonfirmasi');
+        }
+
+        // Process the file upload
+        $buktiPath = $request->file('bukti')->store('bukti_penarikan', 'public');
+
+        // Update the withdrawal record
+        $pencairan->update([
+            'tanggal_cair' => $request->tanggal,
+            'bukti' => $buktiPath,
+            'keterangan' => 'Konfirmasi pencairan oleh siswa',
+            // Status remains "Menunggu" for admin verification
+        ]);
+
+        return redirect()->route('status-dana')
+            ->with('success', 'Konfirmasi penarikan berhasil dikirim!');
     }
-
-    // Simpan file bukti
-    $buktiPath = $request->file('bukti')->store('bukti', 'public');
-
-    // Update data pencairan yang sudah ada
-    $pencairan->update([
-        'jumlah' => $request->jumlah,
-        'bukti' => $buktiPath,
-        'tanggal_cair' => Carbon::now()->format('Y-m-d'),
-        'keterangan' => 'Konfirmasi pencairan oleh siswa',
-        // status tetap "Menunggu" untuk diverifikasi admin
-    ]);
-
-    return redirect()->back()->with('success', 'Konfirmasi berhasil dikirim.');
-}
-
-    
     
     /**
      * Mengonfirmasi pencairan dan memberikan simulasi TX ID blockchain

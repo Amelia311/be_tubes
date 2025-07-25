@@ -198,49 +198,54 @@ public function laporStore(Request $request)
         return $this->hasMany(Pencairan::class);
     }
 
-    public function detail()
-    {
-        $nisn = Session::get('nisn'); 
-        $pencairan = \App\Models\Pencairan::with('siswa')
-            ->whereHas('siswa', function ($q) use ($nisn) {
-                $q->where('nisn', $nisn);
-            })
-            ->latest('tanggal_cair')
-            ->first(); 
-
-        return view('Siswa.detail.detailPencairan', compact('pencairan'));
-    }
-
     public function statusDana()
     {
+        // Mock data - replace with your actual data logic
+        $status = 'Sedang Diproses'; // Contoh status: 'Belum Ditarik', 'Sedang Diproses', 'Sudah Ditarik'
         
-        $nisn = session('nisn');
-    
-        // Ambil data pencairan berdasarkan NISN siswa
-        $pencairan = Pencairan::whereHas('siswa', function ($query) use ($nisn) {
-            $query->where('nisn', $nisn);
-        })->get();
-        
-        // Kumpulkan data riwayat berdasarkan kelas
-        $riwayat = [];
-        foreach ($pencairan as $item) {
-            $kelas = $item->siswa->kelas ?? 'Tidak Diketahui';
-            
-            $riwayat[$kelas][] = [
-                'periode' => $item->periode ?? 'Periode tidak diketahui',
-                'status' => $item->status,
-                'nominal' => $item->jumlah,
-                'tanggal' => $item->tanggal_cair,
-            ];
-        }
-        
-        // Hitung status terakhir (ambil status dari pencairan terakhir)
-        $status = $pencairan->last()->status ?? 'Belum Dicairkan';
-        
- 
+        $riwayat = [
+            'X' => [
+                [
+                    'periode' => 'Januari 2025',
+                    'status' => 'Sudah Ditarik',
+                    'nominal' => 'Rp 1.000.000,-',
+                    'tanggal' => '15 Jan 2025'
+                ],
+                [
+                    'periode' => 'Februari 2025',
+                    'status' => 'Sedang Diproses',
+                    'nominal' => 'Rp 1.000.000,-',
+                    'tanggal' => '15 Feb 2025'
+                ]
+            ],
+            'XI' => [
+                [
+                    'periode' => 'Januari 2025',
+                    'status' => 'Sudah Ditarik',
+                    'nominal' => 'Rp 1.000.000,-',
+                    'tanggal' => '15 Jan 2025'
+                ]
+            ]
+        ];
+
         return view('Siswa.status.statusDana', compact('status', 'riwayat'));
     }
-    
+
+    /**
+     * Display detail penarikan page
+     */
+    public function detailPenarikan()
+    {
+        // Mock data - replace with your actual data logic
+        $pencairan = (object)[
+            'jumlah' => 1000000,
+            'created_at' => '2025-07-11',
+            'status' => 'Sedang Diproses',
+            'blockchain_tx' => 'TX1234567890'
+        ];
+
+        return view('siswa.detail.detail-penarikan', compact('pencairan'));
+    }
     
     public function laporan()
     {

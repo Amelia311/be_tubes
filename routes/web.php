@@ -144,3 +144,5 @@ Route::get('/transparansi-publik', [PencairanController::class, 'transparansiPub
 
 Route::get('/forgot-password', [ForgotPasswordController::class, 'show'])->name('password.forgot');
 Route::post('/change-password', [AuthController::class, 'changePassword'])->name('password.change');
+
+Route::get('/status-dana', [SiswaController::class, 'statusDana'])->name('status-dana');
