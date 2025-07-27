@@ -44,11 +44,11 @@ class PencairanController extends Controller
         return redirect()->route('pencairan.create')->with('success', 'Data pencairan berhasil disimpan!'); 
     }
 
-    public function index()
-    {
-        $laporanList = Laporan::with('pencairan.siswa')->latest()->get();
-        return view('AdminSekolah.laporan.laporan_kendala', compact('laporanList'));
-    }
+    // public function index()
+    // {
+    //     $laporanList = Laporan::with('pencairan.siswa')->latest()->get();
+    //     return view('AdminSekolah.laporan.laporan_kendala', compact('laporanList'));
+    // }
 
 
     public function dashboard()
@@ -77,23 +77,37 @@ class PencairanController extends Controller
         }
     
         // LOGIKA STATUS:
+        // if ($rawData->isEmpty()) {
+        //     $statusTerakhir = 'Belum Dicairkan';
+        // } else {
+        //     $latest = $rawData->first();
+        //     if ($latest->status === 'Sudah Cair') {
+        //         $statusTerakhir = 'Sudah Cair';
+        //     } elseif ($latest->status === 'Menunggu') {
+        //         if ($latest->bukti) {
+        //             $statusTerakhir = 'Menunggu';
+        //         } else {
+        //             $statusTerakhir = 'Menunggu';
+        //         }
+        //     } else {
+        //         $statusTerakhir = 'Belum Dicairkan';
+        //     }
+        // }
+
         if ($rawData->isEmpty()) {
-            $statusTerakhir = 'Belum Dicairkan';
+            $statusTerakhir = 'Belum Cair';
         } else {
             $latest = $rawData->first();
-            if ($latest->status === 'Sudah Cair') {
-                $statusTerakhir = 'Sudah Cair';
-            } elseif ($latest->status === 'Menunggu') {
-                if ($latest->bukti) {
-                    $statusTerakhir = 'Menunggu';
-                } else {
-                    $statusTerakhir = 'Menunggu';
-                }
+            
+            if ($latest->status === 'Sudah Cair' && $latest->bukti) {
+                $statusTerakhir = 'Sudah Tarik Dana';
+            } elseif ($latest->status === 'Sudah Cair' && !$latest->bukti) {
+                $statusTerakhir = 'Belum Tarik Dana';
             } else {
-                $statusTerakhir = 'Belum Dicairkan';
+                $statusTerakhir = 'Belum Tarik Dana';
             }
         }
-    
+        
         return view('Siswa.dashboardSiswa', compact('riwayat', 'statusTerakhir'))->with('status', $statusTerakhir);
     }
     
@@ -156,7 +170,7 @@ class PencairanController extends Controller
             ->first();
 
         if (!$pencairan) {
-            return redirect()->route('Siswa.status.status-dana')
+            return redirect()->route('siswa.statusDana')
                 ->with('error', 'Tidak ada pencairan yang perlu dikonfirmasi');
         }
 
@@ -205,8 +219,10 @@ class PencairanController extends Controller
             'keterangan' => 'Konfirmasi pencairan oleh siswa',
             // Status remains "Menunggu" for admin verification
         ]);
+        
+        
 
-        return redirect()->route('status-dana')
+        return redirect()->route('siswa.statusDana')
             ->with('success', 'Konfirmasi penarikan berhasil dikirim!');
     }
     

@@ -201,42 +201,44 @@
     $status = $status ?? 'Belum Cair';
 @endphp -->
 @section('content')
-<main class="container py-5">
+    <main class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
-            <!-- Status Tracker Card -->
-            <div class="card-container animate__animated animate__fadeIn">
-                <div class="section-header">
-                    <i class="fas fa-tasks"></i>
-                    <h2>Status Terkini</h2>
-                </div>
-                
-                <div class="progress-tracker">
+        <!-- Status Tracker Card -->
+        <!-- <p class="text-muted">Status Terkini: <strong>{{ $status }}</strong></p> -->
+        <div class="card-container animate__animated animate__fadeIn">
+            <div class="section-header">
+                <i class="fas fa-tasks"></i>
+                <h2>Status Terkini</h2>
+            </div>
+            
+            <div class="progress-tracker">
+                <!-- Step 1 -->
                 <div class="status-step {{ $status === 'Belum Cair' ? 'active' : '' }} animate__animated animate__fadeInLeft" id="step-belum">
-                <div class="circle">
-                    <i class="fas fa-clock"></i>
-                </div>
+                    <div class="circle">
+                        <i class="fas fa-clock"></i>
+                    </div>
                     <p>Belum Cair</p>
                 </div>
 
-                <div class="status-step {{ in_array($status, ['Sudah Cair', 'Sedang Diproses']) ? 'active' : '' }} animate__animated animate__fadeIn animate-delay-1" id="step-proses">
+                <!-- Step 2 -->
+                <div class="status-step {{ $status === 'Belum Tarik Dana' ? 'active' : '' }} animate__animated animate__fadeIn animate-delay-1" id="step-proses">
                     <div class="circle">
                         <i class="fas fa-spinner"></i>
                     </div>
                     <p>Belum Tarik Dana</p>
                 </div>
 
-                <div class="status-step {{ $status === 'Sudah Ditarik' ? 'active' : '' }} animate__animated animate__fadeInRight animate-delay-2" id="step-sudah">
+                <!-- Step 3 -->
+                <div class="status-step {{ $status === 'Sudah Tarik Dana' ? 'active' : '' }} animate__animated animate__fadeInRight animate-delay-2" id="step-sudah">
                     <div class="circle">
                         <i class="fas fa-check-circle"></i>
                     </div>
                     <p>Sudah Tarik Dana</p>
                 </div>
-
-                </div>
             </div>
+        </div>
 
-            
             <!-- Riwayat Table -->
             <div class="animate__animated animate__fadeIn animate-delay-2">
                 <div class="table-container">

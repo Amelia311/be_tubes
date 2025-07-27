@@ -110,4 +110,4 @@ Route::get('/admin/laporan', function () {
     return view('AdminSekolah.laporanpengaduan.laporan_pengaduan', compact('pengaduan'));
 });
 
-Route::get('/status-dana', [SiswaController::class, 'statusDana'])->name('status-dana');
+// Route::get('/status-dana', [SiswaController::class, 'statusDana'])->name('status-dana');

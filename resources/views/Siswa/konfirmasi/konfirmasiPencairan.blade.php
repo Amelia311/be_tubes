@@ -185,7 +185,8 @@
                         <h5 class="form-label-custom">Dana yang diterima</h5>
                         <div class="input-group">
                             <span class="input-group-text bg-light">Rp</span>
-                            <input type="text" class="form-control form-control-custom" value="{{ number_format($siswa->jumlah, 0, ',', '.') }}" readonly>
+                            <input type="number" name="jumlah_dana" class="form-control form-control-custom" value="{{ old('jumlah_dana') }}">
+                            <!-- <input type="text" class="form-control form-control-custom" value="{{ number_format($siswa->jumlah, 0, ',', '.') }}" readonly> -->
                         </div>
                     </div>
                     
