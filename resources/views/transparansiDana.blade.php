@@ -501,12 +501,36 @@
     font-size: 1rem;
   }
 }
+.btn-back-icon {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #4361ee;
+  background: rgba(67, 97, 238, 0.1);
+  text-align: center;
+  line-height: 40px;
+  transition: all 0.3s ease;
+  text-decoration: none !important;
+  border: none !important; /* Pastikan tidak ada border */
+}
+
+.btn-back-icon:hover {
+  background: rgba(67, 97, 238, 0.2);
+  transform: translateX(-3px);
+  color: #3a56c9;
+}
+
+.btn-back-icon i {
+  font-size: 1.2rem;
+  vertical-align: middle;
+}
   </style>
 </head>
 <body>
-  <div class="container pt-3">
-  <a href="/beranda-siswa" class="text-decoration-none text-primary animate__animated animate__fadeInLeft">
-    <i class="fas fa-arrow-left fa-lg me-2"></i>
+<div class="container pt-3">
+  <a href="{{ route('siswa.dashboard') }}" class="btn-back-icon animate__animated animate__fadeInLeft">
+    <i class="fas fa-arrow-left"></i>
   </a>
 </div>
   <main class="container py-4">
