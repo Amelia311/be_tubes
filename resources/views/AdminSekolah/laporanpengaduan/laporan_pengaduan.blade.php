@@ -192,6 +192,9 @@
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
+    .modal-backdrop {
+    display: none !important;
+}
 </style>
 @endpush
 
@@ -361,6 +364,31 @@
     let currentPengaduan = null;
     let newStatus = null;
     
+    // Fungsi untuk mengirim notifikasi ke siswa (simulasi)
+    function kirimNotifikasiKeSiswa(pengaduanId, statusBaru) {
+        console.log(`Mengirim notifikasi ke siswa untuk pengaduan #${pengaduanId}`);
+        console.log(`Status baru: ${statusBaru}`);
+        // Di implementasi nyata, ini akan berupa AJAX request ke backend
+        // untuk mengirim notifikasi ke siswa melalui email/WhatsApp/dll
+    }
+
+    // Fungsi untuk memastikan semua laporan baru berstatus "Menunggu Konfirmasi"
+    function initializeNewReports() {
+        document.querySelectorAll('.tindakan-select').forEach(select => {
+            const row = select.closest('tr');
+            const statusBadge = row.querySelector('.status-badge');
+            
+            // Jika status belum di-set, set sebagai "Menunggu Konfirmasi"
+            if (!statusBadge.textContent.includes('Diajukan') && 
+                !statusBadge.textContent.includes('Diproses') && 
+                !statusBadge.textContent.includes('Selesai')) {
+                statusBadge.className = 'status-badge status-diajukan';
+                statusBadge.innerHTML = '<i class="fas fa-clock me-1"></i> Menunggu Konfirmasi';
+                select.value = 'diajukan';
+            }
+        });
+    }
+
     // Fungsi pencarian
     document.getElementById('searchInput').addEventListener('input', function() {
         const searchValue = this.value.toLowerCase();
@@ -406,13 +434,55 @@
         },
     });
 
+    // Fungsi untuk menonaktifkan select jika status selesai
+    function disableCompletedActions() {
+        document.querySelectorAll('.tindakan-select').forEach(select => {
+            const row = select.closest('tr');
+            const statusBadge = row.querySelector('.status-badge');
+            
+            // Jika status sudah selesai, nonaktifkan select
+            if (statusBadge.classList.contains('status-selesai')) {
+                select.disabled = true;
+                select.style.cursor = 'not-allowed';
+                select.style.backgroundColor = '#e9ecef';
+            }
+        });
+    }
+
+    // Panggil fungsi inisialisasi saat pertama kali load
+    initializeNewReports();
+    disableCompletedActions();
+
     // Fungsi ketika select tindakan diubah
     document.querySelectorAll('.tindakan-select').forEach(select => {
         select.addEventListener('change', function() {
             const row = this.closest('tr');
             const btnKonfirmasi = row.querySelector('.btn-konfirmasi');
+            const statusBadge = row.querySelector('.status-badge');
             
-            // Tampilkan tombol konfirmasi
+            // Jangan izinkan perubahan jika status sudah selesai
+            if (statusBadge.classList.contains('status-selesai')) {
+                this.value = 'selesai';
+                return;
+            }
+            
+            // Validasi: Tidak bisa mengubah kembali ke status sebelumnya
+            const currentStatus = statusBadge.classList.contains('status-diajukan') ? 'diajukan' : 
+                                statusBadge.classList.contains('status-diproses') ? 'diproses' : 'selesai';
+            
+            if (this.value === 'diajukan' && currentStatus !== 'diajukan') {
+                alert('Tidak bisa mengembalikan status ke "Diajukan"');
+                this.value = currentStatus;
+                return;
+            }
+            
+            if (this.value === 'diproses' && currentStatus === 'selesai') {
+                alert('Tidak bisa mengembalikan status ke "Diproses" dari "Selesai"');
+                this.value = 'selesai';
+                return;
+            }
+            
+            // Tampilkan tombol konfirmasi untuk SEMUA perubahan status
             btnKonfirmasi.style.display = 'block';
             
             // Simpan data pengaduan yang dipilih
@@ -460,6 +530,7 @@
         const row = document.querySelector(`tr [data-pengaduan-id="${currentPengaduan.id}"]`).closest('tr');
         const statusBadge = row.querySelector('.status-badge');
         const btnKonfirmasi = row.querySelector('.btn-konfirmasi');
+        const selectTindakan = row.querySelector('.tindakan-select');
         
         // Update tampilan status
         statusBadge.className = `status-badge status-${currentPengaduan.newStatus}`;
@@ -470,13 +541,33 @@
             statusBadge.innerHTML = '<i class="fas fa-spinner me-1"></i> Diproses';
         } else {
             statusBadge.innerHTML = '<i class="fas fa-check-circle me-1"></i> Selesai';
+            
+            // Nonaktifkan select jika status selesai
+            selectTindakan.disabled = true;
+            selectTindakan.style.cursor = 'not-allowed';
+            selectTindakan.style.backgroundColor = '#e9ecef';
         }
+        
+        // Update nilai select sesuai status baru
+        selectTindakan.value = currentPengaduan.newStatus;
         
         // Sembunyikan tombol konfirmasi
         btnKonfirmasi.style.display = 'none';
         
-        // Tutup modal
+        // Kirim notifikasi ke siswa
+        kirimNotifikasiKeSiswa(currentPengaduan.id, currentPengaduan.newStatus);
+        
+        // Tutup modal dengan benar
         konfirmasiModal.hide();
+        
+        // Hapus backdrop modal secara manual jika diperlukan
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach(backdrop => backdrop.remove());
+        
+        // Reset body style
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
         
         // Tampilkan notifikasi sukses
         alert(`Status pengaduan #${currentPengaduan.id} berhasil diubah menjadi "${currentPengaduan.newStatus}" dan telah dikirim ke siswa.`);
@@ -484,8 +575,6 @@
         // Di implementasi nyata, di sini akan ada AJAX request ke backend
         console.log(`Mengupdate status pengaduan ${currentPengaduan.id} menjadi ${currentPengaduan.newStatus}`);
     });
-    
 </script>
 @endpush
-
 @endsection

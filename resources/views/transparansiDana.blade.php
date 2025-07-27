@@ -580,49 +580,33 @@
     </div>
 
     <!-- Info Pencairan Terbaru -->
-<div class="section-container animate_animated animate_fadeIn animate-delay-1">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3 class="section-title">
-      <i class="fas fa-bell"></i> Info Terbaru Pencairan Dana
-    </h3>
-  </div>
-  
-  <div class="table-responsive">
-    <table class="table table-hover">
-      <thead class="table-light">
-        <tr>
-          <th>No</th>
-          <th>Nama Siswa</th>
-          <th>Jumlah</th>
-          <th>Tanggal Cair</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        @forelse($infoTerbaru as $index => $info)
-          <tr class="animate_animated animate_fadeIn">
-            <td>{{ $index + 1 }}</td>
-            <td>{{ $info->siswa->nama ?? 'N/A' }}</td>
-            <td>Rp{{ number_format($info->jumlah, 0, ',', '.') }}</td>
-            <td>{{ \Carbon\Carbon::parse($info->tanggal_cair)->format('d M Y H:i') }}</td>
-            <td>
-              <span class="badge bg-success">
-                <i class="fas fa-check-circle me-1"></i> Berhasil
-              </span>
-            </td>
-          </tr>
-        @empty
-          <tr>
-            <td colspan="5" class="text-center py-4">
-              <i class="fas fa-inbox fa-2x mb-2 text-muted"></i>
-              <p class="text-muted">Belum ada pencairan terbaru</p>
-            </td>
-          </tr>
-        @endforelse
-      </tbody>
-    </table>
-  </div>
-</div>
+    <div class="section-container animate__animated animate__fadeIn animate-delay-1">
+      <h3 class="section-title">
+        <i class="fas fa-bell"></i> Info Terbaru Pencairan Dana
+      </h3>
+      
+      @forelse($infoTerbaru as $info)
+        <div class="notification-item animate__animated animate__fadeIn">
+          <div class="notification-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="notification-content">
+            <div class="notification-text">
+              <strong>{{ $info->siswa->nama ?? 'N/A' }}</strong> telah berhasil mencairkan dana PIP sebesar 
+              <strong>Rp{{ number_format($info->jumlah, 0, ',', '.') }}</strong>
+            </div>
+            <div class="notification-time">
+              <i class="far fa-clock"></i> {{ \Carbon\Carbon::parse($info->tanggal_cair)->format('d M Y H:i') }}
+            </div>
+          </div>
+        </div>
+      @empty
+        <div class="empty-state">
+          <i class="fas fa-inbox"></i>
+          <p>Belum ada pencairan terbaru</p>
+        </div>
+      @endforelse
+    </div>
 
     <!-- Laporan Ketidaksesuaian -->
 <div class="section-container animate_animated animate_fadeIn animate-delay-2">
@@ -640,7 +624,7 @@
           <th>Nama Siswa</th>
           <th>Pesan</th>
           <th>Bukti</th>
-          <th>Transaksi</th>
+          <th>Tindak Lanjut</th>
         </tr>
       </thead>
       <tbody>
