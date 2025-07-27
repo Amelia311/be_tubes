@@ -198,150 +198,87 @@
       border-radius: 2px;
     }
     
-    /* Notification Items */
-    .notification-item {
-      padding: 1.2rem 0;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      display: flex;
-      align-items: center;
+    /* Custom Table Styling */
+    .custom-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    
+    .custom-table thead th {
+      background-color: rgba(67, 97, 238, 0.1);
+      color: var(--primary-color);
+      font-weight: 600;
+      border: none;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+    }
+    
+    .custom-table tbody tr {
       transition: all 0.3s;
     }
     
-    .notification-item:hover {
-      background: rgba(67, 97, 238, 0.03);
+    .custom-table tbody tr:hover {
+      background-color: rgba(67, 97, 238, 0.03);
       transform: translateX(5px);
     }
     
-    .notification-item:last-child {
+    .custom-table td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      vertical-align: middle;
+    }
+    
+    .custom-table tr:last-child td {
       border-bottom: none;
     }
     
-    .notification-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
-      background: rgba(76, 201, 240, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 1.5rem;
-      color: var(--primary-light);
-      font-size: 1.2rem;
-      flex-shrink: 0;
+    .status-badge {
+      padding: 0.35rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
     }
     
-    .notification-content {
-      flex: 1;
+    .badge-success {
+      background-color: rgba(74, 214, 109, 0.1);
+      color: var(--success-color);
     }
     
-    .notification-text {
-      margin-bottom: 0.3rem;
+    .badge-warning {
+      background-color: rgba(248, 150, 30, 0.1);
+      color: var(--warning-color);
     }
     
-    .notification-time {
-      font-size: 0.8rem;
-      color: var(--text-light);
-      display: flex;
-      align-items: center;
-    }
-    
-    .notification-time i {
-      margin-right: 0.3rem;
-    }
-    
-    /* Report Items */
-    .report-item {
-      padding: 1.5rem;
-      border-radius: 12px;
-      background: #f8f9fa;
-      margin-bottom: 1.5rem;
-      border-left: 4px solid var(--danger-color);
-      transition: all 0.3s;
-    }
-    
-    .report-item:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    }
-    
-    .report-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-    
-    .report-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: rgba(247, 37, 133, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 1.2rem;
+    .badge-danger {
+      background-color: rgba(247, 37, 133, 0.1);
       color: var(--danger-color);
-      font-size: 1.2rem;
-      flex-shrink: 0;
     }
     
-    .report-content {
-      flex: 1;
-    }
-    
-    .report-author {
-      font-weight: 700;
-      margin-bottom: 0.3rem;
-      color: var(--text-color);
-    }
-    
-    .report-message {
-      color: var(--text-color);
-      margin-bottom: 1rem;
-      font-style: italic;
-    }
-    
-    .report-proof {
-      margin-top: 1rem;
-      border-radius: 10px;
-      overflow: hidden;
-      max-width: 300px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s;
-    }
-    
-    .report-proof img {
-      width: 100%;
-      height: auto;
-      border-radius: 10px;
+    .proof-thumbnail {
+      width: 80px;
+      height: 50px;
+      border-radius: 5px;
+      object-fit: cover;
       cursor: pointer;
       transition: transform 0.3s;
     }
     
-    .report-proof:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    .proof-thumbnail:hover {
+      transform: scale(1.05);
     }
     
-    .report-proof img:hover {
-      transform: scale(1.02);
-    }
-    
-    .report-tx {
-      font-size: 0.8rem;
-      color: var(--text-light);
-      margin-top: 0.8rem;
-      display: flex;
-      align-items: center;
-    }
-    
-    .report-tx a {
+    .tx-link {
       color: var(--primary-color);
       text-decoration: none;
-      margin-left: 0.3rem;
+      font-family: monospace;
+      font-size: 0.85rem;
     }
     
-    .report-tx a:hover {
+    .tx-link:hover {
       text-decoration: underline;
+      color: var(--secondary-color);
     }
     
     /* Empty State */
@@ -440,6 +377,11 @@
       .section-container {
         padding: 1.5rem;
       }
+      
+      .custom-table {
+        display: block;
+        overflow-x: auto;
+      }
     }
   </style>
 </head>
@@ -496,27 +438,47 @@
         <i class="fas fa-bell"></i> Info Terbaru Pencairan Dana
       </h3>
       
-      @forelse($infoTerbaru as $info)
-        <div class="notification-item animate__animated animate__fadeIn">
-          <div class="notification-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-          <div class="notification-content">
-            <div class="notification-text">
-              <strong>{{ $info->siswa->nama ?? 'N/A' }}</strong> telah berhasil mencairkan dana PIP sebesar 
-              <strong>Rp{{ number_format($info->jumlah, 0, ',', '.') }}</strong>
-            </div>
-            <div class="notification-time">
-              <i class="far fa-clock"></i> {{ \Carbon\Carbon::parse($info->tanggal_cair)->format('d M Y H:i') }}
-            </div>
-          </div>
-        </div>
-      @empty
-        <div class="empty-state">
-          <i class="fas fa-inbox"></i>
-          <p>Belum ada pencairan terbaru</p>
-        </div>
-      @endforelse
+      <div class="table-responsive">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Nama Siswa</th>
+              <th>Jumlah</th>
+              <th>Tanggal Cair</th>
+              <th>Status</th>
+              <th>Detail</th>
+            </tr>
+          </thead>
+          <tbody>
+            @forelse($infoTerbaru as $info)
+              <tr class="animate__animated animate__fadeIn">
+                <td>{{ $info->siswa->nama ?? 'N/A' }}</td>
+                <td>Rp{{ number_format($info->jumlah, 0, ',', '.') }}</td>
+                <td>{{ \Carbon\Carbon::parse($info->tanggal_cair)->format('d M Y H:i') }}</td>
+                <td>
+                  <span class="status-badge badge-success">
+                    <i class="fas fa-check-circle me-1"></i> Berhasil
+                  </span>
+                </td>
+                <td>
+                  <a href="#" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-eye"></i> Detail
+                  </a>
+                </td>
+              </tr>
+            @empty
+              <tr>
+                <td colspan="5">
+                  <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>Belum ada pencairan terbaru</p>
+                  </div>
+                </td>
+              </tr>
+            @endforelse
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- Laporan Ketidaksesuaian -->
@@ -525,41 +487,64 @@
         <i class="fas fa-exclamation-triangle"></i> Laporan Ketidaksesuaian
       </h3>
       
-      @forelse($laporan as $lapor)
-        <div class="report-item animate__animated animate__fadeIn">
-          <div class="report-header">
-            <div class="report-avatar">
-              <i class="fas fa-user"></i>
-            </div>
-            <div class="report-content">
-              <div class="report-author">{{ $lapor->pencairan->siswa->nama ?? 'Tidak diketahui' }}</div>
-              <div class="report-message">"{{ $lapor->pesan }}"</div>
-              
-              @if($lapor->bukti)
-                <div class="report-proof">
-                  <img src="{{ asset('storage/' . $lapor->bukti) }}" 
-                       alt="Bukti Laporan" 
-                       data-bs-toggle="modal" 
-                       data-bs-target="#proofModal"
-                       data-bs-image="{{ asset('storage/' . $lapor->bukti) }}">
-                </div>
-              @endif
-              
-              <div class="report-tx">
-                <i class="fas fa-link"></i>
-                <a href="https://sepolia.etherscan.io/tx/{{ $lapor->blockchain_tx }}" target="_blank">
-                  Lihat transaksi di blockchain
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      @empty
-        <div class="empty-state">
-          <i class="fas fa-check-circle"></i>
-          <p>Tidak ada laporan ketidaksesuaian</p>
-        </div>
-      @endforelse
+      <div class="table-responsive">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Pelapor</th>
+              <th>Penerima</th>
+              <th>Pesan</th>
+              <th>Bukti</th>
+              <th>Transaksi</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @forelse($laporan as $lapor)
+              <tr class="animate__animated animate__fadeIn">
+                <td>{{ $lapor->pelapor->nama ?? 'Anonim' }}</td>
+                <td>{{ $lapor->pencairan->siswa->nama ?? 'Tidak diketahui' }}</td>
+                <td class="text-truncate" style="max-width: 200px;" title="{{ $lapor->pesan }}">
+                  "{{ $lapor->pesan }}"
+                </td>
+                <td>
+                  @if($lapor->bukti)
+                    <img src="{{ asset('storage/' . $lapor->bukti) }}" 
+                         class="proof-thumbnail"
+                         alt="Bukti Laporan" 
+                         data-bs-toggle="modal" 
+                         data-bs-target="#proofModal"
+                         data-bs-image="{{ asset('storage/' . $lapor->bukti) }}">
+                  @else
+                    <span class="text-muted">Tidak ada</span>
+                  @endif
+                </td>
+                <td>
+                  <a href="https://sepolia.etherscan.io/tx/{{ $lapor->blockchain_tx }}" 
+                     target="_blank" 
+                     class="tx-link">
+                    <i class="fas fa-link me-1"></i> Lihat TX
+                  </a>
+                </td>
+                <td>
+                  <span class="status-badge badge-warning">
+                    <i class="fas fa-exclamation-circle me-1"></i> Ditinjau
+                  </span>
+                </td>
+              </tr>
+            @empty
+              <tr>
+                <td colspan="6">
+                  <div class="empty-state">
+                    <i class="fas fa-check-circle"></i>
+                    <p>Tidak ada laporan ketidaksesuaian</p>
+                  </div>
+                </td>
+              </tr>
+            @endforelse
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div class="footer-info animate__animated animate__fadeIn animate-delay-3">
