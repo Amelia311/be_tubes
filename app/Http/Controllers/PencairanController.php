@@ -69,7 +69,7 @@ class PencairanController extends Controller
         foreach ($rawData as $item) {
             $kelas = $siswa->kelas;
             $riwayat[$kelas][] = [
-                'periode' => $item->periode ?? 'Tahap ?',
+                'semester' => $item->semester,
                 'status' => $item->status,
                 'nominal' => number_format($item->jumlah, 0, ',', '.'),
                 'tanggal' => \Carbon\Carbon::parse($item->tanggal_cair)->format('d M Y'),

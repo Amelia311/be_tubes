@@ -217,122 +217,68 @@
         </div>
     </section>
 
-    <!-- Recent Activity (pakai tabel dan filter validItems seperti versi pertama) -->
+    <!-- Recent Activity -->
     <section class="activity-card animate__animated animate__fadeIn animate__delay-2s">
-        <h3 class="mb-4"><i class="fas fa-history me-2"></i> Aktivitas Terbaru</h3>
-
-        @php
-            $validItems = $pencairan_riwayat->filter(function($item) {
-                $status = strtolower($item->status);
-                return in_array($status, ['ditarik', 'ditransfer', 'sk nominasi', 'sk pemerintah']);
-            });
-        @endphp
-
-        @if($validItems->count() > 0)
-        <div class="table-responsive">
-            <table class="table table-borderless align-middle shadow-sm">
-                <thead class="table-light">
-                    <tr>
-                        <th style="min-width: 140px;">Tanggal</th>
-                        <th>Judul</th>
-                        <th>Deskripsi</th>
-                        <th style="width: 150px;">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($validItems as $item)
-                    @php
-                        $status = strtolower($item->status);
-                        $judul = match ($status) {
-                            'ditarik' => 'Dana Berhasil Ditarik',
-                            'ditransfer' => 'Dana Telah Ditransfer Pemerintah',
-                            'sk nominasi' => 'SK Nominasi Penerima Bantuan',
-                            'sk pemerintah' => 'SK Pemerintah Terbit',
-                        };
-                    @endphp
-                    <tr class="align-middle">
-                        <td>
-                            <i class="far fa-calendar-alt me-1 text-primary"></i>
-                            {{ \Carbon\Carbon::parse($item->tanggal_cair)->format('d M Y') }}
-                        </td>
-                        <td><strong>{{ $judul }}</strong></td>
-                        <td>
-                            @switch($status)
-                                @case('ditarik')
-                                    Penarikan dana Anda telah berhasil dikonfirmasi dan pencairan selesai.
-                                    @break
-                                @case('ditransfer')
-                                    Dana telah ditransfer oleh pemerintah ke rekening Anda. Silakan tarik dana melalui bank.
-                                    @break
-                                @case('sk nominasi')
-                                    Anda masuk daftar nominasi penerima bantuan Indonesia Pintar.
-                                    @break
-                                @case('sk pemerintah')
-                                    Surat Keputusan penerima bantuan telah diterbitkan pusat.
-                                    @break
-                            @endswitch
-                        </td>
-                        <td>
-                            @if(in_array($status, ['sk pemerintah', 'sk nominasi']))
-                                <a href="#" class="btn btn-sm btn-outline-primary">
-                                    {{ $status == 'sk nominasi' ? 'Unduh Disini' : 'Lihat Detail' }}
-                                </a>
-                            @else
-                                <span class="badge bg-success text-capitalize">
-                                    {{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}
-                                </span>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+    <h3 class="mb-4"><i class="fas fa-history me-2"></i> Aktivitas Terbaru</h3>
+    @if($pencairan_riwayat->count() > 0)
+    <div class="timeline">
+        @foreach ($pencairan_riwayat as $item)
+        <div class="timeline-item animate__animated animate__fadeInUp">
+            <div class="timeline-date">
+                <i class="far fa-calendar-alt me-2"></i>
+                {{ \Carbon\Carbon::parse($item->tanggal_cair)->format('d M Y') }}
+            </div>
+            <div class="timeline-content">
+                    Dana sudah dicairkan oleh Pemerintah sejumlah <strong>Rp{{ number_format($item->jumlah, 0, ',', '.') }}</strong> 
+                    <span class="status-badge status-{{ strtolower($item->status) }}">
+                        status penarikan ({{ $item->status }})
+                    </span>
+                <div class="mt-2">
+                    <small class="text-muted">
+                        <i class="far fa-clock me-1"></i> 
+                        {{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}
+                    </small>
+                </div>
+                <a href="{{ route('siswa.statusDana', $item->id) }}" class="btn btn-sm btn-outline-primary mt-2">
+                    Lihat Detail
+                </a>
+            </div>
         </div>
-        @else
-<!-- Dummy Data Sementara -->
-<div class="table-responsive">
-    <table class="table table-borderless align-middle shadow-sm">
-        <thead class="table-light text-center"> <!-- HEADER DIBUAT TENGAH -->
-            <tr>
-                <th style="min-width: 140px;">Tanggal</th>
-                <th>Judul</th>
-                <th>Deskripsi</th>
-                <th style="width: 150px;">Keterangan</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="align-middle">
-                <td><i class="far fa-calendar-alt me-1 text-primary"></i> 25 Jul 2025</td>
-                <td><strong>Dana Berhasil Ditarik</strong></td>
-                <td>Penarikan dana Anda telah berhasil dikonfirmasi dan pencairan selesai.</td>
-                <td><span class="badge bg-success">1 hari yang lalu</span></td>
-            </tr>
-            <tr class="align-middle">
-                <td><i class="far fa-calendar-alt me-1 text-primary"></i> 23 Jul 2025</td>
-                <td><strong>Dana Telah Ditransfer Pemerintah</strong></td>
-                <td>Dana telah ditransfer oleh pemerintah ke rekening Anda. Silakan tarik dana melalui bank.</td>
-                <td><span class="badge bg-success">3 hari yang lalu</span></td>
-            </tr>
-            <tr class="align-middle">
-                <td><i class="far fa-calendar-alt me-1 text-primary"></i> 10 Jul 2025</td>
-                <td><strong>SK Nominasi Penerima Bantuan</strong></td>
-                <td>Anda masuk daftar nominasi penerima bantuan Indonesia Pintar.</td>
-                <td><a href="#" class="btn btn-sm btn-outline-primary">Unduh Disini</a></td>
-            </tr>
-            <tr class="align-middle">
-                <td><i class="far fa-calendar-alt me-1 text-primary"></i> 01 Jul 2025</td>
-                <td><strong>SK Pemerintah Terbit</strong></td>
-                <td>Surat Keputusan penerima bantuan telah diterbitkan pusat.</td>
-                <td><a href="#" class="btn btn-sm btn-outline-primary">Lihat Detail</a></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-@endif
+        @endforeach
 
-    </section>
+        {{-- Tampilkan SK terbaru --}}
+        @foreach ($sk_riwayat as $sk)
+        <div class="timeline-item animate__animated animate__fadeInUp">
+            <div class="timeline-date">
+                <i class="far fa-calendar-alt me-2"></i>
+                {{ \Carbon\Carbon::parse($sk->created_at)->format('d M Y') }}
+            </div>
+            <div class="timeline-content">
+                SK Baru diunggah : <strong>{{ $sk->nama_sk }}</strong> (Semester {{ $sk->semester }} {{ $sk->tahun }})
+                <div class="mt-2">
+                    <small class="text-muted">
+                        <i class="far fa-clock me-1"></i> 
+                        {{ $sk->created_at->diffForHumans() }}
+                    </small>
+                </div>
+                <a href="{{ asset('storage/' . $sk->file_path) }}" target="_blank" class="btn btn-sm btn-outline-success mt-2">
+                    Lihat SK
+                </a>
+                <a href="{{ asset('storage/' . $sk->file_path) }}" download class="btn btn-sm btn-outline-secondary mt-2">
+                <i class="fas fa-download me-1"></i> Unduh SK
+                </a>
 
-</div>
+            </div>
+        </div>
+        @endforeach
+    @else
+    <div class="text-center py-4 animate__animated animate__fadeIn">
+        <i class="far fa-folder-open fa-3x mb-3 text-muted"></i>
+        <h5 class="text-muted">Tidak ada riwayat pencairan dana</h5>
+        <p class="text-muted">Riwayat pencairan akan muncul disini</p>
+    </div>
+    @endif
+</section>
 @endsection
 
 @push('scripts')

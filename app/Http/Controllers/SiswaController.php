@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Laporan;
 use App\Models\Pencairan;
+use App\Models\SkPip;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
@@ -103,30 +104,6 @@ class SiswaController extends Controller
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil dihapus!');
     }
 
-    // public function adminFull(Request $request)
-    // {
-    //     // Cari
-    //     $query = Siswa::query();
-    //     if ($request->has('cari')) {
-    //         $query->where('nama', 'like', '%' . $request->cari . '%');
-    //     }
-
-    //     // Tambah (jika POST)
-    //     if ($request->isMethod('post') && $request->has('nama')) {
-    //         $request->validate([
-    //             'nama' => 'required',
-    //             'nisn' => 'required|unique:siswa',
-    //             'asal_sekolah' => 'required',
-    //             'alamat' => 'required',
-    //         ]);
-    //         Siswa::create($request->only(['nama', 'nisn', 'asal_sekolah', 'alamat']));
-    //         return redirect()->back()->with('success', 'Data siswa ditambahkan!');
-    //     }
-
-    //     $siswa = $query->get();
-    //     return view('AdminSekolah.siswa.daftarSiswa', compact('siswa'));
-    // }
-
     public function riwayatSaya()
     {
         $nisn = auth()->user()->nisn;
@@ -160,33 +137,33 @@ class SiswaController extends Controller
     }
 
     public function lapor($id)
-{
-    \App\Models\Laporan::create([
-        'pencairan_id' => $id,
-        'pesan' => 'Dana tidak sesuai atau belum diterima.',
-        'status' => 'belum dibaca',
-    ]);
+    {
+        \App\Models\Laporan::create([
+            'pencairan_id' => $id,
+            'pesan' => 'Dana tidak sesuai atau belum diterima.',
+            'status' => 'belum dibaca',
+        ]);
 
-    return redirect()->route('siswa.dashboard')->with('success', 'Laporan telah dikirim ke admin/pemerintah!');
-}
+        return redirect()->route('siswa.dashboard')->with('success', 'Laporan telah dikirim ke admin/pemerintah!');
+    }
 
-public function laporStore(Request $request)
-{
-    $request->validate([
-        'pencairan_id' => 'required|exists:pencairan,id',
-        'pesan' => 'required|string',
-        'bukti' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048'
-    ]);
-    
-    // Simpan file ke folder storage/app/public/bukti_laporan
-    $buktiPath = $request->file('bukti')->store('bukti_laporan', 'public');
+    public function laporStore(Request $request)
+    {
+        $request->validate([
+            'pencairan_id' => 'required|exists:pencairan,id',
+            'pesan' => 'required|string',
+            'bukti' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048'
+        ]);
+        
+        // Simpan file ke folder storage/app/public/bukti_laporan
+        $buktiPath = $request->file('bukti')->store('bukti_laporan', 'public');
 
-    \App\Models\Laporan::create([
-        'pencairan_id' => $request->pencairan_id,
-        'pesan' => $request->pesan,
-        'status' => 'belum dibaca',
-        'bukti' => $buktiPath
-    ]);
+        \App\Models\Laporan::create([
+            'pencairan_id' => $request->pencairan_id,
+            'pesan' => $request->pesan,
+            'status' => 'belum dibaca',
+            'bukti' => $buktiPath
+        ]);
 
         return redirect()->back()->with('success', 'Laporan berhasil dikirim!');
     }
@@ -195,52 +172,40 @@ public function laporStore(Request $request)
     {
         // $nisn = auth()->user()->nisn;
         $nisn = Session::get('nisn');
-
+        $sk_riwayat = SkPip::latest()->take(3)->get(); // ambil 3 SK terbaru
 
         $pencairan_riwayat = Pencairan::whereHas('siswa', function ($q) use ($nisn) {
             $q->where('nisn', $nisn);
         })->get();
 
-        return view('Siswa.dashboardSiswa', compact('pencairan_riwayat'));
+        return view('Siswa.dashboardSiswa', compact('pencairan_riwayat', 'sk_riwayat'));
     }
 
     public function pencairan()
     {
         return $this->hasMany(Pencairan::class);
     }
-
     public function statusDana()
     {
-        // Mock data - replace with your actual data logic
-        $status = 'Belum Cair'; // Contoh status: 'Belum Ditarik', 'Sedang Diproses', 'Sudah Ditarik'
-        
-        $riwayat = [
-            'X' => [
-                [
-                    'periode' => 'Januari 2025',
-                    'status' => 'Sudah Ditarik',
-                    'nominal' => 'Rp 1.000.000,-',
-                    'tanggal' => '15 Jan 2025'
-                ],
-                [
-                    'periode' => 'Februari 2025',
-                    'status' => 'Sedang Diproses',
-                    'nominal' => 'Rp 1.000.000,-',
-                    'tanggal' => '15 Feb 2025'
-                ]
-            ],
-            'XI' => [
-                [
-                    'periode' => 'Januari 2025',
-                    'status' => 'Sudah Ditarik',
-                    'nominal' => 'Rp 1.000.000,-',
-                    'tanggal' => '15 Jan 2025'
-                ]
-            ]
-        ];
-
-
-        return view('Siswa.status.statusDana', compact('status', 'riwayat'));
+        $nisn = session('nisn');
+        $siswa = Siswa::where('nisn', $nisn)->first();
+        if (!$siswa) {
+            abort(403, 'Akses ditolak. Tidak ada data siswa.');
+        }
+    
+        $pencairan = $siswa->pencairan()->orderBy('tanggal_cair', 'desc')->get();
+        $riwayat = [];
+        foreach ($pencairan as $item) {
+            $semesterText = $item->semester == 1 ? 'Semester Ganjil' : 'Semester Genap';
+    
+            $riwayat[$siswa->kelas][] = [
+                'periode' => $semesterText . ' ' . $item->tahun,
+                'status' => $item->status,
+                'nominal' => 'Rp' . number_format($item->jumlah, 0, ',', '.'),
+                'tanggal' => \Carbon\Carbon::parse($item->tanggal_cair)->format('d M Y')
+            ];
+        }
+        return view('Siswa.status.statusDana', compact('riwayat'));
     }
 
     /**

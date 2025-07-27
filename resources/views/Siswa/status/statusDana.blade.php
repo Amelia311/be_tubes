@@ -235,54 +235,54 @@
                     </div>
                 </div>
             </div>
-            
-<!-- Detail Penarikan Card - Dummy Data -->
-<!-- Detail Penarikan Dana Card -->
-<div class="card-container animate__animated animate__fadeIn animate-delay-1">
-    <div class="section-header mb-4">
-        <i class="fas fa-info-circle"></i>
-        <h2>Detail Penarikan Dana</h2>
-    </div>
-
-    <div class="table-responsive">
-        <table class="table table-hover table-striped align-middle text-nowrap">
-            <thead class="table-primary text-center align-middle">
-                <tr>
-                    <th scope="col">Nominal Dana</th>
-                    <th scope="col">Tanggal Penarikan</th>
-                    <th scope="col">Metode Penarikan</th>
-                    <th scope="col">Nomor Rekening</th>
-                </tr>
-            </thead>
-            <tbody class="text-center">
-                <tr>
-                    <td>Rp 500.000</td>
-                    <td>20 Juli 2025</td>
-                    <td>BNI</td>
-                    <td>1234567890</td>
-                </tr>
-                <tr>
-                    <td>Rp 500.000</td>
-                    <td>15 Mei 2025</td>
-                    <td>BNI</td>
-                    <td>1234567890</td>
-                </tr>
-                <tr>
-                    <td>Rp 300.000</td>
-                    <td>01 April 2025</td>
-                    <td>BNI</td>
-                    <td>1234567890</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-
-
-
 
             
+            <!-- Riwayat Table -->
+            <div class="animate__animated animate__fadeIn animate-delay-2">
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><i class="far fa-calendar me-2"></i> Semester</th>
+                                <th><i class="fas fa-info-circle me-2"></i> Status</th>
+                                <th><i class="fas fa-money-bill-wave me-2"></i> Nominal</th>
+                                <th><i class="far fa-clock me-2"></i> Tanggal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="riwayat-table">
+                            @php
+                                $firstKelas = !empty($riwayat) ? array_key_first($riwayat) : null;
+                            @endphp
+                            @if($firstKelas && isset($riwayat[$firstKelas]))
+                                @foreach($riwayat[$firstKelas] as $row)
+                                <tr>
+                                    <td>{{ $row['periode'] }}</td>
+                                    <td>
+                                        <span class="status-badge {{ strtolower(str_replace(' ', '-', $row['status'])) }}">
+                                            <i class="fas {{ $row['status'] === 'Belum Dicairkan' ? 'fa-clock' : ($row['status'] === 'Menunggu' ? 'fa-spinner' : 'fa-check-circle') }}"></i>
+                                            {{ $row['status'] }}
+                                        </span>
+                                    </td>
+                                    <td class="fw-medium">{{ $row['nominal'] }}</td>
+                                    <td>{{ $row['tanggal'] }}</td>
+                                </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="empty-state py-5">
+                                            <i class="far fa-folder-open"></i>
+                                            <h5>Belum ada data pencairan</h5>
+                                            <p>Riwayat pencairan akan muncul di sini</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <!-- Confirmation Button - With Proper Spacing -->
             <div class="text-center animate__animated animate__fadeIn animate-delay-2">
                 <a href="{{ route('konfirmasi.form') }}" class="btn btn-konfirmasi">
