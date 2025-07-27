@@ -217,9 +217,10 @@
         </div>
     </section>
 
-    <!-- Recent Activity -->
     <section class="activity-card animate__animated animate__fadeIn animate__delay-2s">
     <h3 class="mb-4"><i class="fas fa-history me-2"></i> Aktivitas Terbaru</h3>
+
+    {{-- Timeline pencairan --}}
     @if($pencairan_riwayat->count() > 0)
     <div class="timeline">
         @foreach ($pencairan_riwayat as $item)
@@ -229,10 +230,10 @@
                 {{ \Carbon\Carbon::parse($item->tanggal_cair)->format('d M Y') }}
             </div>
             <div class="timeline-content">
-                    Dana sudah dicairkan oleh Pemerintah sejumlah <strong>Rp{{ number_format($item->jumlah, 0, ',', '.') }}</strong> 
-                    <span class="status-badge status-{{ strtolower($item->status) }}">
-                        status penarikan ({{ $item->status }})
-                    </span>
+                Dana sudah dicairkan oleh Pemerintah sejumlah <strong>Rp{{ number_format($item->jumlah, 0, ',', '.') }}</strong> 
+                <span class="status-badge status-{{ strtolower($item->status) }}">
+                    status penarikan ({{ $item->status }})
+                </span>
                 <div class="mt-2">
                     <small class="text-muted">
                         <i class="far fa-clock me-1"></i> 
@@ -244,11 +245,13 @@
                 </a>
             </div>
         </div>
-    @endforeach
+        @endforeach
     </div>
-    
+    @endif
+
+    {{-- Timeline SK --}}
+    @if($sk_riwayat->count() > 0)
     <div class="timeline">
-        {{-- Tampilkan SK terbaru --}}
         @foreach ($sk_riwayat as $sk)
         <div class="timeline-item animate__animated animate__fadeInUp">
             <div class="timeline-date">
@@ -267,17 +270,20 @@
                     Lihat SK
                 </a>
                 <a href="{{ asset('storage/' . $sk->file_path) }}" download class="btn btn-sm btn-outline-secondary mt-2">
-                <i class="fas fa-download me-1"></i> Unduh SK
+                    <i class="fas fa-download me-1"></i> Unduh SK
                 </a>
             </div>
         </div>
         @endforeach
     </div>
-    @else
+    @endif
+
+    {{-- Jika dua-duanya kosong --}}
+    @if($pencairan_riwayat->count() == 0 && $sk_riwayat->count() == 0)
     <div class="text-center py-4 animate__animated animate__fadeIn">
         <i class="far fa-folder-open fa-3x mb-3 text-muted"></i>
-        <h5 class="text-muted">Tidak ada riwayat pencairan dana</h5>
-        <p class="text-muted">Riwayat pencairan akan muncul disini</p>
+        <h5 class="text-muted">Tidak ada aktivitas terbaru</h5>
+        <p class="text-muted">Riwayat SK dan pencairan akan muncul disini</p>
     </div>
     @endif
 </section>

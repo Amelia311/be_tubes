@@ -263,8 +263,6 @@
 </style>
 @endpush 
 
-
-
 @section('content')
 <div class="container-fluid p-4">
 @if(session('success'))
@@ -319,18 +317,18 @@
                     <h3><i class="fas fa-chart-bar"></i> Diagram Penarikan Dana PIP</h3>
                 </div>
                 <div class="semester-tabs">
-                    <div class="semester-tab active" data-tab="semester1">Semester 1</div>
-                    <div class="semester-tab" data-tab="semester2">Semester 2</div>
+                    <div class="semester-tab active" data-tab="semester1">Semester Ganjil</div>
+                    <div class="semester-tab" data-tab="semester2">Semester Genap</div>
                 </div>
-                <div class="tab-content active" id="semester1">
-                    <div class="chart-container">
-                        <canvas id="chartSemester1"></canvas>
-                    </div>
+                <div class="tab-content active" id="ganjil">
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="chartGanjil"></canvas>
                 </div>
-                <div class="tab-content" id="semester2">
-                    <div class="chart-container">
-                        <canvas id="chartSemester2"></canvas>
-                    </div>
+                </div>
+                <div class="tab-content" id="genap">
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="chartGenap"></canvas>
+                </div>
                 </div>
             </div>
         </div>
@@ -435,52 +433,66 @@
 </div>
 @endsection
 
-
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-<script>
-    document.querySelector('[data-bs-target="#uploadModal"]').addEventListener('click', function() {
-    const myModal = new bootstrap.Modal(document.getElementById('uploadModal'));
-    myModal.show();
-    });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        // Tab switching
-        const tabs = document.querySelectorAll('.semester-tab');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function() {
+<script>
+    const sudahTarikGanjil = @json($sudahTarikGanjil);
+    const belumTarikGanjil = @json($belumTarikGanjil);
+    const sudahTarikGenap = @json($sudahTarikGenap);
+    const belumTarikGenap = @json($belumTarikGenap);
+    console.log("Sudah Genap:", sudahTarikGenap);
+    console.log("Belum Genap:", belumTarikGenap);
+
+    let chartSemester1;
+    let chartSemester2;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Modal Upload
+        const uploadBtn = document.querySelector('[data-bs-target="#uploadModal"]');
+        if (uploadBtn) {
+            uploadBtn.addEventListener('click', function () {
+                const myModal = new bootstrap.Modal(document.getElementById('uploadModal'));
+                myModal.show();
+            });
+        }
+
+        // Tab switching logic
+        document.querySelectorAll('.semester-tab').forEach(tab => {
+            tab.addEventListener('click', function () {
                 const tabId = this.getAttribute('data-tab');
-                
-                // Remove active class from all tabs and contents
+
                 document.querySelectorAll('.semester-tab').forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                
-                // Add active class to clicked tab and corresponding content
+
                 this.classList.add('active');
                 document.getElementById(tabId).classList.add('active');
+
+                if (tabId === 'ganjil' && chartSemester1) chartSemester1.resize();
+                if (tabId === 'genap' && chartSemester2) chartSemester2.resize();
             });
         });
-        
-        // Chart for Semester 1
-        const ctx1 = document.getElementById('chartSemester1').getContext('2d');
-        const chartSemester1 = new Chart(ctx1, {
+
+
+        // Chart Semester 1
+        const ctx1 = document.getElementById('chartGanjil').getContext('2d');
+        chartSemester1 = new Chart(ctx1, {
             type: 'bar',
             data: {
                 labels: ['Kelas 10', 'Kelas 11', 'Kelas 12'],
-                datasets: [{
-                    label: 'Sudah Menerima',
-                    data: [45, 38, 35],
-                    backgroundColor: '#1cc88a',
-                    borderColor: '#1cc88a',
-                    borderWidth: 1
-                }, {
-                    label: 'Belum Menerima',
-                    data: [5, 7, 2],
-                    backgroundColor: '#f6c23e',
-                    borderColor: '#f6c23e',
-                    borderWidth: 1
-                }]
+                datasets: [
+                    {
+                        label: 'Sudah Menerima',
+                        data: sudahTarikGanjil,
+                        backgroundColor: '#1cc88a'
+                    },
+                    {
+                        label: 'Belum Menerima',
+                        data: belumTarikGanjil,
+                        backgroundColor: '#f6c23e'
+                    }
+                ]
             },
             options: {
                 responsive: true,
@@ -489,44 +501,39 @@
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            stepSize: 10
+                            stepSize: 5
                         }
                     }
                 },
                 plugins: {
-                    legend: {
-                        position: 'top',
-                    },
+                    legend: { position: 'top' },
                     title: {
                         display: true,
-                        text: 'Penarikan PIP Semester 1 2023/2024',
-                        font: {
-                            size: 16
-                        }
+                        text: 'Penarikan PIP Semester 1',
+                        font: { size: 16 }
                     }
                 }
             }
         });
-        
-        // Chart for Semester 2
-        const ctx2 = document.getElementById('chartSemester2').getContext('2d');
-        const chartSemester2 = new Chart(ctx2, {
+
+        // Chart Semester 2
+        const ctx2 = document.getElementById('chartGenap').getContext('2d');
+        chartSemester2 = new Chart(ctx2, {
             type: 'bar',
             data: {
                 labels: ['Kelas 10', 'Kelas 11', 'Kelas 12'],
-                datasets: [{
-                    label: 'Sudah Menerima',
-                    data: [42, 40, 32],
-                    backgroundColor: '#1cc88a',
-                    borderColor: '#1cc88a',
-                    borderWidth: 1
-                }, {
-                    label: 'Belum Menerima',
-                    data: [8, 5, 3],
-                    backgroundColor: '#f6c23e',
-                    borderColor: '#f6c23e',
-                    borderWidth: 1
-                }]
+                datasets: [
+                    {
+                        label: 'Sudah Menerima',
+                        data: sudahTarikGenap,
+                        backgroundColor: '#1cc88a'
+                    },
+                    {
+                        label: 'Belum Menerima',
+                        data: belumTarikGenap,
+                        backgroundColor: '#f6c23e'
+                    }
+                ]
             },
             options: {
                 responsive: true,
@@ -535,20 +542,16 @@
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            stepSize: 10
+                            stepSize: 5
                         }
                     }
                 },
                 plugins: {
-                    legend: {
-                        position: 'top',
-                    },
+                    legend: { position: 'top' },
                     title: {
                         display: true,
-                        text: 'Penarikan PIP Semester 2 2022/2023',
-                        font: {
-                            size: 16
-                        }
+                        text: 'Penarikan PIP Semester 2',
+                        font: { size: 16 }
                     }
                 }
             }
@@ -556,4 +559,3 @@
     });
 </script>
 @endpush
-

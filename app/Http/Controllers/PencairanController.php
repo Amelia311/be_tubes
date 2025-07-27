@@ -44,13 +44,6 @@ class PencairanController extends Controller
         return redirect()->route('pencairan.create')->with('success', 'Data pencairan berhasil disimpan!'); 
     }
 
-    // public function index()
-    // {
-    //     $laporanList = Laporan::with('pencairan.siswa')->latest()->get();
-    //     return view('AdminSekolah.laporan.laporan_kendala', compact('laporanList'));
-    // }
-
-
     public function dashboard()
     {
         $nisn = session('nisn');
@@ -76,24 +69,6 @@ class PencairanController extends Controller
             ];
         }
     
-        // LOGIKA STATUS:
-        // if ($rawData->isEmpty()) {
-        //     $statusTerakhir = 'Belum Dicairkan';
-        // } else {
-        //     $latest = $rawData->first();
-        //     if ($latest->status === 'Sudah Cair') {
-        //         $statusTerakhir = 'Sudah Cair';
-        //     } elseif ($latest->status === 'Menunggu') {
-        //         if ($latest->bukti) {
-        //             $statusTerakhir = 'Menunggu';
-        //         } else {
-        //             $statusTerakhir = 'Menunggu';
-        //         }
-        //     } else {
-        //         $statusTerakhir = 'Belum Dicairkan';
-        //     }
-        // }
-
         if ($rawData->isEmpty()) {
             $statusTerakhir = 'Belum Cair';
         } else {
@@ -110,8 +85,6 @@ class PencairanController extends Controller
         
         return view('Siswa.dashboardSiswa', compact('riwayat', 'statusTerakhir'))->with('status', $statusTerakhir);
     }
-    
-
 
     /**
      * Menampilkan daftar data untuk dikonfirmasi admin
