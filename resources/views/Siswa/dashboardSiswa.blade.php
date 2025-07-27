@@ -244,8 +244,10 @@
                 </a>
             </div>
         </div>
-        @endforeach
-
+    @endforeach
+    </div>
+    
+    <div class="timeline">
         {{-- Tampilkan SK terbaru --}}
         @foreach ($sk_riwayat as $sk)
         <div class="timeline-item animate__animated animate__fadeInUp">
@@ -267,10 +269,10 @@
                 <a href="{{ asset('storage/' . $sk->file_path) }}" download class="btn btn-sm btn-outline-secondary mt-2">
                 <i class="fas fa-download me-1"></i> Unduh SK
                 </a>
-
             </div>
         </div>
         @endforeach
+    </div>
     @else
     <div class="text-center py-4 animate__animated animate__fadeIn">
         <i class="far fa-folder-open fa-3x mb-3 text-muted"></i>

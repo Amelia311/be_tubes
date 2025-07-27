@@ -185,6 +185,41 @@ class SiswaController extends Controller
     {
         return $this->hasMany(Pencairan::class);
     }
+
+    // public function statusDana()
+    // {
+    //     $nisn = session('nisn');
+    //     $siswa = Siswa::where('nisn', $nisn)->first();
+    //     if (!$siswa) {
+    //         abort(403, 'Akses ditolak. Tidak ada data siswa.');
+    //     }
+    //             // Ambil data pencairan terbaru milik siswa
+    //             $latestStatus = $siswa->pencairan()->latest('tanggal_cair')->first();
+
+    //             // Mapping status pencairan ke tampilan langkah
+    //             if ($latestStatus && $latestStatus->status === 'Sudah Ditarik') {
+    //                 $status = 'Sudah Ditarik';
+    //             } elseif ($latestStatus && $latestStatus->status === 'Sudah Cair') {
+    //                 $status = 'Sedang Diproses'; // artinya sudah cair tapi belum ditarik
+    //             } else {
+    //                 $status = 'Belum Cair';
+    //             }
+    
+    //     $pencairan = $siswa->pencairan()->orderBy('tanggal_cair', 'desc')->get();
+    //     $riwayat = [];
+    //     foreach ($pencairan as $item) {
+    //         $semesterText = $item->semester == 1 ? 'Semester Ganjil' : 'Semester Genap';
+    
+    //         $riwayat[$siswa->kelas][] = [
+    //             'periode' => $semesterText . ' ' . $item->tahun,
+    //             'status' => $item->status,
+    //             'nominal' => 'Rp' . number_format($item->jumlah, 0, ',', '.'),
+    //             'tanggal' => \Carbon\Carbon::parse($item->tanggal_cair)->format('d M Y')
+    //         ];
+    //     }
+    //     return view('Siswa.status.statusDana', compact('status, riwayat'));
+    // }
+
     public function statusDana()
     {
         $nisn = session('nisn');
@@ -192,12 +227,26 @@ class SiswaController extends Controller
         if (!$siswa) {
             abort(403, 'Akses ditolak. Tidak ada data siswa.');
         }
-    
-        $pencairan = $siswa->pencairan()->orderBy('tanggal_cair', 'desc')->get();
+
+        // Ambil data pencairan terbaru milik siswa
+        $latestStatus = $siswa->pencairan()->latest('tanggal_cair')->first();
+
+        // Mapping status pencairan ke tampilan langkah
+        if ($latestStatus && $latestStatus->status === 'Sudah Ditarik') {
+            $status = 'Sudah Ditarik';
+        } elseif ($latestStatus && $latestStatus->status === 'Sudah Cair') {
+            $status = 'Sedang Diproses'; // artinya sudah cair tapi belum ditarik
+        } else {
+            $status = 'Belum Cair';
+        }
+
+        // Ambil semua riwayat pencairan
+       $pencairan = $siswa->pencairan()->orderBy('tanggal_cair', 'desc')->get();
         $riwayat = [];
         foreach ($pencairan as $item) {
-            $semesterText = $item->semester == 1 ? 'Semester Ganjil' : 'Semester Genap';
-    
+
+            $semesterText = 'Semester ' . $item->semester;
+
             $riwayat[$siswa->kelas][] = [
                 'periode' => $semesterText . ' ' . $item->tahun,
                 'status' => $item->status,
@@ -205,8 +254,10 @@ class SiswaController extends Controller
                 'tanggal' => \Carbon\Carbon::parse($item->tanggal_cair)->format('d M Y')
             ];
         }
-        return view('Siswa.status.statusDana', compact('riwayat'));
+
+        return view('Siswa.status.statusDana', compact('status', 'riwayat'));
     }
+
 
     /**
      * Display detail penarikan page

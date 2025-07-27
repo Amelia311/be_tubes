@@ -32,18 +32,17 @@
         padding: 24px;
         margin-bottom: 24px;
     }
-    
-.section-header {
-    display: flex;
-    align-items: center;
-    gap: 20px; /* Mengatur jarak ikon dan teks */
-}
-.section-header i {
-    font-size: 30px;
-    color: var(--primary-color);
-    /* margin-right dihapus jika menggunakan gap */
-}
-    
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 20px; /* Mengatur jarak ikon dan teks */
+    }
+    .section-header i {
+        font-size: 30px;
+        color: var(--primary-color);
+        /* margin-right dihapus jika menggunakan gap */
+    }
+        
     .section-header h2 {
         font-size: 25px;
         font-weight: 600;
@@ -198,9 +197,9 @@
 </style>
 @endpush
 
-@php
+<!-- @php
     $status = $status ?? 'Belum Cair';
-@endphp
+@endphp -->
 @section('content')
 <main class="container py-5">
     <div class="row justify-content-center">
@@ -213,26 +212,27 @@
                 </div>
                 
                 <div class="progress-tracker">
-                    <div class="status-step {{ $status === 'Belum Cair' ? 'active' : '' }} animate__animated animate__fadeInLeft" id="step-belum">
-                        <div class="circle">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <p>Belum Cair</p>
+                <div class="status-step {{ $status === 'Belum Cair' ? 'active' : '' }} animate__animated animate__fadeInLeft" id="step-belum">
+                <div class="circle">
+                    <i class="fas fa-clock"></i>
+                </div>
+                    <p>Belum Cair</p>
+                </div>
+
+                <div class="status-step {{ in_array($status, ['Sudah Cair', 'Sedang Diproses']) ? 'active' : '' }} animate__animated animate__fadeIn animate-delay-1" id="step-proses">
+                    <div class="circle">
+                        <i class="fas fa-spinner"></i>
                     </div>
-                    
-                    <div class="status-step {{ $status === 'Sedang Diproses' ? 'active' : '' }} animate__animated animate__fadeIn animate-delay-1" id="step-proses">
-                        <div class="circle">
-                            <i class="fas fa-spinner"></i>
-                        </div>
-                        <p>Belum Tarik Dana</p>
+                    <p>Belum Tarik Dana</p>
+                </div>
+
+                <div class="status-step {{ $status === 'Sudah Ditarik' ? 'active' : '' }} animate__animated animate__fadeInRight animate-delay-2" id="step-sudah">
+                    <div class="circle">
+                        <i class="fas fa-check-circle"></i>
                     </div>
-                    
-                    <div class="status-step {{ $status === 'Sudah Ditarik' ? 'active' : '' }} animate__animated animate__fadeInRight animate-delay-2" id="step-sudah">
-                        <div class="circle">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <p>Sudah Tarik Dana</p>
-                    </div>
+                    <p>Sudah Tarik Dana</p>
+                </div>
+
                 </div>
             </div>
 
