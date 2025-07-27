@@ -198,87 +198,150 @@
       border-radius: 2px;
     }
     
-    /* Custom Table Styling */
-    .custom-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-    }
-    
-    .custom-table thead th {
-      background-color: rgba(67, 97, 238, 0.1);
-      color: var(--primary-color);
-      font-weight: 600;
-      border: none;
-      padding: 1rem;
-      position: sticky;
-      top: 0;
-    }
-    
-    .custom-table tbody tr {
+    /* Notification Items */
+    .notification-item {
+      padding: 1.2rem 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
       transition: all 0.3s;
     }
     
-    .custom-table tbody tr:hover {
-      background-color: rgba(67, 97, 238, 0.03);
+    .notification-item:hover {
+      background: rgba(67, 97, 238, 0.03);
       transform: translateX(5px);
     }
     
-    .custom-table td {
-      padding: 1rem;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      vertical-align: middle;
-    }
-    
-    .custom-table tr:last-child td {
+    .notification-item:last-child {
       border-bottom: none;
     }
     
-    .status-badge {
-      padding: 0.35rem 0.75rem;
-      border-radius: 50px;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-    
-    .badge-success {
-      background-color: rgba(74, 214, 109, 0.1);
-      color: var(--success-color);
-    }
-    
-    .badge-warning {
-      background-color: rgba(248, 150, 30, 0.1);
-      color: var(--warning-color);
-    }
-    
-    .badge-danger {
-      background-color: rgba(247, 37, 133, 0.1);
-      color: var(--danger-color);
-    }
-    
-    .proof-thumbnail {
-      width: 80px;
+    .notification-icon {
+      width: 50px;
       height: 50px;
-      border-radius: 5px;
-      object-fit: cover;
+      border-radius: 12px;
+      background: rgba(76, 201, 240, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1.5rem;
+      color: var(--primary-light);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    
+    .notification-content {
+      flex: 1;
+    }
+    
+    .notification-text {
+      margin-bottom: 0.3rem;
+    }
+    
+    .notification-time {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+    }
+    
+    .notification-time i {
+      margin-right: 0.3rem;
+    }
+    
+    /* Report Items */
+    .report-item {
+      padding: 1.5rem;
+      border-radius: 12px;
+      background: #f8f9fa;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--danger-color);
+      transition: all 0.3s;
+    }
+    
+    .report-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .report-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .report-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(247, 37, 133, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1.2rem;
+      color: var(--danger-color);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    
+    .report-content {
+      flex: 1;
+    }
+    
+    .report-author {
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      color: var(--text-color);
+    }
+    
+    .report-message {
+      color: var(--text-color);
+      margin-bottom: 1rem;
+      font-style: italic;
+    }
+    
+    .report-proof {
+      margin-top: 1rem;
+      border-radius: 10px;
+      overflow: hidden;
+      max-width: 300px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+    }
+    
+    .report-proof img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
       cursor: pointer;
       transition: transform 0.3s;
     }
     
-    .proof-thumbnail:hover {
-      transform: scale(1.05);
+    .report-proof:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
     
-    .tx-link {
+    .report-proof img:hover {
+      transform: scale(1.02);
+    }
+    
+    .report-tx {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-top: 0.8rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .report-tx a {
       color: var(--primary-color);
       text-decoration: none;
-      font-family: monospace;
-      font-size: 0.85rem;
+      margin-left: 0.3rem;
     }
     
-    .tx-link:hover {
+    .report-tx a:hover {
       text-decoration: underline;
-      color: var(--secondary-color);
     }
     
     /* Empty State */
@@ -377,15 +440,75 @@
       .section-container {
         padding: 1.5rem;
       }
-      
-      .custom-table {
-        display: block;
-        overflow-x: auto;
-      }
     }
+    .table {
+  --bs-table-bg: var(--card-color);
+  --bs-table-striped-bg: rgba(67, 97, 238, 0.03);
+  --bs-table-hover-bg: rgba(67, 97, 238, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table thead th {
+  background-color: var(--primary-color);
+  color: white;
+  border-bottom: none;
+  font-weight: 600;
+}
+
+.table > :not(:first-child) {
+  border-top: none;
+}
+
+.table-hover > tbody > tr:hover {
+  transform: translateX(5px);
+  transition: all 0.3s;
+}
+/* Tombol Kembali Bulat */
+.btn-back-circle {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--card-color);
+  color: var(--primary-color);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 2px solid var(--primary-color);
+  font-size: 1.2rem;
+}
+
+.btn-back-circle:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateX(-3px);
+  box-shadow: 0 8px 25px rgba(67, 97, 238, 0.3);
+}
+
+/* Untuk posisi di mobile */
+@media (max-width: 768px) {
+  .position-absolute {
+    position: relative !important;
+    margin-bottom: 1rem;
+    margin-left: 0 !important;
+  }
+  
+  .btn-back-circle {
+    width: 45px;
+    height: 45px;
+    font-size: 1rem;
+  }
+}
   </style>
 </head>
 <body>
+  <div class="container pt-3">
+  <a href="/beranda-siswa" class="text-decoration-none text-primary animate__animated animate__fadeInLeft">
+    <i class="fas fa-arrow-left fa-lg me-2"></i>
+  </a>
+</div>
   <main class="container py-4">
     <!-- Hero Section -->
     <div class="hero-section animate__animated animate__fadeIn">
@@ -433,119 +556,107 @@
     </div>
 
     <!-- Info Pencairan Terbaru -->
-    <div class="section-container animate__animated animate__fadeIn animate-delay-1">
-      <h3 class="section-title">
-        <i class="fas fa-bell"></i> Info Terbaru Pencairan Dana
-      </h3>
-      
-      <div class="table-responsive">
-        <table class="custom-table">
-          <thead>
-            <tr>
-              <th>Nama Siswa</th>
-              <th>Jumlah</th>
-              <th>Tanggal Cair</th>
-              <th>Status</th>
-              <th>Detail</th>
-            </tr>
-          </thead>
-          <tbody>
-            @forelse($infoTerbaru as $info)
-              <tr class="animate__animated animate__fadeIn">
-                <td>{{ $info->siswa->nama ?? 'N/A' }}</td>
-                <td>Rp{{ number_format($info->jumlah, 0, ',', '.') }}</td>
-                <td>{{ \Carbon\Carbon::parse($info->tanggal_cair)->format('d M Y H:i') }}</td>
-                <td>
-                  <span class="status-badge badge-success">
-                    <i class="fas fa-check-circle me-1"></i> Berhasil
-                  </span>
-                </td>
-                <td>
-                  <a href="#" class="btn btn-sm btn-outline-primary">
-                    <i class="fas fa-eye"></i> Detail
-                  </a>
-                </td>
-              </tr>
-            @empty
-              <tr>
-                <td colspan="5">
-                  <div class="empty-state">
-                    <i class="fas fa-inbox"></i>
-                    <p>Belum ada pencairan terbaru</p>
-                  </div>
-                </td>
-              </tr>
-            @endforelse
-          </tbody>
-        </table>
-      </div>
-    </div>
+<div class="section-container animate__animated animate__fadeIn animate-delay-1">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="section-title">
+      <i class="fas fa-bell"></i> Info Terbaru Pencairan Dana
+    </h3>
+  </div>
+  
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>No</th>
+          <th>Nama Siswa</th>
+          <th>Jumlah</th>
+          <th>Tanggal Cair</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($infoTerbaru as $index => $info)
+          <tr class="animate__animated animate__fadeIn">
+            <td>{{ $index + 1 }}</td>
+            <td>{{ $info->siswa->nama ?? 'N/A' }}</td>
+            <td>Rp{{ number_format($info->jumlah, 0, ',', '.') }}</td>
+            <td>{{ \Carbon\Carbon::parse($info->tanggal_cair)->format('d M Y H:i') }}</td>
+            <td>
+              <span class="badge bg-success">
+                <i class="fas fa-check-circle me-1"></i> Berhasil
+              </span>
+            </td>
+          </tr>
+        @empty
+          <tr>
+            <td colspan="5" class="text-center py-4">
+              <i class="fas fa-inbox fa-2x mb-2 text-muted"></i>
+              <p class="text-muted">Belum ada pencairan terbaru</p>
+            </td>
+          </tr>
+        @endforelse
+      </tbody>
+    </table>
+  </div>
+</div>
 
     <!-- Laporan Ketidaksesuaian -->
-    <div class="section-container animate__animated animate__fadeIn animate-delay-2">
-      <h3 class="section-title">
-        <i class="fas fa-exclamation-triangle"></i> Laporan Ketidaksesuaian
-      </h3>
-      
-      <div class="table-responsive">
-        <table class="custom-table">
-          <thead>
-            <tr>
-              <th>Pelapor</th>
-              <th>Penerima</th>
-              <th>Pesan</th>
-              <th>Bukti</th>
-              <th>Transaksi</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            @forelse($laporan as $lapor)
-              <tr class="animate__animated animate__fadeIn">
-                <td>{{ $lapor->pelapor->nama ?? 'Anonim' }}</td>
-                <td>{{ $lapor->pencairan->siswa->nama ?? 'Tidak diketahui' }}</td>
-                <td class="text-truncate" style="max-width: 200px;" title="{{ $lapor->pesan }}">
-                  "{{ $lapor->pesan }}"
-                </td>
-                <td>
-                  @if($lapor->bukti)
-                    <img src="{{ asset('storage/' . $lapor->bukti) }}" 
-                         class="proof-thumbnail"
-                         alt="Bukti Laporan" 
-                         data-bs-toggle="modal" 
-                         data-bs-target="#proofModal"
-                         data-bs-image="{{ asset('storage/' . $lapor->bukti) }}">
-                  @else
-                    <span class="text-muted">Tidak ada</span>
-                  @endif
-                </td>
-                <td>
-                  <a href="https://sepolia.etherscan.io/tx/{{ $lapor->blockchain_tx }}" 
-                     target="_blank" 
-                     class="tx-link">
-                    <i class="fas fa-link me-1"></i> Lihat TX
-                  </a>
-                </td>
-                <td>
-                  <span class="status-badge badge-warning">
-                    <i class="fas fa-exclamation-circle me-1"></i> Ditinjau
-                  </span>
-                </td>
-              </tr>
-            @empty
-              <tr>
-                <td colspan="6">
-                  <div class="empty-state">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Tidak ada laporan ketidaksesuaian</p>
-                  </div>
-                </td>
-              </tr>
-            @endforelse
-          </tbody>
-        </table>
-      </div>
-    </div>
+<div class="section-container animate__animated animate__fadeIn animate-delay-2">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="section-title">
+      <i class="fas fa-exclamation-triangle"></i> Laporan Ketidaksesuaian
+    </h3>
+  </div>
+  
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>No</th>
+          <th>Nama Siswa</th>
+          <th>Pesan</th>
+          <th>Bukti</th>
+          <th>Transaksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($laporan as $index => $lapor)
+          <tr class="animate__animated animate__fadeIn">
+            <td>{{ $index + 1 }}</td>
+            <td>{{ $lapor->pencairan->siswa->nama ?? 'Tidak diketahui' }}</td>
+            <td>"{{ $lapor->pesan }}"</td>
+            <td>
+              @if($lapor->bukti)
+                <button class="btn btn-sm btn-outline-primary" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#proofModal"
+                        data-bs-image="{{ asset('storage/' . $lapor->bukti) }}">
+                  <i class="fas fa-image"></i> Lihat Bukti
+                </button>
+              @else
+                <span class="text-muted">Tidak ada bukti</span>
+              @endif
+            </td>
+            <td>
+              <a href="https://sepolia.etherscan.io/tx/{{ $lapor->blockchain_tx }}" 
+                 target="_blank" 
+                 class="btn btn-sm btn-outline-info">
+                <i class="fas fa-link"></i> Lihat TX
+              </a>
+            </td>
+          </tr>
+        @empty
+          <tr>
+            <td colspan="5" class="text-center py-4">
+              <i class="fas fa-check-circle fa-2x mb-2 text-muted"></i>
+              <p class="text-muted">Tidak ada laporan ketidaksesuaian</p>
+            </td>
+          </tr>
+        @endforelse
+      </tbody>
+    </table>
+  </div>
+</div>
 
     <div class="footer-info animate__animated animate__fadeIn animate-delay-3">
       Info lebih lanjut kunjungi situs resmi 
