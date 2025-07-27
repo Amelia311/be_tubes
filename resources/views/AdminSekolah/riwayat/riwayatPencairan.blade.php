@@ -201,7 +201,7 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $item->siswa->nama ?? '-' }}</td>
                     <td>{{ $item->siswa->no_rekening ?? '-' }}</td>
-                    <td>Rp {{ number_format($item->nominal, 0, ',', '.') }}</td>
+                    <td>Rp {{ number_format($item->jumlah, 0, ',', '.') }}</td>
 
                     <td>
                         <span class="status {{ strtolower($item->status) == 'sudah cair' ? 'sudah' : 'menunggu' }}">
@@ -228,7 +228,7 @@
                                 class="btn-konfirmasi"
                                 data-id="{{ $item->id }}"
                                 data-nama="{{ $item->siswa->nama }}"
-                                data-jumlah="{{ $item->nominal }}"
+                                data-jumlah="{{ $item->jumlah }}"
                                 onclick="showConfirmationModal(this)">
                                 <i class="fas fa-link"></i> Konfirmasi ke Blockchain
                             </button>

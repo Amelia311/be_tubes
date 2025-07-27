@@ -2,9 +2,10 @@
 
 @section('title', 'Dashboard Admin')
 
+
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.compat.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css">
 <style>
@@ -16,6 +17,18 @@
         --success-color: #1cc88a;
         --warning-color: #f6c23e;
         --danger-color: #e74a3b;
+    }
+
+    .modal {
+        z-index: 1055;
+    }
+
+    .modal-backdrop {
+        z-index: 1040;
+    }
+
+    body.modal-open {
+        overflow: hidden;
     }
     
     .content-box {
@@ -248,10 +261,25 @@
     }
 
 </style>
-@endpush
+@endpush 
+
+
 
 @section('content')
 <div class="container-fluid p-4">
+@if(session('success'))
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+@endif
+
+@if(session('error'))
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ session('error') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+@endif
     <!-- Statistik Utama -->
     <div class="row mb-4">
         <div class="col-md-4">
@@ -314,10 +342,7 @@
                     <h3><i class="fas fa-file-alt"></i> SK PIP Terbaru</h3>
                 </div>
                 <div class="upload-container">
-                    <button class="btn-upload" data-bs-toggle="modal" data-bs-target="#uploadModal">
-                        <i class="fas fa-upload"></i> Upload SK Baru
-                    </button>
-                    
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload SK Baru</button>
                     <div class="sk-list">
                         @if($skPip->count() > 0)
                             @foreach($skPip as $sk)
@@ -351,57 +376,75 @@
         </div>
     </div>
 
-<!-- Modal Upload SK -->
-<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <!-- Modal -->
+    <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="uploadModalLabel">Upload SK PIP Baru</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="{{ route('skpip.store') }}" method="POST" enctype="multipart/form-data">   
-            @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="nama_sk" class="form-label">Nama SK</label>
-                        <input type="text" class="form-control" id="nama_sk" name="nama_sk" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tahun" class="form-label">Tahun</label>
-                        <select class="form-select" id="tahun" name="tahun" required>
-                            @for($i = date('Y'); $i >= date('Y') - 5; $i--)
-                                <option value="{{ $i }}">{{ $i }}</option>
-                            @endfor
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="semester" class="form-label">Semester</label>
-                        <select class="form-select" id="semester" name="semester" required>
-                            <option value="1">Semester 1</option>
-                            <option value="2">Semester 2</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="file_sk" class="form-label">File SK</label>
-                        <input class="form-control" type="file" id="file_sk" name="file_sk" accept=".pdf,.doc,.docx" required>
-                        <div class="form-text">Format file: PDF, DOC, DOCX (Maks. 5MB)</div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Upload</button>
-                </div>
-            </form>
+        @if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+        @if(session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+            </ul>
         </div>
+        @endif
+
+      <form action="{{ route('skpip.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="modal-header">
+          <h5 class="modal-title" id="uploadModalLabel">Upload SK Baru</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nama_sk" class="form-label">Nama SK</label>
+            <input type="text" name="nama_sk" class="form-control" id="nama_sk" required>
+          </div>
+          <div class="mb-3">
+            <label for="tahun" class="form-label">Tahun</label>
+            <input type="number" name="tahun" class="form-control" id="tahun" required>
+          </div>
+          <div class="mb-3">
+            <label for="semester" class="form-label">Semester</label>
+            <select name="semester" id="semester" class="form-select" required>
+              <option value="1">Semester 1</option>
+              <option value="2">Semester 2</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="file_sk" class="form-label">File SK</label>
+            <input type="file" name="file_sk" class="form-control" id="file_sk" accept=".pdf,.doc,.docx" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Upload</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        </div>
+      </form>
     </div>
+  </div>
+</div>
 </div>
 @endsection
 
 
-@section('scripts')
+@push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <script>
+    document.querySelector('[data-bs-target="#uploadModal"]').addEventListener('click', function() {
+    const myModal = new bootstrap.Modal(document.getElementById('uploadModal'));
+    myModal.show();
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         // Tab switching
         const tabs = document.querySelectorAll('.semester-tab');
@@ -512,4 +555,5 @@
         });
     });
 </script>
-@endsection
+@endpush
+

@@ -20,31 +20,41 @@ class SkPipController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        // Validasi
+        $validated = $request->validate([
             'nama_sk' => 'required|string|max:255',
             'tahun' => 'required|digits:4|integer',
             'semester' => 'required|in:1,2',
-            'file_sk' => 'required|file|mimes:pdf,doc,docx|max:5120' // 5MB
+            'file_sk' => 'required|file|mimes:pdf,doc,docx|max:5120'
         ]);
-        dd($request->semester);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+    
+        // Cek apakah file ada
+        if (!$request->hasFile('file_sk')) {
+            return redirect()->back()->with('error', 'File SK harus diupload!');
         }
-
-        $file = $request->file('file_sk');
-        $filePath = $file->store('sk_pip_files', 'public');
-
-        $sk = SkPip::create([
-            'nama_sk' => $request->nama_sk,
-            'tahun' => $request->tahun,
-            'semester' => $request->semester,
-            'file_path' => $filePath
-        ]);
-
-        return response()->json([
-            'message' => 'SK PIP berhasil diupload',
-            'data' => $sk
-        ]);
+    
+        try {
+            $file = $request->file('file_sk');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('sk_files', $filename, 'public');
+    
+            // Simpan data
+            SkPip::create([
+                'nama_sk' => $validated['nama_sk'],
+                'tahun' => $validated['tahun'],
+                'semester' => $validated['semester'],
+                'file_path' => $filePath
+            ]);
+    
+            return redirect()->back()->with('success', 'SK berhasil diupload');
+    
+        } catch (\Exception $e) {
+            // // Log error agar bisa dilihat di storage/logs/laravel.log
+            // \Log::error('Upload SK Error: ' . $e->getMessage());
+    
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat upload SK.');
+        }
     }
+    
+    
 }

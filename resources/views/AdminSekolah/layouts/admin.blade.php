@@ -13,19 +13,28 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   
   <!-- Animate.css -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-  
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.compat.css" />
+
   <!-- Custom CSS -->
   <style>
     :root {
-      --primary-color: #3a0ca3;
-      --secondary-color: #7209b7;
+      --primary-color: #4e73df;
+      --secondary-color: #f8f9fc;
       --accent-color: #4361ee;
       --light-color: #f8f9fa;
       --dark-color: #212529;
       --sidebar-width: 280px;
     }
-    
+    /* :root {
+        --primary-color: #4e73df;
+        --secondary-color: #f8f9fc;
+        --success-color: #1cc88a;
+        --danger-color: #e74a3b;
+        --warning-color: #f6c23e;
+        --info-color: #36b9cc;
+        --text-color: #5a5c69;
+    } */
     body {
       background-color: #f5f7fb;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -290,7 +299,7 @@
   </a>
 </li>
 <li class="animate__animated animate__fadeInLeft" style="animation-delay: 0.45s;">
-  <a href="{{ url('AdminSekolah.laporanpengaduan.laporan_pengaduan') }}" class="{{ request()->is('AdminSekolah.laporanpengaduan.laporan_pengaduan') ? 'active' : '' }}">
+  <a href="{{ url('AdminSekolah.laporanpnnnnnengaduan.laporan_pengaduan') }}" class="{{ request()->is('AdminSekolah.laporanpengaduan.laporan_pengaduan') ? 'active' : '' }}">
     <i class="fas fa-bullhorn"></i> Laporan Pengaduan Siswa
   </a>
 </li>
@@ -318,8 +327,12 @@
   <!-- Bootstrap JS Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
   
+  
   <!-- Custom JS -->
   <script>
+    // setTimeout(function() {
+    // someFunction();
+    // }, 1000);
     document.addEventListener('DOMContentLoaded', function() {
       // Sidebar toggle for mobile
       const sidebarToggle = document.getElementById('sidebarToggle');

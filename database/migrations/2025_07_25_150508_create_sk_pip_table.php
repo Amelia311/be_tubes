@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->string('nama_sk');
             $table->year('tahun');
             $table->unsignedTinyInteger('semester');
+            // $table->enum('semester', ['1', '2']);
             $table->string('file_path');
             $table->timestamps();
         });

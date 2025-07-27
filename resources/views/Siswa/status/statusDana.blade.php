@@ -198,6 +198,9 @@
 </style>
 @endpush
 
+@php
+    $status = $status ?? 'Belum Cair';
+@endphp
 @section('content')
 <main class="container py-5">
     <div class="row justify-content-center">
@@ -210,47 +213,75 @@
                 </div>
                 
                 <div class="progress-tracker">
-                    <div class="status-step {{ $status === 'Belum Ditarik' ? 'active' : '' }} animate__animated animate__fadeInLeft" id="step-belum">
+                    <div class="status-step {{ $status === 'Belum Cair' ? 'active' : '' }} animate__animated animate__fadeInLeft" id="step-belum">
                         <div class="circle">
                             <i class="fas fa-clock"></i>
                         </div>
-                        <p>Belum Ditarik</p>
+                        <p>Belum Cair</p>
                     </div>
                     
                     <div class="status-step {{ $status === 'Sedang Diproses' ? 'active' : '' }} animate__animated animate__fadeIn animate-delay-1" id="step-proses">
                         <div class="circle">
                             <i class="fas fa-spinner"></i>
                         </div>
-                        <p>Sedang Diproses</p>
+                        <p>Belum Tarik Dana</p>
                     </div>
                     
                     <div class="status-step {{ $status === 'Sudah Ditarik' ? 'active' : '' }} animate__animated animate__fadeInRight animate-delay-2" id="step-sudah">
                         <div class="circle">
                             <i class="fas fa-check-circle"></i>
                         </div>
-                        <p>Sudah Ditarik</p>
+                        <p>Sudah Tarik Dana</p>
                     </div>
                 </div>
-                
-                <style>
-                    .progress-tracker::after {
-                        width: {{ $status === 'Belum Ditarik' ? '0%' : ($status === 'Sedang Diproses' ? '50%' : '100%') }};
-                    }
-                </style>
             </div>
             
-            <!-- Detail Penarikan Card - Empty State -->
-            <div class="card-container animate__animated animate__fadeIn animate-delay-1">
-                <div class="section-header">
-                    <i class="fas fa-info-circle"></i>
-                    <h2>Detail Penarikan Dana</h2>
-                </div>
-                
-                <div class="empty-detail">
-                    <i class="fas fa-wallet"></i>
-                    <p>Anda belum melakukan penarikan dana</p>
-                </div>
-            </div>
+<!-- Detail Penarikan Card - Dummy Data -->
+<!-- Detail Penarikan Dana Card -->
+<div class="card-container animate__animated animate__fadeIn animate-delay-1">
+    <div class="section-header mb-4">
+        <i class="fas fa-info-circle"></i>
+        <h2>Detail Penarikan Dana</h2>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped align-middle text-nowrap">
+            <thead class="table-primary text-center align-middle">
+                <tr>
+                    <th scope="col">Nominal Dana</th>
+                    <th scope="col">Tanggal Penarikan</th>
+                    <th scope="col">Metode Penarikan</th>
+                    <th scope="col">Nomor Rekening</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                <tr>
+                    <td>Rp 500.000</td>
+                    <td>20 Juli 2025</td>
+                    <td>BNI</td>
+                    <td>1234567890</td>
+                </tr>
+                <tr>
+                    <td>Rp 500.000</td>
+                    <td>15 Mei 2025</td>
+                    <td>BNI</td>
+                    <td>1234567890</td>
+                </tr>
+                <tr>
+                    <td>Rp 300.000</td>
+                    <td>01 April 2025</td>
+                    <td>BNI</td>
+                    <td>1234567890</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
             
             <!-- Confirmation Button - With Proper Spacing -->
             <div class="text-center animate__animated animate__fadeIn animate-delay-2">

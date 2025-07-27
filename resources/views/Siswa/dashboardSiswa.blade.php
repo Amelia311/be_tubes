@@ -289,12 +289,47 @@
             </table>
         </div>
         @else
-        <div class="text-center py-5 text-muted animate__animated animate__fadeIn">
-            <i class="far fa-folder-open fa-4x mb-3"></i>
-            <h5>Belum ada aktivitas terbaru</h5>
-            <p>Riwayat aktivitas akan tampil di sini setelah ada pencairan atau pembaruan data.</p>
-        </div>
-        @endif
+<!-- Dummy Data Sementara -->
+<div class="table-responsive">
+    <table class="table table-borderless align-middle shadow-sm">
+        <thead class="table-light text-center"> <!-- HEADER DIBUAT TENGAH -->
+            <tr>
+                <th style="min-width: 140px;">Tanggal</th>
+                <th>Judul</th>
+                <th>Deskripsi</th>
+                <th style="width: 150px;">Keterangan</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="align-middle">
+                <td><i class="far fa-calendar-alt me-1 text-primary"></i> 25 Jul 2025</td>
+                <td><strong>Dana Berhasil Ditarik</strong></td>
+                <td>Penarikan dana Anda telah berhasil dikonfirmasi dan pencairan selesai.</td>
+                <td><span class="badge bg-success">1 hari yang lalu</span></td>
+            </tr>
+            <tr class="align-middle">
+                <td><i class="far fa-calendar-alt me-1 text-primary"></i> 23 Jul 2025</td>
+                <td><strong>Dana Telah Ditransfer Pemerintah</strong></td>
+                <td>Dana telah ditransfer oleh pemerintah ke rekening Anda. Silakan tarik dana melalui bank.</td>
+                <td><span class="badge bg-success">3 hari yang lalu</span></td>
+            </tr>
+            <tr class="align-middle">
+                <td><i class="far fa-calendar-alt me-1 text-primary"></i> 10 Jul 2025</td>
+                <td><strong>SK Nominasi Penerima Bantuan</strong></td>
+                <td>Anda masuk daftar nominasi penerima bantuan Indonesia Pintar.</td>
+                <td><a href="#" class="btn btn-sm btn-outline-primary">Unduh Disini</a></td>
+            </tr>
+            <tr class="align-middle">
+                <td><i class="far fa-calendar-alt me-1 text-primary"></i> 01 Jul 2025</td>
+                <td><strong>SK Pemerintah Terbit</strong></td>
+                <td>Surat Keputusan penerima bantuan telah diterbitkan pusat.</td>
+                <td><a href="#" class="btn btn-sm btn-outline-primary">Lihat Detail</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+@endif
+
     </section>
 
 </div>

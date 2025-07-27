@@ -212,7 +212,7 @@ public function laporStore(Request $request)
     public function statusDana()
     {
         // Mock data - replace with your actual data logic
-        $status = 'Sedang Diproses'; // Contoh status: 'Belum Ditarik', 'Sedang Diproses', 'Sudah Ditarik'
+        $status = 'Belum Cair'; // Contoh status: 'Belum Ditarik', 'Sedang Diproses', 'Sudah Ditarik'
         
         $riwayat = [
             'X' => [
@@ -238,6 +238,7 @@ public function laporStore(Request $request)
                 ]
             ]
         ];
+
 
         return view('Siswa.status.statusDana', compact('status', 'riwayat'));
     }

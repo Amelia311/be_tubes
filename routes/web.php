@@ -17,7 +17,12 @@ Route::get('/', function () {
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::post('/sk-pip', [SkPipController::class, 'store'])->name('skpip.store');
+// Route::post('/skpip', [SkPipController::class, 'store'])->name('skpip.store');
+// Route::post('/skpip/store', [SkPipController::class, 'store'])->name('skpip.store');
+// Route::resource('skpip', SkPipController::class);
+Route::post('/skpip', [SkPipController::class, 'store'])->name('skpip.store');
+
+
 
 // Login dan logout
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
