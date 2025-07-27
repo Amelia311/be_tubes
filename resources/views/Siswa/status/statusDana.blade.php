@@ -363,6 +363,110 @@
     background-color: rgba(76, 201, 240, 0.1);
     color: var(--success-color);
 }
+/* Riwayat Penarikan Styles */
+.semester-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.semester-header {
+    border-bottom: 1px solid rgba(67, 97, 238, 0.2);
+}
+
+/* Ganti .detail-table dengan ini */
+.detail-container {
+    display: none;
+    margin-top: 20px;
+}
+
+.detail-container.show {
+    display: block;
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.semester-detail {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.detail-row {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #495057;
+    width: 160px;
+    flex-shrink: 0;
+}
+
+.detail-value {
+    color: #212529;
+}
+.semester-header {
+    background-color: #4361ee;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+/* Animasi untuk tabel detail */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.detail-table.show {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.btn-riwayat {
+    background: white;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s;
+}
+
+.btn-riwayat:hover {
+    background: rgba(67, 97, 238, 0.1);
+}
+
+/* Dropdown Styles */
+.dropdown-menu {
+    border: 1px solid rgba(67, 97, 238, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 0.5rem 0;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1.5rem;
+    transition: all 0.2s;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: rgba(67, 97, 238, 0.1);
+    color: var(--primary-color);
+}
+
+.dropdown-item.active {
+    background-color: rgba(67, 97, 238, 0.2);
+    color: var(--primary-color);
+    font-weight: 500;
+}
 </style>
 @endpush
 
@@ -461,73 +565,109 @@
                 </a>
             </div>
             
-            <!-- Riwayat Penarikan Card - With Proper Spacing -->
-            <div class="card-container animate__animated animate__fadeIn animate-delay-3" style="margin-top: 24px;">
-                <div class="section-header">
-                    <i class="fas fa-history"></i>
-                    <h2>Riwayat Penarikan</h2>
-                </div>
-                
-<div class="riwayat-content">
-    <!-- Ganti empty-riwayat dengan ini -->
-    <div class="detail-penarikan">
-        <!-- Semester 1 -->
-        <h5 class="semester-title mt-4 mb-3">
-            <i class="fas fa-calendar-alt me-2 text-primary"></i> Semester 1
-        </h5>
-        <table class="detail-table mb-4">
-            <thead>
-                <tr>
-                    <th>Nominal Dana</th>
-                    <th>Tanggal Penarikan</th>
-                    <th>Metode Penarikan</th>
-                    <th>Nomor Rekening</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="fw-bold text-success">Rp1.200.000</td>
-                    <td>27 Juli 2024</td>
-                    <td><span class="method-badge">BNI</span></td>
-                    <td>1234567890</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- Semester 2 -->
-        <h5 class="semester-title mt-4 mb-3">
-            <i class="fas fa-calendar-alt me-2 text-primary"></i> Semester 2
-        </h5>
-        <table class="detail-table">
-            <thead>
-                <tr>
-                    <th>Nominal Dana</th>
-                    <th>Tanggal Penarikan</th>
-                    <th>Nama Rekening</th>
-                    <th>Nomor Rekening</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="fw-bold text-success">Rp1.200.000</td>
-                    <td>15 Juli 2025/td>
-                    <td><span class="method-badge">BNI</span></td>
-                    <td>1234567890</td>
-                </tr>
-            </tbody>
-        </table>
+<div class="card-container animate__animated animate__fadeIn animate-delay-3" style="margin-top: 24px;">
+    <div class="section-header">
+        <i class="fas fa-history"></i>
+        <h2>Riwayat Penarikan</h2>
     </div>
-</div>
+    
+    <div class="riwayat-container">
+        <div class="riwayat-header">
+            <div></div>
+            <div>
+                <button class="btn btn-riwayat me-2">
+                    <i class="fas fa-filter"></i> Pilih Kelas
+                </button>
+                <button id="lihatDetailBtn" class="btn btn-riwayat">
+                    <i class="fas fa-eye"></i> Lihat Detail
+                </button>
+            </div>
+        </div>
+        
+        <!-- Konten default saat belum diklik -->
+        <div id="emptyRiwayat" class="empty-riwayat text-center py-4">
+            <i class="fas fa-inbox mb-2" style="font-size: 2rem; color: #adb5bd;"></i>
+            <p class="text-muted m-0" style="font-size: 0.95rem;">Klik "Lihat Detail" untuk melihat riwayat penarikan</p>
+        </div>
+        
+        <!-- Detail yang akan muncul saat diklik -->
+        <div id="detailRiwayat" class="detail-container">
+            <div class="semester-header">Semester I</div>
+            <div class="semester-detail">
+                <div class="detail-row">
+                    <div class="detail-label">Nominal Dana</div>
+                    <div class="detail-value">Rp 1.000.000,-</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Tanggal Penarikan</div>
+                    <div class="detail-value">11 Juli 2025</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Nama Rekening</div>
+                    <div class="detail-value">Bank BNI</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Nomor Rekening</div>
+                    <div class="detail-value">1234567890</div>
+                </div>
+            </div>
+            
+            <div class="semester-header mt-4">Semester II</div>
+            <div class="semester-detail">
+                <div class="detail-row">
+                    <div class="detail-label">Nominal Dana</div>
+                    <div class="detail-value">Rp 1.000.000,-</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Tanggal Penarikan</div>
+                    <div class="detail-value">11 Juli 2025</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Nama Rekening</div>
+                    <div class="detail-value">Bank BNI</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Nomor Rekening</div>
+                    <div class="detail-value">1234567890</div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </main>
 @endsection
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    // Tambahkan di bagian scripts
+document.getElementById('lihatDetailBtn').addEventListener('click', function() {
+    const emptyRiwayat = document.getElementById('emptyRiwayat');
+    const detailRiwayat = document.getElementById('detailRiwayat');
+    const tables = document.querySelectorAll('.detail-table');
+    
+    if (detailRiwayat.style.display === 'none') {
+        emptyRiwayat.style.display = 'none';
+        detailRiwayat.style.display = 'block';
+        
+        // Animasi untuk menampilkan tabel satu per satu
+        tables.forEach((table, index) => {
+            setTimeout(() => {
+                table.classList.add('show');
+            }, index * 200);
+        });
+        
+        this.innerHTML = '<i class="fas fa-eye-slash"></i> Sembunyikan Detail';
+    } else {
+        tables.forEach(table => table.classList.remove('show'));
+        setTimeout(() => {
+            detailRiwayat.style.display = 'none';
+            emptyRiwayat.style.display = 'block';
+        }, 300);
+        
+        this.innerHTML = '<i class="fas fa-eye"></i> Lihat Detail';
+    }
+});
     document.addEventListener('DOMContentLoaded', function() {
         const animateElements = document.querySelectorAll('.animate__animated');
         const observer = new IntersectionObserver((entries) => {
@@ -565,6 +705,29 @@ document.querySelector('.btn-riwayat .fa-eye').closest('button').addEventListene
             icon.classList.add('fa-eye');
         }
     }
+    // Tambahkan di dalam DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Dropdown kelas
+    const dropdownKelas = new bootstrap.Dropdown(document.getElementById('dropdownKelas'));
+    
+    // Toggle lihat detail
+    const btnLihatDetail = document.querySelector('.btn-riwayat .fa-eye').closest('button');
+    const riwayatContent = document.querySelector('.riwayat-content');
+    
+    // Sembunyikan detail awal
+    riwayatContent.style.display = 'none';
+    
+    btnLihatDetail.addEventListener('click', function() {
+        if (riwayatContent.style.display === 'none') {
+            riwayatContent.style.display = 'block';
+            this.innerHTML = '<i class="fas fa-eye-slash me-2"></i> Sembunyikan Detail';
+        } else {
+            riwayatContent.style.display = 'none';
+            this.innerHTML = '<i class="fas fa-eye me-2"></i> Lihat Detail';
+        }
+    });
+});
+    });
     });
     
 </script>
