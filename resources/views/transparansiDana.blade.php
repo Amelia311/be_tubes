@@ -529,58 +529,58 @@
 </head>
 <body>
 <div class="container pt-3">
-  <a href="{{ route('siswa.dashboard') }}" class="btn-back-icon animate__animated animate__fadeInLeft">
+  <a href="{{ route('siswa.dashboard') }}" class="btn-back-icon animate_animated animate_fadeInLeft">
     <i class="fas fa-arrow-left"></i>
   </a>
 </div>
   <main class="container py-4">
     <!-- Hero Section -->
-    <div class="hero-section animate__animated animate__fadeIn">
+    <div class="hero-section animate_animated animate_fadeIn">
       <div class="particles" id="particles"></div>
-      <h1 class="hero-title animate__animated animate__fadeInDown">Transparansi Dana Program Indonesia Pintar SMK Mashalihul Murshalat</h1>
-      <p class="hero-subtitle animate__animated animate__fadeIn animate-delay-1">
+      <h1 class="hero-title animate_animated animate_fadeInDown">Transparansi Dana Program Indonesia Pintar SMK Mashalihul Murshalat</h1>
+      <p class="hero-subtitle animate_animated animate_fadeIn animate-delay-1">
         Platform transparansi pencairan dana Bantuan Indonesia Pintar berbasis blockchain
       </p>
     </div>
 
     <!-- Statistik Cards -->
     <div class="stat-cards">
-      <div class="stat-card animate__animated animate__fadeInLeft">
-        <div class="stat-icon animate__animated animate__bounceIn animate-delay-1">
+      <div class="stat-card animate_animated animate_fadeInLeft">
+        <div class="stat-icon animate_animated animate_bounceIn animate-delay-1">
           <i class="fas fa-money-bill-wave animate-float"></i>
         </div>
         <div>
           <div class="stat-label">Total Dana</div>
-          <div class="stat-value animate__animated animate__fadeIn animate-delay-2">Rp{{ number_format($totalDana, 0, ',', '.') }}</div>
+          <div class="stat-value animate_animated animate_fadeIn animate-delay-2">Rp{{ number_format($totalDana, 0, ',', '.') }}</div>
           <div class="stat-desc">Total dana Diterima SIswa</div>
         </div>
       </div>
       
-      <div class="stat-card animate__animated animate__fadeIn animate-delay-1">
-        <div class="stat-icon animate__animated animate__bounceIn animate-delay-2">
+      <div class="stat-card animate_animated animate_fadeIn animate-delay-1">
+        <div class="stat-icon animate_animated animate_bounceIn animate-delay-2">
           <i class="fas fa-user-friends animate-pulse"></i>
         </div>
         <div>
           <div class="stat-label">Jumlah Penerima</div>
-          <div class="stat-value animate__animated animate__fadeIn animate-delay-3">{{ $jumlahPenerima }} siswa</div>
+          <div class="stat-value animate_animated animate_fadeIn animate-delay-3">{{ $jumlahPenerima }} siswa</div>
           <div class="stat-desc">Siswa penerima manfaat PIP</div>
         </div>
       </div>
       
-      <div class="stat-card animate__animated animate__fadeInRight animate-delay-2">
-        <div class="stat-icon animate__animated animate__bounceIn animate-delay-3">
+      <div class="stat-card animate_animated animate_fadeInRight animate-delay-2">
+        <div class="stat-icon animate_animated animate_bounceIn animate-delay-3">
           <i class="fas fa-calendar-alt animate-float"></i>
         </div>
         <div>
           <div class="stat-label">Semester</div>
-          <div class="stat-value animate__animated animate__fadeIn animate-delay-4">{{ $SemesterTerbaru ?? 'Belum ada' }}</div>
+          <div class="stat-value animate_animated animate_fadeIn animate-delay-4">{{ $SemesterTerbaru ?? 'Belum ada' }}</div>
           <div class="stat-desc">Semester penarikan</div>
         </div>
       </div>
     </div>
 
     <!-- Info Pencairan Terbaru -->
-<div class="section-container animate__animated animate__fadeIn animate-delay-1">
+<div class="section-container animate_animated animate_fadeIn animate-delay-1">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="section-title">
       <i class="fas fa-bell"></i> Info Terbaru Pencairan Dana
@@ -600,7 +600,7 @@
       </thead>
       <tbody>
         @forelse($infoTerbaru as $index => $info)
-          <tr class="animate__animated animate__fadeIn">
+          <tr class="animate_animated animate_fadeIn">
             <td>{{ $index + 1 }}</td>
             <td>{{ $info->siswa->nama ?? 'N/A' }}</td>
             <td>Rp{{ number_format($info->jumlah, 0, ',', '.') }}</td>
@@ -625,7 +625,7 @@
 </div>
 
     <!-- Laporan Ketidaksesuaian -->
-<div class="section-container animate__animated animate__fadeIn animate-delay-2">
+<div class="section-container animate_animated animate_fadeIn animate-delay-2">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="section-title">
       <i class="fas fa-exclamation-triangle"></i> Laporan Ketidaksesuaian
@@ -645,7 +645,7 @@
       </thead>
       <tbody>
         @forelse($laporan as $index => $lapor)
-          <tr class="animate__animated animate__fadeIn">
+          <tr class="animate_animated animate_fadeIn">
             <td>{{ $index + 1 }}</td>
             <td>{{ $lapor->pencairan->siswa->nama ?? 'Tidak diketahui' }}</td>
             <td>"{{ $lapor->pesan }}"</td>
@@ -682,7 +682,7 @@
   </div>
 </div>
 
-    <div class="footer-info animate__animated animate__fadeIn animate-delay-3">
+    <div class="footer-info animate_animated animate_fadeIn animate-delay-3">
       Info lebih lanjut kunjungi situs resmi 
       <a href="https://pip.kemendikdasmen.go.id" target="_blank" rel="noopener noreferrer">pip.kemendikdasmen.go.id</a>
     </div>
@@ -718,12 +718,12 @@
         const duration = Math.random() * 10 + 10;
         const opacity = Math.random() * 0.5 + 0.1;
         
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${posX}%`;
-        particle.style.top = `${posY}%`;
-        particle.style.animationDelay = `${delay}s`;
-        particle.style.animationDuration = `${duration}s`;
+        particle.style.width = ${size}px;
+        particle.style.height = ${size}px;
+        particle.style.left = ${posX}%;
+        particle.style.top = ${posY}%;
+        particle.style.animationDelay = ${delay}s;
+        particle.style.animationDuration = ${duration}s;
         particle.style.opacity = opacity;
         
         container.appendChild(particle);
