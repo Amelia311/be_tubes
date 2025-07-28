@@ -467,6 +467,25 @@
     color: var(--primary-color);
     font-weight: 500;
 }
+.btn-kelas {
+    background: white;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    margin-right: 8px;
+    transition: all 0.3s;
+}
+
+.btn-kelas:hover {
+    background: rgba(67, 97, 238, 0.1);
+}
+
+.btn-kelas.active {
+    background: var(--primary-color);
+    color: white;
+}
 </style>
 @endpush
 
@@ -572,23 +591,27 @@
     </div>
     
     <div class="riwayat-container">
-        <div class="riwayat-header">
-            <div></div>
-            <div>
-                <button class="btn btn-riwayat me-2">
-                    <i class="fas fa-filter"></i> Pilih Kelas
-                </button>
-                <button id="lihatDetailBtn" class="btn btn-riwayat">
-                    <i class="fas fa-eye"></i> Lihat Detail
-                </button>
-            </div>
-        </div>
+<div class="riwayat-header">
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-kelas active" data-kelas="X">Kelas X</button>
+        <button type="button" class="btn btn-kelas" data-kelas="XI">Kelas XI</button>
+        <button type="button" class="btn btn-kelas" data-kelas="XII">Kelas XII</button>
+    </div>
+    <div>
+        <button id="lihatDetailBtn" class="btn btn-riwayat">
+            <i class="fas fa-eye"></i> Lihat Detail
+        </button>
+    </div>
+</div>
         
         <!-- Konten default saat belum diklik -->
         <div id="emptyRiwayat" class="empty-riwayat text-center py-4">
             <i class="fas fa-inbox mb-2" style="font-size: 2rem; color: #adb5bd;"></i>
             <p class="text-muted m-0" style="font-size: 0.95rem;">Klik "Lihat Detail" untuk melihat riwayat penarikan</p>
         </div>
+        <div id="detailRiwayat" class="detail-container">
+    <div id="detailContent"></div>
+</div>
         
         <!-- Detail yang akan muncul saat diklik -->
         <div id="detailRiwayat" class="detail-container">
@@ -640,95 +663,129 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Tambahkan di bagian scripts
-document.getElementById('lihatDetailBtn').addEventListener('click', function() {
-    const emptyRiwayat = document.getElementById('emptyRiwayat');
-    const detailRiwayat = document.getElementById('detailRiwayat');
-    const tables = document.querySelectorAll('.detail-table');
-    
-    if (detailRiwayat.style.display === 'none') {
-        emptyRiwayat.style.display = 'none';
-        detailRiwayat.style.display = 'block';
-        
-        // Animasi untuk menampilkan tabel satu per satu
-        tables.forEach((table, index) => {
-            setTimeout(() => {
-                table.classList.add('show');
-            }, index * 200);
+document.addEventListener('DOMContentLoaded', function() {
+    // Animasi untuk elemen yang muncul saat scroll
+    const animateElements = document.querySelectorAll('.animate__animated');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const animation = entry.target.getAttribute('class').match(/animate__\w+/)[0];
+                entry.target.classList.add(animation);
+                observer.unobserve(entry.target);
+            }
         });
+    }, { threshold: 0.1 });
+    
+    animateElements.forEach(el => observer.observe(el));
+    
+    // Animasi delay untuk baris tabel
+    const tableRows = document.querySelectorAll('#riwayat-table tr');
+    tableRows.forEach((row, index) => {
+        row.style.animationDelay = `${index * 0.1}s`;
+    });
+    
+    // Handle tombol kelas
+    const kelasButtons = document.querySelectorAll('.btn-kelas');
+    let selectedKelas = 'X'; // Default value
+    
+    kelasButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            kelasButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            // Update selected kelas
+            selectedKelas = this.dataset.kelas;
+            console.log('Kelas dipilih:', selectedKelas);
+            
+            // Sembunyikan detail saat ganti kelas
+            document.getElementById('detailRiwayat').style.display = 'none';
+            document.getElementById('emptyRiwayat').style.display = 'block';
+            document.getElementById('lihatDetailBtn').innerHTML = '<i class="fas fa-eye"></i> Lihat Detail';
+        });
+    });
+    
+    // Handle tombol lihat detail
+    document.getElementById('lihatDetailBtn').addEventListener('click', function() {
+        const emptyRiwayat = document.getElementById('emptyRiwayat');
+        const detailRiwayat = document.getElementById('detailRiwayat');
+        const detailContent = document.getElementById('detailContent');
         
-        this.innerHTML = '<i class="fas fa-eye-slash"></i> Sembunyikan Detail';
-    } else {
-        tables.forEach(table => table.classList.remove('show'));
-        setTimeout(() => {
+        if (detailRiwayat.style.display === 'none' || detailRiwayat.style.display === '') {
+            // Pastikan kelas sudah dipilih
+            if (!selectedKelas) {
+                alert('Silakan pilih kelas terlebih dahulu');
+                return;
+            }
+            
+            // Cek jika kelas XI atau XII
+            if (selectedKelas === 'XI' || selectedKelas === 'XII') {
+                detailContent.innerHTML = `
+                    <div class="empty-state text-center py-5">
+                        <i class="fas fa-wallet mb-3" style="font-size: 2.5rem; color: #adb5bd;"></i>
+                        <h5 class="mb-2 fw-semibold">Belum Ada Pencairan</h5>
+                        <p class="text-muted">Tidak ada data pencairan untuk kelas ${selectedKelas}</p>
+                    </div>
+                `;
+            } else {
+                // Isi dengan data riwayat untuk kelas X
+                detailContent.innerHTML = `
+                    <div class="semester-header">Semester I</div>
+                    <div class="semester-detail">
+                        <div class="detail-row">
+                            <div class="detail-label">Nominal Dana</div>
+                            <div class="detail-value">Rp 1.000.000,-</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Tanggal Penarikan</div>
+                            <div class="detail-value">11 Juli 2025</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Nama Rekening</div>
+                            <div class="detail-value">Bank BNI</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Nomor Rekening</div>
+                            <div class="detail-value">1234567890</div>
+                        </div>
+                    </div>
+                    
+                    <div class="semester-header mt-4">Semester II</div>
+                    <div class="semester-detail">
+                        <div class="detail-row">
+                            <div class="detail-label">Nominal Dana</div>
+                            <div class="detail-value">Rp 1.000.000,-</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Tanggal Penarikan</div>
+                            <div class="detail-value">11 Juli 2025</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Nama Rekening</div>
+                            <div class="detail-value">Bank BNI</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Nomor Rekening</div>
+                            <div class="detail-value">1234567890</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            emptyRiwayat.style.display = 'none';
+            detailRiwayat.style.display = 'block';
+            this.innerHTML = '<i class="fas fa-eye-slash"></i> Sembunyikan Detail';
+            
+        } else {
             detailRiwayat.style.display = 'none';
             emptyRiwayat.style.display = 'block';
-        }, 300);
-        
-        this.innerHTML = '<i class="fas fa-eye"></i> Lihat Detail';
-    }
-});
-    document.addEventListener('DOMContentLoaded', function() {
-        const animateElements = document.querySelectorAll('.animate__animated');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const animation = entry.target.getAttribute('class').match(/animate__\w+/)[0];
-                    entry.target.classList.add(animation);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        animateElements.forEach(el => observer.observe(el));
-        // Tambahkan ini di dalam DOMContentLoaded
-const tableRows = document.querySelectorAll('#riwayat-table tr');
-tableRows.forEach((row, index) => {
-    row.style.animationDelay = `${index * 0.1}s`;
-});
-// Tambahkan ini di dalam DOMContentLoaded
-document.querySelector('.btn-riwayat .fa-eye').closest('button').addEventListener('click', function() {
-    const detailSection = document.querySelector('.detail-penarikan');
-    const emptyState = document.querySelector('.empty-riwayat');
-    
-    if (detailSection) {
-        detailSection.classList.toggle('d-none');
-        emptyState.classList.toggle('d-none');
-        
-        // Ganti icon eye/open-eye
-        const icon = this.querySelector('i');
-        if (icon.classList.contains('fa-eye')) {
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-        }
-    }
-    // Tambahkan di dalam DOMContentLoaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Dropdown kelas
-    const dropdownKelas = new bootstrap.Dropdown(document.getElementById('dropdownKelas'));
-    
-    // Toggle lihat detail
-    const btnLihatDetail = document.querySelector('.btn-riwayat .fa-eye').closest('button');
-    const riwayatContent = document.querySelector('.riwayat-content');
-    
-    // Sembunyikan detail awal
-    riwayatContent.style.display = 'none';
-    
-    btnLihatDetail.addEventListener('click', function() {
-        if (riwayatContent.style.display === 'none') {
-            riwayatContent.style.display = 'block';
-            this.innerHTML = '<i class="fas fa-eye-slash me-2"></i> Sembunyikan Detail';
-        } else {
-            riwayatContent.style.display = 'none';
-            this.innerHTML = '<i class="fas fa-eye me-2"></i> Lihat Detail';
+            this.innerHTML = '<i class="fas fa-eye"></i> Lihat Detail';
         }
     });
-});
-    });
-    });
     
+    // Set kelas X sebagai default aktif
+    document.querySelector('.btn-kelas[data-kelas="X"]').classList.add('active');
+});
 </script>
 @endpush
