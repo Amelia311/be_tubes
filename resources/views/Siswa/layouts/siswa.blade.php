@@ -234,15 +234,14 @@
             <a class="nav-link {{ request()->routeIs('transparansi.publik') ? 'active' : '' }}" href="{{ route('transparansi.publik') }}">
               <i class="fas fa-chart-pie"></i> Transparansi
             </a>
-          </li>
-          <li class="nav-item animate__animated animate__fadeInDown" style="animation-delay: 0.6s;">
-            <form method="POST" action="{{ route('logout') }}" class="d-flex">
-              @csrf
-              <button type="submit" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i> Logout
-              </button>
-            </form>
-          </li>
+<li class="nav-item animate__animated animate__fadeInDown" style="animation-delay: 0.6s;">
+  <form method="POST" action="{{ route('logout') }}" class="d-flex">
+    @csrf
+    <button type="submit" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+  </form>
+</li>
         </ul>
       </div>
     </div>
@@ -263,6 +262,7 @@
   
   <!-- Font Awesome JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
   <!-- Scroll Animation -->
   <script>
@@ -293,6 +293,34 @@
       `;
       document.head.appendChild(style);
     });
+    document.addEventListener('DOMContentLoaded', function() {
+  // Konfirmasi logout
+  const logoutForms = document.querySelectorAll('form[action="{{ route("logout") }}"]');
+  
+  logoutForms.forEach(form => {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      Swal.fire({
+        title: 'Konfirmasi Logout',
+        text: "Apakah Anda yakin ingin logout?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#4361ee',
+        cancelButtonColor: '#ef233c',
+        confirmButtonText: 'Ya, Logout',
+        cancelButtonText: 'Batal',
+        allowOutsideClick: false
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Submit form jika dikonfirmasi
+          this.submit();
+        }
+      });
+    });
+  });
+});
+</script>
   </script>
   
   @stack('scripts')
