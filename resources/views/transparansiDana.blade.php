@@ -884,7 +884,7 @@
               <strong>Rp{{ number_format($info->jumlah, 0, ',', '.') }}</strong>
             </div>
             <div class="notification-time">
-              <i class="far fa-clock"></i> {{ \Carbon\Carbon::parse($info->tanggal_cair)->format('d M Y H:i') }}
+              <i class="far fa-clock"></i> {{ \Carbon\Carbon::parse($info->tanggal_cair)->format('d M Y') }}
             </div>
           </div>
         </div>

@@ -206,15 +206,39 @@
 .modal-backdrop.show {
     z-index: 1070 !important;
 }
-<style>
+
     /* Style khusus untuk modal konfirmasi */
-    .modal-override .modal-content {
+    /* .modal-override .modal-content {
         max-width: 450px;
         margin: 0 auto;
         border: none;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    } */
+
+    .modal-override .modal-content {
+        max-width: 450px;
+        border: none;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     }
-    
+
+    /* Paksa modal tampil full-center di viewport */
+    /* .modal-override .modal-dialog {
+        margin: 0 auto;
+        top: 50%;
+        transform: translateY(-50%);
+        position: fixed;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    } */
+
+    .modal.show .modal-dialog {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: fixed;
+        margin: 0;
+    }
+
     .modal-override .modal-header {
         padding: 1.5rem 1.5rem 0;
     }
@@ -330,7 +354,6 @@
             </table>
         </div>
     </div>
-</div>
 
 <!-- Modal Konfirmasi -->
 <div class="modal fade modal-override" id="modalKonfirmasi" tabindex="-1" aria-labelledby="modalKonfirmasiLabel" aria-hidden="true" data-bs-backdrop="static">
@@ -382,7 +405,8 @@
         </div>
     </div>
 </div>
-
+</div>
+@endsection
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
@@ -535,10 +559,7 @@
     document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('modalKonfirmasi');
     document.body.appendChild(modal); // pastikan modal tidak dibungkus elemen terbatas
-});
-
-    
+});    
 </script>
 @endpush
 
-@endsection

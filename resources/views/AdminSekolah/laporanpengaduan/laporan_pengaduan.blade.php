@@ -172,6 +172,39 @@
     }
 
     /* Konfirmasi Modal */
+
+    /* Paksa modal konfirmasi keluar dari container */
+/* Hanya untuk modal konfirmasi */
+.modal-konfirmasi.modal.show {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1055 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+}
+
+.modal-konfirmasi .modal-dialog {
+    margin: 0 !important;
+    transform: none !important;
+}
+
+
+
+/* #konfirmasiModal.show {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+} */
+
+
     .modal-konfirmasi .modal-content {
         border-radius: 15px;
         overflow: hidden;
@@ -182,19 +215,31 @@
         color: white;
         border-bottom: none;
     }
-    
+/*     
     .modal-konfirmasi .modal-footer {
         border-top: none;
         justify-content: center;
     }
 
+    .modal.show {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .modal.fade .modal-dialog {
+        margin: 0 auto !important;
+        transform: none !important;
+    } */
+
+
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
-    .modal-backdrop {
-    display: none !important;
-}
+    /* .modal-backdrop {
+        display: none !important;
+    } */
 </style>
 @endpush
 
@@ -229,90 +274,52 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Contoh data 1 - Status Diajukan -->
-                    <tr class="animate__animated animate__fadeIn">
-                        <td>1</td>
-                        <td>Siti Nur Aisah</td>
-                        <td>XII</td>
-                        <td>Belum menerima dana PIP</td>
-                        <td>
-                            <a href="#" class="link view-bukti" data-image="https://example.com/bukti1.jpg">
-                                <i class="fas fa-file-image"></i> Lihat Bukti
-                            </a>
-                        </td>
-                        <td>
-                            <select class="form-select form-select-sm tindakan-select" data-pengaduan-id="1">
-                                <option value="diajukan" selected>Diajukan</option>
-                                <option value="diproses">Diproses</option>
-                                <option value="selesai">Selesai</option>
-                            </select>
-                            <button class="btn btn-sm btn-primary mt-2 btn-konfirmasi" style="display: none;">
-                                <i class="fas fa-paper-plane me-1"></i> Konfirmasi
-                            </button>
-                        </td>
-                        <td>
-                            <span class="status-badge status-diajukan">
-                                <i class="fas fa-clock me-1"></i> Diajukan
-                            </span>
-                        </td>
-                    </tr>
-                    
-                    <!-- Contoh data 2 - Status Diproses -->
-                    <tr class="animate__animated animate__fadeIn">
-                        <td>2</td>
-                        <td>Ahmad Rizki</td>
-                        <td>XI</td>
-                        <td>Nominal tidak sesuai</td>
-                        <td>
-                            <a href="#" class="link view-bukti" data-image="https://example.com/bukti2.jpg">
-                                <i class="fas fa-file-image"></i> Lihat Bukti
-                            </a>
-                        </td>
-                        <td>
-                            <select class="form-select form-select-sm tindakan-select" data-pengaduan-id="2">
-                                <option value="diajukan">Diajukan</option>
-                                <option value="diproses" selected>Diproses</option>
-                                <option value="selesai">Selesai</option>
-                            </select>
-                            <button class="btn btn-sm btn-primary mt-2 btn-konfirmasi" style="display: none;">
-                                <i class="fas fa-paper-plane me-1"></i> Konfirmasi
-                            </button>
-                        </td>
-                        <td>
-                            <span class="status-badge status-diproses">
-                                <i class="fas fa-spinner me-1"></i> Diproses
-                            </span>
-                        </td>
-                    </tr>
-                    
-                    <!-- Contoh data 3 - Status Selesai -->
-                    <tr class="animate__animated animate__fadeIn">
-                        <td>3</td>
-                        <td>Budi Santoso</td>
-                        <td>X</td>
-                        <td>Kartu PIP hilang</td>
-                        <td>
-                            <a href="#" class="link view-bukti" data-image="https://example.com/bukti3.jpg">
-                                <i class="fas fa-file-image"></i> Lihat Bukti
-                            </a>
-                        </td>
-                        <td>
-                            <select class="form-select form-select-sm tindakan-select" data-pengaduan-id="3">
-                                <option value="diajukan">Diajukan</option>
-                                <option value="diproses">Diproses</option>
-                                <option value="selesai" selected>Selesai</option>
-                            </select>
-                            <button class="btn btn-sm btn-primary mt-2 btn-konfirmasi" style="display: none;">
-                                <i class="fas fa-paper-plane me-1"></i> Konfirmasi
-                            </button>
-                        </td>
-                        <td>
-                            <span class="status-badge status-selesai">
-                                <i class="fas fa-check-circle me-1"></i> Selesai
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
+    @foreach($pengaduan as $index => $item)
+        <tr class="animate__animated animate__fadeIn">
+            <td>{{ $index+1 }}</td>
+            <td>{{ $item['nama'] }}</td>
+            <td>{{ $item['kelas'] }}</td>
+            <td>{{ $item['pesan'] }}</td>
+            <td>
+                @if(!empty($item['bukti']))
+                    <a href="{{ asset('storage/' . $item['bukti']) }}" class="link view-bukti" target="_blank" data-image="{{ asset('storage/' . $item['bukti']) }}">
+                        <i class="fas fa-file-image"></i> Lihat Bukti
+                    </a>
+                @else
+                    <span class="text-muted">Tidak ada bukti</span>
+                @endif
+            </td>
+            <td>
+            <select class="form-select form-select-sm tindakan-select" 
+        data-id="{{ $item['id'] }}" 
+        data-tipe="{{ $item['tipe'] }}"
+        {{ $item['status'] == 'selesai' ? 'disabled' : '' }}>
+
+                    <option value="diajukan" {{ $item['status'] == 'diajukan' ? 'selected' : '' }}>Diajukan</option>
+                    <option value="diproses" {{ $item['status'] == 'diproses' ? 'selected' : '' }}>Diproses</option>
+                    <option value="selesai" {{ $item['status'] == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                </select>
+                <button class="btn btn-sm btn-primary mt-2 btn-konfirmasi" style="display:none;">
+                    <i class="fas fa-paper-plane me-1"></i> Konfirmasi
+                </button>
+            </td>
+            <td>
+                <span class="status-badge 
+                    @if($item['status'] == 'diajukan') status-diajukan 
+                    @elseif($item['status'] == 'diproses') status-diproses 
+                    @else status-selesai @endif">
+                    <i class="fas 
+                        @if($item['status'] == 'diajukan') fa-clock 
+                        @elseif($item['status'] == 'diproses') fa-spinner 
+                        @else fa-check-circle @endif me-1"></i> 
+                    {{ ucfirst($item['status']) }}
+                </span> 
+            </td>
+        </tr>
+    @endforeach
+</tbody>
+
+
             </table>
         </div>
     </div>
@@ -355,226 +362,74 @@
         </div>
     </div>
 </div>
+@endsection
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.js"></script>
 <script>
-    // Data untuk simulasi
-    let currentPengaduan = null;
-    let newStatus = null;
-    
-    // Fungsi untuk mengirim notifikasi ke siswa (simulasi)
-    function kirimNotifikasiKeSiswa(pengaduanId, statusBaru) {
-        console.log(`Mengirim notifikasi ke siswa untuk pengaduan #${pengaduanId}`);
-        console.log(`Status baru: ${statusBaru}`);
-        // Di implementasi nyata, ini akan berupa AJAX request ke backend
-        // untuk mengirim notifikasi ke siswa melalui email/WhatsApp/dll
-    }
-
-    // Fungsi untuk memastikan semua laporan baru berstatus "Menunggu Konfirmasi"
-    function initializeNewReports() {
-        document.querySelectorAll('.tindakan-select').forEach(select => {
-            const row = select.closest('tr');
-            const statusBadge = row.querySelector('.status-badge');
-            
-            // Jika status belum di-set, set sebagai "Menunggu Konfirmasi"
-            if (!statusBadge.textContent.includes('Diajukan') && 
-                !statusBadge.textContent.includes('Diproses') && 
-                !statusBadge.textContent.includes('Selesai')) {
-                statusBadge.className = 'status-badge status-diajukan';
-                statusBadge.innerHTML = '<i class="fas fa-clock me-1"></i> Menunggu Konfirmasi';
-                select.value = 'diajukan';
-            }
-        });
-    }
-
-    // Fungsi pencarian
-    document.getElementById('searchInput').addEventListener('input', function() {
-        const searchValue = this.value.toLowerCase();
-        const rows = document.querySelectorAll('#pengaduanTable tbody tr');
-        
-        rows.forEach(row => {
-            const nama = row.cells[1].textContent.toLowerCase();
-            const kelas = row.cells[2].textContent.toLowerCase();
-            const masalah = row.cells[3].textContent.toLowerCase();
-            
-            if (nama.includes(searchValue) || kelas.includes(searchValue) || masalah.includes(searchValue)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
-
-    // Fungsi preview bukti
-    document.querySelectorAll('.view-bukti').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const imageUrl = this.getAttribute('data-image');
-            const previewModal = new bootstrap.Modal(document.getElementById('previewImageModal'));
-            
-            document.getElementById('previewImage').src = imageUrl;
-            previewModal.show();
-        });
-    });
-
-    // Inisialisasi image viewer
-    const imageViewer = new Viewer(document.getElementById('previewImage'), {
-        inline: false,
-        toolbar: {
-            zoomIn: 1,
-            zoomOut: 1,
-            oneToOne: 1,
-            reset: 1,
-            rotateLeft: 1,
-            rotateRight: 1,
-            flipHorizontal: 1,
-            flipVertical: 1,
-        },
-    });
-
-    // Fungsi untuk menonaktifkan select jika status selesai
-    function disableCompletedActions() {
-        document.querySelectorAll('.tindakan-select').forEach(select => {
-            const row = select.closest('tr');
-            const statusBadge = row.querySelector('.status-badge');
-            
-            // Jika status sudah selesai, nonaktifkan select
-            if (statusBadge.classList.contains('status-selesai')) {
-                select.disabled = true;
-                select.style.cursor = 'not-allowed';
-                select.style.backgroundColor = '#e9ecef';
-            }
-        });
-    }
-
-    // Panggil fungsi inisialisasi saat pertama kali load
-    initializeNewReports();
-    disableCompletedActions();
-
-    // Fungsi ketika select tindakan diubah
-    document.querySelectorAll('.tindakan-select').forEach(select => {
-        select.addEventListener('change', function() {
-            const row = this.closest('tr');
-            const btnKonfirmasi = row.querySelector('.btn-konfirmasi');
-            const statusBadge = row.querySelector('.status-badge');
-            
-            // Jangan izinkan perubahan jika status sudah selesai
-            if (statusBadge.classList.contains('status-selesai')) {
-                this.value = 'selesai';
-                return;
-            }
-            
-            // Validasi: Tidak bisa mengubah kembali ke status sebelumnya
-            const currentStatus = statusBadge.classList.contains('status-diajukan') ? 'diajukan' : 
-                                statusBadge.classList.contains('status-diproses') ? 'diproses' : 'selesai';
-            
-            if (this.value === 'diajukan' && currentStatus !== 'diajukan') {
-                alert('Tidak bisa mengembalikan status ke "Diajukan"');
-                this.value = currentStatus;
-                return;
-            }
-            
-            if (this.value === 'diproses' && currentStatus === 'selesai') {
-                alert('Tidak bisa mengembalikan status ke "Diproses" dari "Selesai"');
-                this.value = 'selesai';
-                return;
-            }
-            
-            // Tampilkan tombol konfirmasi untuk SEMUA perubahan status
-            btnKonfirmasi.style.display = 'block';
-            
-            // Simpan data pengaduan yang dipilih
-            btnKonfirmasi.setAttribute('data-pengaduan-id', this.getAttribute('data-pengaduan-id'));
-            btnKonfirmasi.setAttribute('data-new-status', this.value);
-        });
-    });
-
-    // Fungsi ketika tombol konfirmasi diklik
-    document.querySelectorAll('.btn-konfirmasi').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const pengaduanId = this.getAttribute('data-pengaduan-id');
-            newStatus = this.getAttribute('data-new-status');
-            
-            // Tampilkan modal konfirmasi
-            const konfirmasiModal = new bootstrap.Modal(document.getElementById('konfirmasiModal'));
-            
-            // Set teks status di modal
-            const statusText = document.getElementById('statusKonfirmasi');
-            if (newStatus === 'diajukan') {
-                statusText.innerHTML = '<span class="status-badge status-diajukan"><i class="fas fa-clock me-1"></i> Diajukan</span>';
-            } else if (newStatus === 'diproses') {
-                statusText.innerHTML = '<span class="status-badge status-diproses"><i class="fas fa-spinner me-1"></i> Diproses</span>';
-            } else {
-                statusText.innerHTML = '<span class="status-badge status-selesai"><i class="fas fa-check-circle me-1"></i> Selesai</span>';
-            }
-            
-            // Simpan data pengaduan yang dipilih
-            currentPengaduan = {
-                id: pengaduanId,
-                newStatus: newStatus
-            };
-            
-            konfirmasiModal.show();
-        });
-    });
-
-    // Fungsi ketika tombol submit di modal konfirmasi diklik
-    document.getElementById('btnSubmitKonfirmasi').addEventListener('click', function() {
-        if (!currentPengaduan) return;
-        
-        const konfirmasiModal = bootstrap.Modal.getInstance(document.getElementById('konfirmasiModal'));
-        
-        // Temukan baris yang sesuai
-        const row = document.querySelector(`tr [data-pengaduan-id="${currentPengaduan.id}"]`).closest('tr');
-        const statusBadge = row.querySelector('.status-badge');
-        const btnKonfirmasi = row.querySelector('.btn-konfirmasi');
-        const selectTindakan = row.querySelector('.tindakan-select');
-        
-        // Update tampilan status
-        statusBadge.className = `status-badge status-${currentPengaduan.newStatus}`;
-        
-        if (currentPengaduan.newStatus === 'diajukan') {
-            statusBadge.innerHTML = '<i class="fas fa-clock me-1"></i> Diajukan';
-        } else if (currentPengaduan.newStatus === 'diproses') {
-            statusBadge.innerHTML = '<i class="fas fa-spinner me-1"></i> Diproses';
+document.querySelectorAll('.tindakan-select').forEach(select => {
+    select.addEventListener('change', function() {
+        const btn = this.nextElementSibling;
+        if (this.disabled) {
+            btn.style.display = 'none';
         } else {
-            statusBadge.innerHTML = '<i class="fas fa-check-circle me-1"></i> Selesai';
-            
-            // Nonaktifkan select jika status selesai
-            selectTindakan.disabled = true;
-            selectTindakan.style.cursor = 'not-allowed';
-            selectTindakan.style.backgroundColor = '#e9ecef';
+            btn.style.display = 'inline-block';
         }
-        
-        // Update nilai select sesuai status baru
-        selectTindakan.value = currentPengaduan.newStatus;
-        
-        // Sembunyikan tombol konfirmasi
-        btnKonfirmasi.style.display = 'none';
-        
-        // Kirim notifikasi ke siswa
-        kirimNotifikasiKeSiswa(currentPengaduan.id, currentPengaduan.newStatus);
-        
-        // Tutup modal dengan benar
-        konfirmasiModal.hide();
-        
-        // Hapus backdrop modal secara manual jika diperlukan
-        const backdrops = document.querySelectorAll('.modal-backdrop');
-        backdrops.forEach(backdrop => backdrop.remove());
-        
-        // Reset body style
-        document.body.classList.remove('modal-open');
-        document.body.style.overflow = '';
-        document.body.style.paddingRight = '';
-        
-        // Tampilkan notifikasi sukses
-        alert(`Status pengaduan #${currentPengaduan.id} berhasil diubah menjadi "${currentPengaduan.newStatus}" dan telah dikirim ke siswa.`);
-        
-        // Di implementasi nyata, di sini akan ada AJAX request ke backend
-        console.log(`Mengupdate status pengaduan ${currentPengaduan.id} menjadi ${currentPengaduan.newStatus}`);
     });
+});
+
+
+document.querySelectorAll('.btn-konfirmasi').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const select = this.previousElementSibling;
+        if (select.disabled) {
+            alert('Status sudah selesai, tidak bisa diubah.');
+            return; // batalkan proses
+        }
+
+        const id = select.dataset.id;
+        const tipe = select.dataset.tipe;
+        const status = select.value;
+
+        // Tampilkan modal konfirmasi
+        document.getElementById('statusKonfirmasi').innerText = status.toUpperCase();
+        const konfirmasiModal = new bootstrap.Modal(document.getElementById('konfirmasiModal'), {
+            backdrop: false
+        });
+        konfirmasiModal.show();
+
+        document.getElementById('btnSubmitKonfirmasi').onclick = function () {
+            let url = '';
+            if (tipe === 'pengaduan') {
+                url = `{{ url('admin/pengaduan') }}/${id}/status`;
+            } else if (tipe === 'laporan') {
+                url = `{{ url('admin/laporan') }}/${id}/status`;
+            }
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status })
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Request gagal');
+                return res.json();
+            })
+            .then(data => {
+                alert(data.message);
+                location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Terjadi kesalahan saat mengupdate status.');
+            });
+        };
+    });
+});
+
 </script>
 @endpush
-@endsection

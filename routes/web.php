@@ -10,6 +10,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AdminSekolahController;
+use App\Http\Controllers\PengaduanController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -17,9 +18,6 @@ Route::get('/', function () {
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-// Route::post('/skpip', [SkPipController::class, 'store'])->name('skpip.store');
-// Route::post('/skpip/store', [SkPipController::class, 'store'])->name('skpip.store');
-// Route::resource('skpip', SkPipController::class);
 Route::post('/skpip', [SkPipController::class, 'store'])->name('skpip.store');
 
 
@@ -86,28 +84,9 @@ Route::post('/api/simpan-blockchain-tx', [PencairanController::class, 'simpanTx'
 Route::post('/siswa/lapor', [LaporanController::class, 'store'])->name('siswa.laporStore');
 Route::get('/transparansi-publik', [PencairanController::class, 'transparansiPublik'])->name('transparansi.publik');
 
+// route untuk Pengaduan
 
-// Route::get('/forgot-password', [ForgotPasswordController::class, 'show'])->name('password.forgot');
-// Route::post('/change-password', [AuthController::class, 'changePassword'])->name('password.change');
-
-
-Route::get('/admin/laporan', function () {
-    $pengaduan = [
-        [
-            'nama' => 'Siti Nur Aisah',
-            'kelas' => '12 IPA 1',
-            'masalah' => 'Belum menerima dana PIP',
-            'bukti' => null,
-        ],
-        [
-            'nama' => 'Ahmad Rizki',
-            'kelas' => '11 IPS 2',
-            'masalah' => 'Nominal tidak sesuai',
-            'bukti' => 'bukti1.jpg',
-        ],
-    ];
-
-    return view('AdminSekolah.laporanpengaduan.laporan_pengaduan', compact('pengaduan'));
-});
-
-// Route::get('/status-dana', [SiswaController::class, 'statusDana'])->name('status-dana');
+    Route::get('/pengaduan', [PengaduanController::class, 'index'])->name('pengaduan.index');
+    // Route::post('/pengaduan/{id}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.updateStatus');
+    Route::post('admin/pengaduan/{id}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.updateStatus');
+    Route::post('admin/laporan/{id}/status', [LaporanController::class, 'updateStatus'])->name('laporan.updateStatus');

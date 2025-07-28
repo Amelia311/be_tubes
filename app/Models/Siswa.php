@@ -16,5 +16,8 @@ class Siswa extends Model
         return $this->hasMany(Pencairan::class);
     }
 
-
+    public function pengaduan()
+    {
+        return $this->hasMany(Pengaduan::class);
+    }
 }

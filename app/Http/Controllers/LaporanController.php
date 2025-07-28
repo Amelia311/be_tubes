@@ -33,4 +33,17 @@ class LaporanController extends Controller
 
         return back()->with('success', 'Laporan berhasil dikirim!');
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:belum dibaca,diproses,selesai'
+        ]);
+
+        $laporan = Laporan::findOrFail($id);
+        $laporan->update(['status' => $request->status]);
+
+        return response()->json(['message' => 'Status laporan berhasil diperbarui']);
+    }
+
 }
