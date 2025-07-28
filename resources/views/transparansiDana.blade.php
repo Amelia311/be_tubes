@@ -817,9 +817,10 @@
 </head>
 <body>
 <div class="container pt-3">
-  <a href="{{ route('siswa.dashboard') }}" class="btn-back-icon animate_animated animate_fadeInLeft">
-    <i class="fas fa-arrow-left"></i>
-  </a>
+<a href="{{ url()->previous() }}" class="btn-back-icon animate_animated animate_fadeInLeft">
+  <i class="fas fa-arrow-left"></i>
+</a>
+
 </div>
   <main class="container py-4">
     <!-- Hero Section -->
