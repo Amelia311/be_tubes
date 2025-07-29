@@ -591,26 +591,30 @@
     </div>
     
     <div class="riwayat-container">
-<div class="riwayat-header">
-    <div class="btn-group" role="group">
-        <button type="button" class="btn btn-kelas active" data-kelas="X">Kelas X</button>
-        <button type="button" class="btn btn-kelas" data-kelas="XI">Kelas XI</button>
-        <button type="button" class="btn btn-kelas" data-kelas="XII">Kelas XII</button>
-    </div>
-    <div>
-        <button id="lihatDetailBtn" class="btn btn-riwayat">
-            <i class="fas fa-eye"></i> Lihat Detail
-        </button>
-    </div>
-</div>
+        <div class="riwayat-header">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-kelas active" data-kelas="X">Kelas X</button>
+                <button type="button" class="btn btn-kelas" data-kelas="XI">Kelas XI</button>
+                <button type="button" class="btn btn-kelas" data-kelas="XII">Kelas XII</button>
+            </div>
+            <div>
+                <button id="lihatDetailBtn" class="btn btn-riwayat">
+                    <i class="fas fa-eye"></i> Lihat Detail
+                </button>
+            </div>
+        </div>
         
         <!-- Konten default saat belum diklik -->
         <div id="emptyRiwayat" class="empty-riwayat text-center py-4">
             <i class="fas fa-inbox mb-2" style="font-size: 2rem; color: #adb5bd;"></i>
             <p class="text-muted m-0" style="font-size: 0.95rem;">Klik "Lihat Detail" untuk melihat riwayat penarikan</p>
         </div>
-        <div id="detailRiwayat" class="detail-container">
-    <div id="detailContent"></div>
+        
+        <!-- Detail yang akan muncul saat diklik -->
+        <div id="detailRiwayat" class="detail-container" style="display: none;">
+            <div id="detailContent"></div>
+        </div>
+    </div>
 </div>
         
         <!-- Detail yang akan muncul saat diklik -->
@@ -785,6 +789,76 @@ document.addEventListener('DOMContentLoaded', function() {
             detailRiwayat.style.display = 'block';
             this.innerHTML = '<i class="fas fa-eye-slash"></i> Sembunyikan Detail';
             
+        } else {
+            detailRiwayat.style.display = 'none';
+            emptyRiwayat.style.display = 'block';
+            this.innerHTML = '<i class="fas fa-eye"></i> Lihat Detail';
+        }
+    });
+    
+    // Set kelas X sebagai default aktif
+    document.querySelector('.btn-kelas[data-kelas="X"]').classList.add('active');
+});
+document.addEventListener('DOMContentLoaded', function() {
+    // ... kode sebelumnya ...
+
+    // Handle tombol lihat detail
+    document.getElementById('lihatDetailBtn').addEventListener('click', function() {
+        const emptyRiwayat = document.getElementById('emptyRiwayat');
+        const detailRiwayat = document.getElementById('detailRiwayat');
+        const detailContent = document.getElementById('detailContent');
+        
+        if (detailRiwayat.style.display === 'none' || detailRiwayat.style.display === '') {
+            // Pastikan kelas sudah dipilih
+            if (!selectedKelas) {
+                alert('Silakan pilih kelas terlebih dahulu');
+                return;
+            }
+            
+            // Ambil data dari variabel PHP yang dikirim dari controller
+            const riwayatData = @json($riwayat);
+            
+            if (riwayatData[selectedKelas] && riwayatData[selectedKelas].length > 0) {
+                let htmlContent = '';
+                
+                riwayatData[selectedKelas].forEach(item => {
+                    htmlContent += `
+                        <div class="semester-header">${item.periode}</div>
+                        <div class="semester-detail">
+                            <div class="detail-row">
+                                <div class="detail-label">Nominal Dana</div>
+                                <div class="detail-value">${item.nominal}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Tanggal Penarikan</div>
+                                <div class="detail-value">${item.tanggal}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Nama Rekening</div>
+                                <div class="detail-value">${item.nama_rekening}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Nomor Rekening</div>
+                                <div class="detail-value">${item.nomor_rekening}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                detailContent.innerHTML = htmlContent;
+            } else {
+                detailContent.innerHTML = `
+                    <div class="empty-state text-center py-5">
+                        <i class="fas fa-wallet mb-3" style="font-size: 2.5rem; color: #adb5bd;"></i>
+                        <h5 class="mb-2 fw-semibold">Belum Ada Pencairan</h5>
+                        <p class="text-muted">Tidak ada data pencairan untuk kelas ${selectedKelas}</p>
+                    </div>
+                `;
+            }
+            
+            emptyRiwayat.style.display = 'none';
+            detailRiwayat.style.display = 'block';
+            this.innerHTML = '<i class="fas fa-eye-slash"></i> Sembunyikan Detail';
         } else {
             detailRiwayat.style.display = 'none';
             emptyRiwayat.style.display = 'block';

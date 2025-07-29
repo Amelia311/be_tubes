@@ -289,4 +289,32 @@ class SiswaController extends Controller
             'laporan'
         ));
     }
+    public function RiwayatPenarikan()
+{
+    $status = 'Belum Cair'; // Ganti dengan status dari database
+    $riwayat = [
+        'X' => [
+            [
+                'periode' => 'Semester 1',
+                'status' => 'Sudah Dicairkan',
+                'nominal' => 'Rp 1.000.000,-',
+                'tanggal' => '10 Februari 2025',
+                'nama_rekening' => 'Bank BNI',
+                'nomor_rekening' => '1234567890'
+            ],
+            [
+                'periode' => 'Semester 2',
+                'status' => 'Sudah Dicairkan',
+                'nominal' => 'Rp 1.000.000,-',
+                'tanggal' => '27 September 2025',
+                'nama_rekening' => 'Bank BNI',
+                'nomor_rekening' => '1234567890'
+            ]
+        ],
+        'XI' => [],
+        'XII' => []
+    ];
+
+    return view('Siswa.status.statusDana', compact('status', 'riwayat'));
+}
 }
