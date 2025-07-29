@@ -618,12 +618,16 @@
             <div class="semester-header">Semester I</div>
             <div class="semester-detail">
                 <div class="detail-row">
+                    <div class="detail-label">Nama</div>
+                    <div class="detail-value">Mutiara Sani</div>
+                </div>
+                <div class="detail-row">
                     <div class="detail-label">Nominal Dana</div>
                     <div class="detail-value">Rp 1.000.000,-</div>
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Tanggal Penarikan</div>
-                    <div class="detail-value">11 Juli 2025</div>
+                    <div class="detail-value">10 Februari 2025</div>
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Nama Rekening</div>
@@ -638,12 +642,16 @@
             <div class="semester-header mt-4">Semester II</div>
             <div class="semester-detail">
                 <div class="detail-row">
+                    <div class="detail-label">Nama</div>
+                    <div class="detail-value">Mutiara Sani</div>
+                </div>
+                <div class="detail-row">
                     <div class="detail-label">Nominal Dana</div>
                     <div class="detail-value">Rp 1.000.000,-</div>
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Tanggal Penarikan</div>
-                    <div class="detail-value">11 Juli 2025</div>
+                    <div class="detail-value">27 September 2025</div>
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Nama Rekening</div>

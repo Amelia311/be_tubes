@@ -869,90 +869,121 @@
     </div>
 
     <!-- Info Pencairan Terbaru -->
-    <div class="section-container animate__animated animate__fadeIn animate-delay-1">
-      <h3 class="section-title">
+     <div class="section-container animate__animated animate__fadeIn animate-delay-1">
+    <h3 class="section-title">
         <i class="fas fa-bell"></i> Info Terbaru Pencairan Dana
-      </h3>
-      
-      @forelse($infoTerbaru as $info)
-        <div class="notification-item animate__animated animate__fadeIn">
-          <div class="notification-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-          <div class="notification-content">
-            <div class="notification-text">
-              <strong>{{ $info->siswa->nama ?? 'N/A' }}</strong> telah berhasil mencairkan dana PIP sebesar 
-              <strong>Rp{{ number_format($info->jumlah, 0, ',', '.') }}</strong>
+    </h3>
+    
+    <div class="notification-scroll-container" style="max-height: 400px; overflow-y: auto;">
+        @forelse($infoTerbaru->take(5) as $info)
+            <div class="notification-item animate__animated animate__fadeIn">
+                <div class="notification-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-text">
+                        <strong>{{ $info->siswa->nama ?? 'N/A' }}</strong> telah menerima dana PIP sebesar  
+                        <strong>Rp{{ number_format($info->jumlah, 0, ',', '.') }}</strong>
+                    </div>
+                    <div class="notification-time">
+                        <i class="far fa-clock"></i> {{ \Carbon\Carbon::parse($info->tanggal_cair)->format('d M Y') }}
+                    </div>
+                </div>
             </div>
-            <div class="notification-time">
-              <i class="far fa-clock"></i> {{ \Carbon\Carbon::parse($info->tanggal_cair)->format('d M Y') }}
+        @empty
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <p>Belum ada pencairan terbaru</p>
             </div>
-          </div>
-        </div>
-      @empty
-        <div class="empty-state">
-          <i class="fas fa-inbox"></i>
-          <p>Belum ada pencairan terbaru</p>
-        </div>
-      @endforelse
+        @endforelse
     </div>
 
-    <!-- Laporan Ketidaksesuaian -->
-<div class="section-container animate_animated animate_fadeIn animate-delay-2">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3 class="section-title">
-      <i class="fas fa-exclamation-triangle"></i> Laporan Ketidaksesuaian
-    </h3>
-  </div>
-  
-  <div class="table-responsive">
+    @if($infoTerbaru->count() > 5)
+        <div class="d-flex justify-content-center mt-3">
+            <nav aria-label="Pagination">
+                <ul class="pagination pagination-sm">
+                    <li class="page-item {{ $infoTerbaru->currentPage() == 1 ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $infoTerbaru->previousPageUrl() }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    @for ($i = 1; $i <= $infoTerbaru->lastPage(); $i++)
+                        <li class="page-item {{ $infoTerbaru->currentPage() == $i ? 'active' : '' }}">
+                            <a class="page-link" href="{{ $infoTerbaru->url($i) }}">{{ $i }}</a>
+                        </li>
+                    @endfor
+                    <li class="page-item {{ $infoTerbaru->currentPage() == $infoTerbaru->lastPage() ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $infoTerbaru->nextPageUrl() }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    @endif
+</div>
+
+<!-- Laporan ketidaksesuaian-->
+<div class="table-responsive">
     <table class="table table-hover">
-      <thead class="table-light">
-        <tr>
-          <th>No</th>
-          <th>Nama Siswa</th>
-          <th>Pesan</th>
-          <th>Bukti</th>
-          <th>Tindak Lanjut</th>
-        </tr>
-      </thead>
-      <tbody>
-        @forelse($laporan as $index => $lapor)
-          <tr class="animate_animated animate_fadeIn">
-            <td>{{ $index + 1 }}</td>
-            <td>{{ $lapor->pencairan->siswa->nama ?? 'Tidak diketahui' }}</td>
-            <td>"{{ $lapor->pesan }}"</td>
-            <td>
-              @if($lapor->bukti)
-                <button class="btn btn-sm btn-outline-primary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#proofModal"
-                        data-bs-image="{{ asset('storage/' . $lapor->bukti) }}">
-                  <i class="fas fa-image"></i> Lihat Bukti
-                </button>
-              @else
-                <span class="text-muted">Tidak ada bukti</span>
-              @endif
-            </td>
-            <td>
-              <a href="https://sepolia.etherscan.io/tx/{{ $lapor->blockchain_tx }}" 
-                 target="_blank" 
-                 class="btn btn-sm btn-outline-info">
-                <i class="fas fa-link"></i> Lihat TX
-              </a>
-            </td>
-          </tr>
-@empty
-    <tr>
-        <td colspan="5" class="empty-state-cell">
-            <i class="fas fa-check-circle"></i>
-            <p>Tidak ada laporan ketidaksesuaian</p>
-        </td>
-    </tr>
-        @endforelse
-      </tbody>
+        <thead class="table-light">
+            <tr>
+                <th>No</th>
+                <th>Nama Siswa</th>
+                <th>Pesan</th>
+                <th>Bukti</th>
+                <th>Status</th>
+                <th>Tindak Lanjut</th>
+            </tr>
+        </thead>
+        <tbody style="max-height: 400px; overflow-y: auto;">
+            @forelse($laporan->take(5) as $index => $lapor)
+                <tr class="animate_animated animate_fadeIn">
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $lapor->pencairan->siswa->nama ?? 'Tidak diketahui' }}</td>
+                    <td>"{{ $lapor->pesan }}"</td>
+                    <td>
+                        @if($lapor->bukti)
+                            <button class="btn btn-sm btn-outline-primary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#proofModal"
+                                    data-bs-image="{{ asset('storage/' . $lapor->bukti) }}">
+                                <i class="fas fa-image"></i> Lihat Bukti
+                            </button>
+                        @else
+                            <span class="text-muted">Tidak ada bukti</span>
+                        @endif
+                    </td>
+                    <td>
+                        @if($lapor->status == 'diajukan')
+                            <span class="badge bg-warning">Diajukan</span>
+                        @elseif($lapor->status == 'diproses')
+                            <span class="badge bg-info">Diproses</span>
+                        @elseif($lapor->status == 'selesai')
+                            <span class="badge bg-success">Selesai</span>
+                        @else
+                            <span class="badge bg-secondary">Diajukan</span>
+                        @endif
+                    </td>
+                    <td>
+                        <a href="https://sepolia.etherscan.io/tx/{{ $lapor->blockchain_tx }}" 
+                           target="_blank" 
+                           class="btn btn-sm btn-outline-info">
+                            <i class="fas fa-link"></i> Lihat TX
+                        </a>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="6" class="empty-state-cell">
+                        <i class="fas fa-check-circle"></i>
+                        <p>Tidak ada laporan ketidaksesuaian</p>
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
     </table>
-  </div>
+   </div>
 </div>
 
     <div class="footer-info animate_animated animate_fadeIn animate-delay-3">
