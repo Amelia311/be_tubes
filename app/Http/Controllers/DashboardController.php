@@ -13,10 +13,15 @@ class DashboardController extends Controller
     {
         $totalPenerima = Siswa::count();
 
-        // Statistik umum
-        $sudahMenerima = Pencairan::where('semester', 'Ganjil')
+        // Tentukan semester aktif otomatis: Juli–Desember = Ganjil, Jan–Juni = Genap
+        $bulan = now()->month;
+        $semesterAktif = $bulan >= 7 ? 'Ganjil' : 'Genap';
+
+        // Statistik umum berdasarkan semester aktif
+        $sudahMenerima = Pencairan::where('semester', $semesterAktif)
             ->distinct('siswa_id')
             ->count('siswa_id');
+
         $belumMenerima = $totalPenerima - $sudahMenerima;
 
         $persenSudah = $totalPenerima > 0 ? round(($sudahMenerima / $totalPenerima) * 100) : 0;
@@ -35,7 +40,6 @@ class DashboardController extends Controller
         foreach ($kelasList as $kelas) {
             $sudahCount = Pencairan::where('semester', 'Ganjil')
                 ->where('status', 'Sudah Cair')
-                ->whereNotNull('bukti')
                 ->whereHas('siswa', function ($q) use ($kelas) {
                     $q->where('kelas', $kelas);
                 })
@@ -70,10 +74,11 @@ class DashboardController extends Controller
             'persenSudah' => $persenSudah,
             'persenBelum' => $persenBelum,
             'skPip' => $skPip,
-            'sudahTarikGanjil' => $sudahTarikGanjil, // cukup array
+            'sudahTarikGanjil' => $sudahTarikGanjil,
             'belumTarikGanjil' => $belumTarikGanjil,
             'sudahTarikGenap' => $sudahTarikGenap,
             'belumTarikGenap' => $belumTarikGenap,
+            'semesterAktif' => $semesterAktif, // bisa dipakai di blade jika mau ditampilkan
         ]);
     }
 }

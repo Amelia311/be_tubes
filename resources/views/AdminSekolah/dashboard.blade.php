@@ -292,7 +292,7 @@
         <div class="col-md-4">
             <div class="content-box card-stat success animate__animated animate__fadeIn">
                 <div class="card-body">
-                    <h6 class="card-title">Sudah Menerima Semester Ini</h6>
+                    <h6 class="card-title">Sudah Menerima (Semester {{ $semesterAktif }})</h6>
                     <h2 class="card-value">{{ $sudahMenerima }}</h2>
                     <p class="mb-0"><span class="text-success">{{ $persenSudah }}%</span> dari total penerima</p>
                 </div>
@@ -317,18 +317,19 @@
                     <h3><i class="fas fa-chart-bar"></i> Diagram Penarikan Dana PIP</h3>
                 </div>
                 <div class="semester-tabs">
-                    <div class="semester-tab active" data-tab="semester1">Semester Ganjil</div>
-                    <div class="semester-tab" data-tab="semester2">Semester Genap</div>
+                    <div class="semester-tab active" data-tab="ganjil">Semester Ganjil</div>
+                    <div class="semester-tab" data-tab="genap">Semester Genap</div>
                 </div>
+
                 <div class="tab-content active" id="ganjil">
-                <div class="chart-container" style="height: 300px;">
-                    <canvas id="chartGanjil"></canvas>
-                </div>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="chartGanjil"></canvas>
+                    </div>
                 </div>
                 <div class="tab-content" id="genap">
-                <div class="chart-container" style="height: 300px;">
-                    <canvas id="chartGenap"></canvas>
-                </div>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="chartGenap"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -461,7 +462,7 @@
         // Tab switching logic
         document.querySelectorAll('.semester-tab').forEach(tab => {
             tab.addEventListener('click', function () {
-                const tabId = this.getAttribute('data-tab');
+                const tabId = this.getAttribute('data-tab'); // 'ganjil' atau 'genap'
 
                 document.querySelectorAll('.semester-tab').forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -473,6 +474,7 @@
                 if (tabId === 'genap' && chartSemester2) chartSemester2.resize();
             });
         });
+
 
 
         // Chart Semester 1

@@ -271,6 +271,7 @@
                         <th>BUKTI</th>
                         <th>TINDAKAN</th>
                         <th>STATUS</th>
+                        <th>BlockchainTX</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -314,6 +315,17 @@
                         @else fa-check-circle @endif me-1"></i> 
                     {{ ucfirst($item['status']) }}
                 </span> 
+            </td>
+            <td>
+                @if($item['tipe'] === 'laporan' && !empty($item['blockchain_tx']))
+                    <a href="https://sepolia.etherscan.io/tx/{{ $item['blockchain_tx'] }}" 
+                    target="_blank" 
+                    class="btn btn-sm btn-outline-info">
+                        <i class="fas fa-link"></i> Lihat TX
+                    </a>
+                @else
+                    <span class="text-muted">-</span>
+                @endif
             </td>
         </tr>
     @endforeach
@@ -368,6 +380,20 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.js"></script>
 <script>
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        const keyword = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#pengaduanTable tbody tr');
+
+        rows.forEach(row => {
+            const nama = row.children[1].textContent.toLowerCase(); // kolom ke-2 = nama
+            if (nama.includes(keyword)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+    
 document.querySelectorAll('.tindakan-select').forEach(select => {
     select.addEventListener('change', function() {
         const btn = this.nextElementSibling;

@@ -204,7 +204,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
     <div class="container">
       <a class="navbar-brand animate__animated animate__fadeInLeft" href="{{ route('siswa.dashboard') }}">
-        <img src="{{ asset('public/img/logo.jpg') }}"/>
+        <img src="{{ asset('img/logo.png') }}"/>
         PIPGuard
       </a>
       

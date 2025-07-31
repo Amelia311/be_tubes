@@ -85,8 +85,6 @@ Route::post('/siswa/lapor', [LaporanController::class, 'store'])->name('siswa.la
 Route::get('/transparansi-publik', [PencairanController::class, 'transparansiPublik'])->name('transparansi.publik');
 
 // route untuk Pengaduan
-
-    Route::get('/pengaduan', [PengaduanController::class, 'index'])->name('pengaduan.index');
-    // Route::post('/pengaduan/{id}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.updateStatus');
-    Route::post('admin/pengaduan/{id}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.updateStatus');
-    Route::post('admin/laporan/{id}/status', [LaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
+Route::get('/pengaduan', [PengaduanController::class, 'index'])->name('pengaduan.index');
+Route::post('admin/pengaduan/{id}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.updateStatus');
+Route::post('admin/laporan/{id}/status', [LaporanController::class, 'updateStatus'])->name('laporan.updateStatus');

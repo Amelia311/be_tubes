@@ -50,5 +50,5 @@ https://cloud.google.com/application/web3/faucet/ethereum/sepolia
 2. Siswa 
 Untuk login sebagai siswa, admin harus terlebih dahulu :
 - Menambahkan data siswa dari dashboard admin
-- Mengisi NISN dan password siswa
-Setelah itu, siswa bisa login menggunakan NISN dan password yang telah diatur.
+- Mengisi NISN
+Setelah itu, siswa bisa login menggunakan NISN dan password (NISN) yang telah diatur.

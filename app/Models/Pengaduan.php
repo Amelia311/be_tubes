@@ -12,7 +12,7 @@ class Pengaduan extends Model
     protected $table = 'pengaduan';
 
     protected $fillable = [
-        'siswa_id', 'masalah', 'bukti', 'status'
+        'siswa_id', 'masalah', 'bukti', 'status', 'blockchain_tx',
     ];
 
     public function siswa()

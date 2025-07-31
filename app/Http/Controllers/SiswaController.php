@@ -193,13 +193,11 @@ class SiswaController extends Controller
         if (!$siswa) {
             abort(403, 'Akses ditolak. Tidak ada data siswa.');
         }
-
-         // Ambil data pencairan terbaru milik siswa
+    
+        // Ambil data pencairan terbaru milik siswa
         $latestStatus = $siswa->pencairan()->latest('tanggal_cair')->first();
-
-        // dd($latestStatus);
-
-        // Mapping status pencairan ke langkah
+    
+        // Mapping status
         if (!$latestStatus) {
             $status = 'Belum Cair';
         } elseif (in_array($latestStatus->status, ['Menunggu', 'Sudah Cair']) && !$latestStatus->bukti) {
@@ -207,28 +205,40 @@ class SiswaController extends Controller
         } elseif ($latestStatus->status === 'Sudah Cair' && $latestStatus->bukti) {
             $status = 'Sudah Tarik Dana';
         } else {
-            $status = 'Belum Cair'; // default fallback
+            $status = 'Belum Cair';
         }
-              
-
-        // Ambil semua riwayat pencairan
+    
+        // Ambil riwayat pencairan
         $pencairan = $siswa->pencairan()->orderBy('tanggal_cair', 'desc')->get();
         $riwayat = [];
         foreach ($pencairan as $item) {
-
             $semesterText = 'Semester ' . $item->semester;
+            // $riwayat[] = [
+            //     'periode' => $semesterText . ' ' . $item->tahun,
+            //     'status'  => $item->status,
+            //     'nominal' => 'Rp' . number_format($item->jumlah, 0, ',', '.'),
+            //     'tanggal' => \Carbon\Carbon::parse($item->tanggal_cair)->format('d M Y'),
+            //     'kelas'   => $siswa->kelas,
+            //     'nama'    => $siswa->nama,
+            //     'bank'    => $siswa->bank,
+            //     'no_rek'  => $siswa->no_rekening,
+            // ];
 
             $riwayat[$siswa->kelas][] = [
                 'periode' => $semesterText . ' ' . $item->tahun,
                 'status' => $item->status,
                 'nominal' => 'Rp' . number_format($item->jumlah, 0, ',', '.'),
-                'tanggal' => \Carbon\Carbon::parse($item->tanggal_cair)->format('d M Y')
+                'tanggal' => \Carbon\Carbon::parse($item->tanggal_cair)->format('d M Y'),
+                'nama' => $siswa->nama,
+                'kelas' => $siswa->kelas,
+                'no_rek' => $siswa->no_rekening
             ];
+            
         }
-
-        return view('Siswa.status.statusDana', compact('status', 'riwayat'));
+    
+        return view('Siswa.status.statusDana', compact('status', 'riwayat', 'siswa'));
     }
-
+    
 
     public function detailPenarikan()
     {

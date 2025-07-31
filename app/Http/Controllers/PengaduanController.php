@@ -62,10 +62,11 @@ class PengaduanController extends Controller
                 'bukti' => $item->bukti,
                 'status' => $item->status,
                 'tipe' => 'laporan',
+                'blockchain_tx' => $item->blockchain_tx ?? $item->pencairan->blockchain_tx ?? null, // 🔥 tambahkan ini
                 'created_at' => $item->created_at,
             ];
         }));
-    
+        
         $data = $pengaduanMapped->merge($laporanMapped)->sortByDesc('created_at');
     
         return view('AdminSekolah.laporanpengaduan.laporan_pengaduan', ['pengaduan' => $data]);

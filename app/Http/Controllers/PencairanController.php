@@ -271,31 +271,61 @@ class PencairanController extends Controller
         return response()->json(['message' => 'Berhasil!']);
     }
 
-
     public function transparansiPublik()
     {
+        // Ambil semester terakhir yang sudah cair, berdasarkan tanggal_cair terbaru
+        $semesterTerakhir = Pencairan::where('status', 'Sudah Cair')
+            ->whereNotNull('semester')
+            ->orderBy('tanggal_cair', 'desc')
+            ->value('semester');
+    
+        // Ambil daftar semester unik (semua semester yang ada di data pencairan)
+        $semesterList = Pencairan::whereNotNull('semester')
+            ->select('semester')
+            ->distinct()
+            ->orderBy('semester', 'asc')
+            ->pluck('semester');
+    
+        // Total dana yang sudah cair
         $totalDana = Pencairan::where('status', 'Sudah Cair')->sum('jumlah');
-        $jumlahPenerima = Pencairan::where('status', 'Sudah Cair')->distinct('siswa_id')->count('siswa_id');
-        $semester = Pencairan::where('status', 'Sudah Cair')->latest()->value('semester');
-
+    
+        // Jumlah penerima yang sudah cair (distinct siswa_id)
+        $jumlahPenerima = Pencairan::where('status', 'Sudah Cair')
+            ->distinct('siswa_id')
+            ->count('siswa_id');
+    
+        // Ambil 5 pencairan terbaru yang sudah cair beserta data siswa
         $infoTerbaru = Pencairan::with('siswa')
             ->where('status', 'Sudah Cair')
             ->orderBy('tanggal_cair', 'desc')
             ->take(5)
             ->get();
-
+    
+        // Ambil 5 laporan terbaru
         $laporan = Laporan::with('pencairan.siswa')
             ->latest()
             ->take(5)
             ->get();
-
+    
         return view('transparansiDana', compact(
+            'semesterTerakhir',
+            'semesterList',
             'totalDana',
             'jumlahPenerima',
-            'semester',
             'infoTerbaru',
             'laporan'
         ));
+    }    
+
+    public function index()
+    {
+        $SemesterList = Pencairan::whereNotNull('semester')
+            ->select('semester')
+            ->distinct()
+            ->orderBy('semester', 'asc')
+            ->pluck('semester');
+    
+        return view('transparansiDana', compact('SemesterList'));
     }
 }
 
